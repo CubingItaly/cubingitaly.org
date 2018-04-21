@@ -1,0 +1,45 @@
+@import '~@angular/material/theming';
+@include mat-core();
+
+// http://mcg.mbitson.com
+
+$md-ci: (
+    50 : #e5e8f9,
+    100 : #bec5ef,
+    200 : #939fe4,
+    300 : #6778d9,
+    400 : #475bd1,
+    500 : #263ec9,
+    600 : #2238c3,
+    700 : #1c30bc,
+    800 : #1728b5,
+    900 : #0d1ba9,
+    A100 : #d7daff,
+    A200 : #a4aaff,
+    A400 : #717aff,
+    A700 : #5862ff,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #ffffff,
+    )
+);
+
+$ci-primary:  mat-palette($md-ci);
+$ci-accent:  mat-palette($mat-amber);
+$ci-warn:    mat-palette($mat-deep-orange);
+
+$ci-theme: mat-light-theme($ci-primary, $ci-accent);
+
+@include angular-material-theme($ci-theme);

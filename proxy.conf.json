@@ -1,0 +1,10 @@
+{
+  "/auth": {
+    "target": "http://localhost:4300",
+    "secure": false
+  },
+  "/test": {
+    "target": "http://localhost:4300",
+    "secure": false
+  }
+}

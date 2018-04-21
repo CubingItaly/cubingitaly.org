@@ -1,0 +1,28 @@
+<mat-toolbar  color="primary">
+  <mat-toolbar-row ngClass.xs="mat-toolbar-xs" fxLayout>
+    <button mat-icon-button fxHide.gt-xs>
+      <mat-icon>menu</mat-icon>
+    </button>
+    <a>
+      <img class="logo" src="../../../assets/images/logo.png">
+    </a>
+    <span fxFlex="grow"></span>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <button mat-icon-button>
+        <mat-icon>person</mat-icon>
+      </button>
+    </button>
+    <mat-menu #menu="matMenu">
+      <button mat-menu-item *ngIf="loginSvc.isLoggedIn">
+        <span>{{loginSvc.authUser.name}}</span>
+      </button>
+      <button mat-menu-item *ngIf="loginSvc.isLoggedIn" (click)="loginSvc.WCA_logout()">
+        <span>Esci</span>
+      </button>
+      <button mat-menu-item *ngIf="!loginSvc.isLoggedIn" (click)="loginSvc.WCA_login()">
+        Accedi
+      </button>
+    </mat-menu>
+
+  </mat-toolbar-row>
+</mat-toolbar>

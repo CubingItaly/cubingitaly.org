@@ -1,0 +1,10 @@
+.logo{
+    height: 42px;
+    margin: auto;
+   vertical-align: middle; 
+   display: inline-block;
+}
+
+.mat-toolbar-xs{
+    padding: 0px;
+}
