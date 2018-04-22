@@ -8,13 +8,17 @@
 
     git clone https://github.com/CubingItaly/cubingitaly.org.git && cd cubingitaly.org
     npm install
-    
+
 **DB setup**
-Database config can be found in ormconfig.json
+Database must be configured ormconfig.json
 
     mysql -u username -p
-    create database ci_web_db
+    create database dbname
 
 **Run in development mode mode**
 
     npm run start
+
+**Config Models**
+ormconfig.model.json
+server/secrets/keys.model.ts
