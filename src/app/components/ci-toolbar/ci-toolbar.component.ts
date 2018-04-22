@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { LoggedInService } from '../../services/logged.service';
+import { AuthService } from '../../services/auth.service';
+import { wca_user } from '../../../../server/models/wca_user.model';
+import { Deserialize } from 'cerialize';
 
 @Component({
   selector: 'app-ci-toolbar',
@@ -8,9 +10,9 @@ import { LoggedInService } from '../../services/logged.service';
 })
 export class CiToolbarComponent implements OnInit {
 
-  constructor(public loginSvc: LoggedInService) {}
-
-  ngOnInit() {
+  constructor(public authSVC: AuthService) {
   }
+
+  ngOnInit() {}
 
 }

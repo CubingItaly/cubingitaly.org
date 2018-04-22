@@ -3,7 +3,7 @@
     <button mat-icon-button fxHide.gt-xs>
       <mat-icon>menu</mat-icon>
     </button>
-    <a>
+    <a href="/">
       <img class="logo" src="../../../assets/images/logo.png">
     </a>
     <span fxFlex="grow"></span>
@@ -13,13 +13,13 @@
       </button>
     </button>
     <mat-menu #menu="matMenu">
-      <button mat-menu-item *ngIf="loginSvc.isLoggedIn">
-        <span>{{loginSvc.authUser.name}}</span>
+      <button mat-menu-item *ngIf="authSVC.isLoggedIn">
+        <span>{{authSVC.authUser.name}}</span>
       </button>
-      <button mat-menu-item *ngIf="loginSvc.isLoggedIn" (click)="loginSvc.WCA_logout()">
+      <button mat-menu-item *ngIf="authSVC.isLoggedIn" (click)="authSVC.logout()">
         <span>Esci</span>
       </button>
-      <button mat-menu-item *ngIf="!loginSvc.isLoggedIn" (click)="loginSvc.WCA_login()">
+      <button mat-menu-item *ngIf="!authSVC.isLoggedIn" (click)="authSVC.login()">
         Accedi
       </button>
     </mat-menu>

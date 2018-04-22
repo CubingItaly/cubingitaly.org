@@ -16,6 +16,7 @@ import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { CustomInterceptor } from './services/integrations/xhr-cors.injectable';
 import { LoggedInService } from './services/logged.service';
 import { CookieService } from 'ng2-cookies';
+import { AuthService } from './services/auth.service';
 
 // animations module
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -30,6 +31,7 @@ import {MatMenuModule} from '@angular/material/menu';
 //components
 import { CiToolbarComponent } from './components/ci-toolbar/ci-toolbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+
 
 
 
@@ -63,7 +65,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     },
     CookieService,
     // Inject the logged in service as a Singleton module, so that regardless which page uses it, we will always be aware whether the user is logged or not.
-    LoggedInService
+    LoggedInService,
+    AuthService
   ],
   bootstrap: [
     AppComponent

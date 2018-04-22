@@ -1,8 +1,8 @@
 import { Entity, PrimaryColumn, Column, BaseEntity, PrimaryGeneratedColumn, OneToMany} from 'typeorm';
-import { TeamUser } from './db.team_user';
+import { DB_TeamUser } from './db.team_user';
 
 @Entity()
-export class Team extends BaseEntity{
+export class DB_Team extends BaseEntity{
 
     @PrimaryGeneratedColumn()
     id: number;
@@ -13,6 +13,6 @@ export class Team extends BaseEntity{
     @Column({length:5})
     shortname: string;
 
-    @OneToMany(type => TeamUser, user => user.team)
-    users: TeamUser[]
+    @OneToMany(type => DB_TeamUser, user => user.team)
+    users: DB_TeamUser[]
 }

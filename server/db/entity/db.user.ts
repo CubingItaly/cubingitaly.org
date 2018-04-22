@@ -1,10 +1,10 @@
 import { Entity, PrimaryColumn, Column, BaseEntity, OneToMany } from 'typeorm';
-import { TeamUser } from './db.team_user';
+import { DB_TeamUser } from './db.team_user';
 import { ITransformable } from '../transformable';
 import { wca_user } from '../../models/wca_user.model';
 
 @Entity()
-export class User extends BaseEntity implements ITransformable<wca_user> {
+export class DB_User extends BaseEntity implements ITransformable<wca_user> {
 
     /**
      * This is the wca generated id
@@ -27,8 +27,8 @@ export class User extends BaseEntity implements ITransformable<wca_user> {
     @Column({ nullable: true })
     delegate_status: string;
 
-    @OneToMany(type => TeamUser, team => team.user)
-    teams: TeamUser[]
+    @OneToMany(type => DB_TeamUser, team => team.user)
+    teams: DB_TeamUser[]
 
 
     /**
