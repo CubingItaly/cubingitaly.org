@@ -36,5 +36,5 @@ Thumbs.db
 #DB config file
 ormconfig.json
 
-#secret files
+#Keys file
 server/secrets/keys.ts

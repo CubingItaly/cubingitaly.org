@@ -14,7 +14,6 @@ import { environment } from '../environments/environment';
 import { BrowserXhr } from '@angular/http';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { CustomInterceptor } from './services/integrations/xhr-cors.injectable';
-import { LoggedInService } from './services/logged.service';
 import { CookieService } from 'ng2-cookies';
 import { AuthService } from './services/auth.service';
 
@@ -64,8 +63,6 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
       multi: true
     },
     CookieService,
-    // Inject the logged in service as a Singleton module, so that regardless which page uses it, we will always be aware whether the user is logged or not.
-    LoggedInService,
     AuthService
   ],
   bootstrap: [
