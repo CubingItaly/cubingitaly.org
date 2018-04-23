@@ -2,6 +2,7 @@ import { DB } from "./database";
 import { Repository, FindOneOptions } from "typeorm";
 import { DB_Team } from './entity/db.team';
 import { keys } from '../secrets/keys';
+import { DB_User } from "./entity/db.user";
 /**
  * Handles the database connection, extending the default database class.
  * 
@@ -47,6 +48,7 @@ export class CI_DB extends DB {
     ADMIN_TEAM.users = [];
     repo.save(ADMIN_TEAM);
 
+    
     const DELEGATE_TEAM = new DB_Team();
     DELEGATE_TEAM.name = "Delegato WCA";
     DELEGATE_TEAM.shortname = "board";

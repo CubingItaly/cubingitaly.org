@@ -5,6 +5,7 @@ import { Serialize, Deserialize } from "cerialize";
 import { keys } from '../secrets/keys';
 import { wca_user } from "../models/wca_user.model";
 import { standard_response } from '../models/standard_response.model'
+import { DB_User } from "../db/entity/db.user";
 
 
 const authRouter: Router = Router();
@@ -76,5 +77,12 @@ authRouter.get("/me", checkAuth, (req, res) => {
   res.send(JSON.stringify(Serialize(std_res)));
 })
 
+
+//random test
+authRouter.get("/test", (req,res) =>{
+  let t: DB_User = new DB_User();
+  t.id=94;
+  DB_User.getIfExists(t).then(b => res.json({ exists: b}));
+})
 
 export { authRouter };
