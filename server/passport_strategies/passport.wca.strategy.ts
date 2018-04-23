@@ -24,7 +24,8 @@ passport.use(new WCAStrategy({
     db_wca_user._assimilate(user);
 
     //Checks whether the user already exists in the DB, if yes, update it. Otherwise insert it
-    if (DB_User.getIfExists(db_wca_user)) {
+    const user_exists: boolean = await DB_User.getIfExists(db_wca_user);
+    if (user_exists) {
       console.log("updating user");
       await DB_User.updateUser(db_wca_user);
     } else {

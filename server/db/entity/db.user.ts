@@ -68,26 +68,44 @@ export class DB_User extends BaseEntity implements ITransformable<wca_user> {
     }
 
     static async updateUser(usr: DB_User) {
-        DB_User.save(usr);
+        return await DB_User.save(usr);
     }
 
-    static async createUser(usr: DB_User) {
-        DB_User.save(usr);
+    /**
+     * Creates a user and checks whether it should set it as admin.
+     * 
+     * @static
+     * @param {DB_User} usr 
+     * @returns {Promise<boolean>} 
+     * @memberof DB_User
+     */
+    static async createUser(usr: DB_User): Promise<boolean> {
+        usr = await DB_User.save(usr);
         if (usr.id == keys.admin.id) {
             console.log("id is admin");
-            setAdmin();
+            return (await DB_User.setAdmin(usr)) !== null;
         }
+        return false;
+    }
 
-
-        async function setAdmin() {
-            console.log("giving permissions");
-            let db_tu: DB_TeamUser = new DB_TeamUser();
-            db_tu.user = usr;
-            db_tu.team = await DB_Team.findOne({ shortname: keys.admin.shortname });
-            db_tu.is_leader = true;
-            DB_TeamUser.save(db_tu);
-        }
-
+    /**
+     * Sets the user <usr> as admin.
+     * 
+     * @static
+     * @param {DB_User} usr 
+     * @returns {Promise<boolean>} 
+     * @memberof DB_User
+     */
+    static async setAdmin(usr: DB_User): Promise<boolean> {
+        console.log("giving permissions");
+        let db_tu: DB_TeamUser = new DB_TeamUser();
+        db_tu.user = usr;
+        db_tu.team = await DB_Team.findOne({ shortname: keys.admin.shortname });
+        db_tu.is_leader = true;
+        console.log('db_tu.team is: ');
+        console.log(db_tu.team);
+        const res: DB_TeamUser = await DB_TeamUser.save(db_tu);
+        return res !== null;
     }
 
 
