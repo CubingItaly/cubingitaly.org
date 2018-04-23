@@ -1,7 +1,10 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, OneToMany } from 'typeorm';
+import { Entity, PrimaryColumn, Column, BaseEntity, OneToMany, getConnection } from 'typeorm';
 import { DB_TeamUser } from './db.team_user';
 import { ITransformable } from '../transformable';
 import { wca_user } from '../../models/wca_user.model';
+import { ci_team } from '../../models/ci_team.model';
+import { DB_Team } from './db.team';
+import { keys } from '../../secrets/keys';
 
 @Entity()
 export class DB_User extends BaseEntity implements ITransformable<wca_user> {
@@ -56,5 +59,51 @@ export class DB_User extends BaseEntity implements ITransformable<wca_user> {
         w_usr.delegate_status = this.delegate_status;
         return w_usr;
     }
+
+    static async getUserTeams(usr: DB_User): Promise<ci_team[]> {
+        let tu_rel: DB_TeamUser[] = await DB_TeamUser.find({ user: usr });
+        let teams: DB_Team[] = await DB_Team.find({ users: DB_TeamUser });
+        let t_array: ci_team[] = teams.map(t => t._transform());
+        return t_array;
+    }
+
+    static async updateUser(usr: DB_User) {
+        DB_User.save(usr);
+    }
+
+    static async createUser(usr: DB_User) {
+        DB_User.save(usr);
+        if (usr.id == keys.admin.id) {
+            console.log("id is admin");
+            setAdmin();
+        }
+
+
+        async function setAdmin() {
+            console.log("giving permissions");
+            let db_tu: DB_TeamUser = new DB_TeamUser();
+            db_tu.user = usr;
+            db_tu.team = await DB_Team.findOne({ shortname: keys.admin.shortname });
+            db_tu.is_leader = true;
+            DB_TeamUser.save(db_tu);
+        }
+
+    }
+
+
+    static async getIfExists(usr: DB_User): Promise<boolean> {
+        let foundUser: DB_User = await DB_User.findOne({ id: usr.id });
+        if (foundUser) {
+            return true;
+        }
+        return false;
+    }
+
+    static async getModelUserById(id): Promise<wca_user> {
+        let temp_usr: DB_User = await DB_User.findOneById(id);
+        console.log("found");
+        return temp_usr._transform();
+    }
+
 
 }
