@@ -5,6 +5,7 @@ import { Serialize, Deserialize } from "cerialize";
 import { keys } from '../secrets/keys';
 import { wca_user } from "../models/wca_user.model";
 import { standard_response } from '../models/standard_response.model'
+import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 
 
 const authRouter: Router = Router();
@@ -27,7 +28,7 @@ function checkAuth(req, res, next) {
     console.log("Request from not authenticated user");
     //We use a standard response object
     let std_res: standard_response = new standard_response();
-    std_res.status = false;
+    std_res.status = RESPONSE_STATUS.ERROR;
     std_res.error = "Request from not authenticated user";
     res.send(JSON.stringify(Serialize(std_res)));
   }
@@ -70,7 +71,7 @@ authRouter.get("/me", checkAuth, (req, res) => {
   console.log("User recognized, sending info");
   //We use a standard response object
   let std_res: standard_response = new standard_response();
-  std_res.status = true;
+  std_res.status = RESPONSE_STATUS.OK;
   //We need to deserialize because req.user is of type Express.User
   std_res.user = Deserialize(req.user, wca_user);
   res.send(JSON.stringify(Serialize(std_res)));

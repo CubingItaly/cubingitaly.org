@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
 import { ci_team } from '../../../server/models/ci_team.model';
+import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses';
 
 /**
  * Service use to manage the authentication of the user
@@ -32,7 +33,7 @@ export class AuthService {
         this.http.get("/auth/me").subscribe(res => {
             console.log("received response from the server");
             let tempres: standard_response = Deserialize(res, standard_response);
-            if (tempres.status) {
+            if (tempres.status === RESPONSE_STATUS.OK) {
                 this.authUser = tempres.user;
                 this.userTeams = tempres.team;
                 this.isLoggedIn = true;
