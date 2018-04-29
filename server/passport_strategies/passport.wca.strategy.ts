@@ -9,6 +9,8 @@ import { DB_User } from '../db/entity/db.user';
 
 // Define the wca strategy
 passport.use(new WCAStrategy({
+  authorizationUrl: (process.env.NODE_ENV === "production") ? "https://www.worldcubeassociation.org/oauth/authorize" : "https://www.staging.worldcubeassociation.org/oauth/authorize",
+  tokenURL: (process.env.NODE_ENV === "production") ? "https://www.worldcubeassociation.org/oauth/token" : "https://www.staging.worldcubeassociation.org/oauth/token",
   clientID: keys.wca.client_id,
   clientSecret: keys.wca.client_secret,
   callbackURL: keys.wca.redirect_uri,
