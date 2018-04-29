@@ -1,24 +1,20 @@
+
 # cubingitaly.org
-**Requirements**
 
- - Node
- - Mysql
-
-**Install**
+**Installation**
 
     git clone https://github.com/CubingItaly/cubingitaly.org.git && cd cubingitaly.org
+    mv ormconfig.model.json ormconfig.json
+    mv server/secrets/keys.model.ts server/secrets/keys.ts
     npm install
+Before running the system you need to configure both ormconfig.json with the database information and keys.ts with secret codes.
 
-**DB setup**
-Database must be configured ormconfig.json
+You also need to create a database:
 
-    mysql -u username -p
-    create database dbname
-
-**Run in development mode mode**
+    create database database_name
+**Run in development mode**
 
     npm run start
-
-**Config Models**
-ormconfig.model.json
-server/secrets/keys.model.ts
+    
+**Testing environment**
+The application was tested with MySQL
