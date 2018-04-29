@@ -4,8 +4,8 @@
 **Installation**
 
     git clone https://github.com/CubingItaly/cubingitaly.org.git && cd cubingitaly.org
-    mv ormconfig.model.json ormconfig.json
-    mv server/secrets/keys.model.ts server/secrets/keys.ts
+    cp ormconfig.model.json ormconfig.json
+    cp server/secrets/keys.model.ts server/secrets/keys.ts
     npm install
 Before running the system you need to configure both ormconfig.json with the database information and keys.ts with secret codes.
 
