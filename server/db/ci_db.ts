@@ -1,8 +1,12 @@
 import { DB } from "./database";
-import { Repository, FindOneOptions } from "typeorm";
+import { Repository, FindOneOptions, getCustomRepository } from "typeorm";
 import { DB_Team } from './entity/db.team';
 import { keys } from '../secrets/keys';
 import { DB_User } from "./entity/db.user";
+import { ci_teams_repo } from "./repositories/ci_teams_repo";
+import { ci_users_repo } from "./repositories/ci_users_repo";
+import { _BOOTSTRAPS } from "./__bootstraps";
+
 /**
  * Handles the database connection, extending the default database class.
  * 
@@ -27,34 +31,21 @@ export class CI_DB extends DB {
       const conn = await this.connect();
       console.log('apparently done connecting');
 
-      const team_repo: Repository<DB_Team> = conn.getRepository(DB_Team);
-    
-      const teams = await team_repo.find();
-      if (teams.length === 0) {
-        await this.initTeam(team_repo);
-      }
+      _BOOTSTRAPS().forEach(async (repo) => {
+        console.log('calling init on repo: ' + repo._entityIdentifier);
+        await repo.InitDefaults();
+      });
 
+      // Just for test purposes, this stuff will be removed later.
+      const users_repo: ci_users_repo = getCustomRepository(ci_users_repo);
+      const team_repo: ci_teams_repo = getCustomRepository(ci_teams_repo);
+      const admin_users: DB_User[] = await users_repo.findAllByTeam(await team_repo.getAdminTeam());
+      console.log('admin_users are:');
+      console.log(admin_users);
     }
     catch (e) {
       console.error('Exception occurred.');
       console.error(e);
     }
-  }
-
-  protected async initTeam(repo: Repository<DB_Team>): Promise<void> {
-    const ADMIN_TEAM = new DB_Team();
-    ADMIN_TEAM.name = "Admin";
-    ADMIN_TEAM.shortname = "drago";
-    ADMIN_TEAM.users = [];
-    repo.save(ADMIN_TEAM);
-
-    
-    const DELEGATE_TEAM = new DB_Team();
-    DELEGATE_TEAM.name = "Delegato WCA";
-    DELEGATE_TEAM.shortname = "board";
-    DELEGATE_TEAM.users = [];
-    repo.save(DELEGATE_TEAM);
-
-    return;
   }
 }
