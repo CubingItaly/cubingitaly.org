@@ -3,10 +3,12 @@ import '../passport_strategies/passport.wca.strategy';
 import * as passport from 'passport';
 import { Serialize, Deserialize } from "cerialize";
 import { keys } from '../secrets/keys';
-import { wca_user } from "../models/wca_user.model";
-import { standard_response } from '../models/standard_response.model'
 import { RESPONSE_STATUS } from "../models/enums/response.statuses";
-import { DB_User } from "../db/entity/db.user";
+import { DBUser } from "../db/entity/db.user";
+import { UserResponse } from "../models/user.response.model";
+import { CIUser } from "../models/ci.user.model";
+import { CiUsersRepo } from "../db/repositories/db.ci.users.repo";
+import { getCustomRepository } from "typeorm";
 
 
 const authRouter: Router = Router();
@@ -28,7 +30,7 @@ function checkAuth(req, res, next) {
     //Perhaps we could create a login page and redirect him there
     console.log("Request from not authenticated user");
     //We use a standard response object
-    let std_res: standard_response = new standard_response();
+    let std_res: UserResponse = new UserResponse();
     std_res.status = RESPONSE_STATUS.ERROR;
     std_res.error = "Request from not authenticated user";
     res.send(JSON.stringify(Serialize(std_res)));
@@ -56,11 +58,6 @@ authRouter.get("/wca", passport.authenticate('wca'));
 authRouter.get('/wca/callback',
   passport.authenticate('wca'),
   function (req, res) {
-    /*if (req.isAuthenticated) {
-      res.cookie("_authUser", JSON.stringify(Serialize(req.user)),
-        <CookieOptions>keys.session.cookie
-      );
-    }*/
     console.log("Successful login, redirecting user to root")
     res.redirect("/");
   });
@@ -71,19 +68,19 @@ authRouter.get('/wca/callback',
 authRouter.get("/me", checkAuth, (req, res) => {
   console.log("User recognized, sending info");
   //We use a standard response object
-  let std_res: standard_response = new standard_response();
+  let std_res: UserResponse = new UserResponse();
   std_res.status = RESPONSE_STATUS.OK;
   //We need to deserialize because req.user is of type Express.User
-  std_res.user = Deserialize(req.user, wca_user);
+  std_res.user = Deserialize(req.user, CIUser);
   res.send(JSON.stringify(Serialize(std_res)));
 })
 
-
-//random test
-authRouter.get("/test", (req,res) =>{
-  let t: DB_User = new DB_User();
-  t.id=94;
-  DB_User.getIfExists(t).then(b => res.json({ exists: b}));
-})
+/**
+ * # warning: This method is here just for testing purposes and needs to be removed
+ */
+authRouter.get("/test/:id", (req,res) => {
+  let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+  user_repo.findUserById(req.params.id).then(u => res.json(u._transform()));
+});
 
 export { authRouter };

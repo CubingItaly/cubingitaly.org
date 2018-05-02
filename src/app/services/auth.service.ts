@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
-import { wca_user } from '../../../server/models/wca_user.model';
-import { standard_response } from '../../../server/models/standard_response.model';
 import { Serialize, Deserialize } from 'cerialize';
 import { ReducerObservable } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
-import { ci_team } from '../../../server/models/ci_team.model';
+
 import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses';
+import { CIUser } from '../../../server/models/ci.user.model';
+import { CITeam } from '../../../server/models/ci.team.model';
+import { UserResponse } from '../../../server/models/user.response.model';
 
 /**
  * Service use to manage the authentication of the user
@@ -19,8 +20,8 @@ import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses'
 export class AuthService {
 
     public isLoggedIn: boolean = false;
-    public authUser: wca_user;
-    public userTeams: ci_team[];
+    public authUser: CIUser;
+    public userTeams: CITeam[];
 
     /**
      * Creates an instance of AuthService.
@@ -32,10 +33,9 @@ export class AuthService {
     constructor(private http: HttpClient) {
         this.http.get("/auth/me").subscribe(res => {
             console.log("received response from the server");
-            let tempres: standard_response = Deserialize(res, standard_response);
+            let tempres: UserResponse = Deserialize(res, UserResponse);
             if (tempres.status === RESPONSE_STATUS.OK) {
                 this.authUser = tempres.user;
-                this.userTeams = tempres.team;
                 this.isLoggedIn = true;
             }
         });

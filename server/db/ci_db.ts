@@ -1,11 +1,11 @@
 import { DB } from "./database";
 import { Repository, FindOneOptions, getCustomRepository } from "typeorm";
-import { DB_Team } from './entity/db.team';
 import { keys } from '../secrets/keys';
-import { DB_User } from "./entity/db.user";
-import { ci_teams_repo } from "./repositories/ci_teams_repo";
-import { ci_users_repo } from "./repositories/ci_users_repo";
 import { _BOOTSTRAPS } from "./__bootstraps";
+import { CITeamsRepo } from "./repositories/db.ci.teams.repo";
+import { CiUsersRepo } from "./repositories/db.ci.users.repo";
+import { DBTeam } from "./entity/db.team";
+import { DBUser } from "./entity/db.user";
 
 /**
  * Handles the database connection, extending the default database class.
@@ -31,7 +31,7 @@ export class CI_DB extends DB {
       const conn = await this.connect();
       console.log('apparently done connecting');
 
-      await (async function looper(current, max){
+      await (async function looper(current, max) {
         if (current >= max) {
           return;
         }
@@ -41,20 +41,16 @@ export class CI_DB extends DB {
           looper(current + 1, max);
         }
       })(0, _BOOTSTRAPS().length);
-      /*
-      _BOOTSTRAPS().forEach(async (repo) => {
-        console.log('calling init on repo: ' + repo._entityIdentifier);
-        await repo.InitDefaults();
-      });
-      */
+
       console.log('should be after all loopings');
 
-      // Just for test purposes, this stuff will be removed later.
-      const users_repo: ci_users_repo = getCustomRepository(ci_users_repo);
-      const team_repo: ci_teams_repo = getCustomRepository(ci_teams_repo);
-      const admin_users: DB_User[] = await users_repo.findAllByTeam(await team_repo.getAdminTeam());
-      console.log('admin_users are:');
-      console.log(admin_users);
+      //# warning: The following lines are just for test purpose and they'll be deleted before going on production
+      let teams_repo: CITeamsRepo = getCustomRepository(CITeamsRepo);
+      let users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+      let admin_team: DBTeam = await teams_repo.getAdminTeam();
+      console.log(admin_team);
+      let users: DBUser[] = await users_repo.findAllByTeam(admin_team);
+      console.log("Admins:", users);
     }
     catch (e) {
       console.error('Exception occurred.');

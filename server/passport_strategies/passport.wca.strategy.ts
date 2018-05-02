@@ -3,16 +3,19 @@ import * as passport from 'passport';
 import { Strategy as WCAStrategy } from 'passport-wca';
 import { Deserialize } from 'cerialize';
 import { keys } from '../secrets/keys';
-import { wca_user } from '../models/wca_user.model';
-import { DB_User } from '../db/entity/db.user';
+import { CIUser } from '../models/ci.user.model';
+import { CiUsersRepo } from '../db/repositories/db.ci.users.repo'
+import { getCustomRepository } from 'typeorm';
+import { DBUser } from '../db/entity/db.user';
 
-const authUrl =  (process.env.NODE_ENV === "production") ? "https://www.worldcubeassociation.org/oauth/authorize" : "https://staging.worldcubeassociation.org/oauth/authorize";
-const tokUrl = (process.env.NODE_ENV === "production") ? "https://www.worldcubeassociation.org/oauth/token" : "https://staging.worldcubeassociation.org/oauth/token";
-
+const authUrl = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/authorize" : "https://staging.worldcubeassociation.org/oauth/authorize";
+const tokUrl = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/token" : "https://staging.worldcubeassociation.org/oauth/token";
+const userProfileURL = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/api/v0/me" : "https://staging.worldcubeassociation.org/api/v0/me";
 // Define the wca strategy
 passport.use(new WCAStrategy({
-  authorizationURL:  authUrl,
+  authorizationURL: authUrl,
   tokenURL: tokUrl,
+  userProfileURL,
   clientID: keys.wca.client_id,
   clientSecret: keys.wca.client_secret,
   callbackURL: keys.wca.redirect_uri,
@@ -20,32 +23,28 @@ passport.use(new WCAStrategy({
   scope: keys.wca.scope
 },
   async function (accessToken, refreshToken, profile, done) {
-
-    //create a new user with the json received from the wca server
-    const user: wca_user = Deserialize(profile._json.me, wca_user)
-    //convert it to a DB_User
-    let db_wca_user: DB_User = new DB_User();
-    db_wca_user._assimilate(user);
-
-    //Checks whether the user already exists in the DB, if yes, update it. Otherwise insert it
-    const user_exists: boolean = await DB_User.getIfExists(db_wca_user);
-    if (user_exists) {
-      console.log("updating user");
-      await DB_User.updateUser(db_wca_user);
-    } else {
-      console.log("creating user");
-      await DB_User.createUser(db_wca_user);
-    }
+    //Extracts a CI User from the data received from the WCA server
+    const user: CIUser = Deserialize(profile._json.me, CIUser);
+    //Retrieves the CIUsersRepo
+    const users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+    //Generates a new DBUser
+    let db_user: DBUser = new DBUser();
+    db_user._assimilate(user);
+    //calls the method to manage the user login with the database
+    users_repo.loginUser(db_user);
 
     done(null, user);
   }
 ));
 
-passport.serializeUser((user: wca_user, done) => {
+passport.serializeUser((user: CIUser, done) => {
   done(null, user.id);
 });
 
 
-passport.deserializeUser((id, done) => {
-  DB_User.getModelUserById(id).then(usr => done(null, usr));
+passport.deserializeUser((id: number, done) => {
+  const users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+  users_repo.findUserById(id).then(user => {
+    done(null,user._transform());
+  })
 });

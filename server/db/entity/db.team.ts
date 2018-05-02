@@ -1,44 +1,60 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
-import { DB_TeamUser } from './db.team_user';
+import { Entity, PrimaryColumn, Column, OneToMany, BaseEntity } from 'typeorm';
 import { ITransformable } from '../transformable';
-import { ci_team } from '../../models/ci_team.model';
+import { CITeam } from '../../models/ci.team.model';
+import { DBUser } from './db.user';
+import { DBRole } from './db.role';
+import { CIMember } from '../../models/ci.member.model';
 
+
+/**
+ * Database entitity used to represents teams
+ * 
+ * @export
+ * @class DBTeam
+ * @extends {BaseEntity}
+ * @implements {ITransformable<CITeam>}
+ */
 @Entity()
-export class DB_Team extends BaseEntity implements ITransformable<ci_team> {
+export class DBTeam extends BaseEntity implements ITransformable<CITeam> {
 
-    @PrimaryGeneratedColumn()
-    id: number;
+    @PrimaryColumn()
+    id: string;
 
     @Column()
     name: string;
 
-    @Column({ length: 5 })
-    shortname: string;
-
-    @OneToMany(type => DB_TeamUser, user => user.team)
-    users: DB_TeamUser[]
+    @OneToMany(type => DBRole, member => member.team)
+    members: DBRole[];
 
     /**
-     * Assimilates an existing wca_user instance.
+     * Loads params from a CITeam 
      * 
-     * @param {ci_team} origin 
+     * @param {CITeam} team 
+     * @memberof DBTeam
      */
-    _assimilate(origin: ci_team): void {
-        this.id = origin.id;
-        this.name = origin.name;
-        this.shortname = origin.shortname;
+    _assimilate(team: CITeam) {
+        this.id = team.id;
+        this.name = team.name;
     }
+
 
     /**
-     * Generates a new instance of {wca_user} and returns it
+     * Genereates a CITeam from the current user
+     * 
+     * @returns {CITeam} 
+     * @memberof DBTeam
      */
-    _transform(): ci_team {
-        let c_team = new ci_team();
-        c_team.id = this.id;
-        c_team.name = this.name;
-        c_team.shortname = this.shortname;
-
-        return c_team;
-
+    _transform(): CITeam {
+        let tmp_team = new CITeam();
+        tmp_team.id = this.id;
+        tmp_team.name = this.name;
+        this.members.map(m => {
+            let tmp_member = new CIMember();
+            tmp_member.leader = m.leader;
+            tmp_member.id = m.member.id;
+        })
+        return tmp_team;
     }
+
+
 }

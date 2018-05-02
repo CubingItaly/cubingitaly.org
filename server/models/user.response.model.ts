@@ -1,13 +1,12 @@
 import { autoserialize } from 'cerialize';
-import { wca_user } from './wca_user.model';
-import { ci_team } from './ci_team.model';
 import { IGenericResponse } from './interfaces/IGenericResponse';
 import { RESPONSE_STATUS } from './enums/response.statuses';
+import { CIUser } from './ci.user.model';
 
 /**
  * Represents the class of the standard response which is used to send info to the client
  */
-export class standard_response implements IGenericResponse {
+export class UserResponse implements IGenericResponse {
  
     /**
      * Boolean which indicates the result of the request
@@ -31,14 +30,6 @@ export class standard_response implements IGenericResponse {
      * @type {wca_user}
      * @memberof standard_response
      */
-    @autoserialize public user: wca_user;
-
-    /**
-     * Nullable object that contains an array with the user's teams
-     * 
-     * @type {ci_team}
-     * @memberof standard_response
-     */
-    @autoserialize public team: ci_team[];
+    @autoserialize public user: CIUser;
 
 }
