@@ -57,13 +57,13 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      * @param {boolean} leader 
      * @memberof CIRolesRepo
      */
-    public async addRole(user: DBUser, team: DBTeam, leader: boolean) {
+    public async addRole(user: DBUser, team: DBTeam, leader: boolean): Promise<DBRole> {
         let db_role = new DBRole();
         db_role.member = user;
         db_role.team = team;
         db_role.leader = leader;
 
-        this.repository.save(db_role);
+        return await this.repository.save(db_role);
     }
 
     /**
@@ -75,6 +75,7 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      */
     public async removeRole(user: DBUser, team: DBTeam) {
         let db_role: DBRole = await this.repository.findOne({ member: user, team: team });
-        this.repository.delete(db_role);
+        await this.repository.delete(db_role);
+        return;
     }
 }

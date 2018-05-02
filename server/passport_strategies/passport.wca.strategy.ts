@@ -31,7 +31,7 @@ passport.use(new WCAStrategy({
     let db_user: DBUser = new DBUser();
     db_user._assimilate(user);
     //calls the method to manage the user login with the database
-    users_repo.loginUser(db_user);
+    await users_repo.loginUser(db_user);
 
     done(null, user);
   }
