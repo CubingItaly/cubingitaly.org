@@ -31,10 +31,23 @@ export class CI_DB extends DB {
       const conn = await this.connect();
       console.log('apparently done connecting');
 
+      await (async function looper(current, max){
+        if (current >= max) {
+          return;
+        }
+        else {
+          console.log('loooping');
+          await _BOOTSTRAPS()[current].InitDefaults();
+          looper(current + 1, max);
+        }
+      })(0, _BOOTSTRAPS().length);
+      /*
       _BOOTSTRAPS().forEach(async (repo) => {
         console.log('calling init on repo: ' + repo._entityIdentifier);
         await repo.InitDefaults();
       });
+      */
+      console.log('should be after all loopings');
 
       // Just for test purposes, this stuff will be removed later.
       const users_repo: ci_users_repo = getCustomRepository(ci_users_repo);
