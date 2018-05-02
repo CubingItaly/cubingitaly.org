@@ -93,13 +93,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
   public async loginUser(user: DBUser) {
 
     let roles_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-
-    //load the user's roles so that they don't get deleted with the update
-    if (this.checkIfUserExists(user.id)) {
-      user.roles = await roles_repo.findUserRoles(user);
-    }
-
-    this.repository.save(user);
+    await this.repository.save(user);
 
     //Checks whether the user is admin and if there is the need, adds him to the team.
     if (keys.admin.id == user.id) {
@@ -109,10 +103,12 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
       let is_admin = await roles_repo.checkIfUserHasRole(user, admin_team);
       console.log("has admin perm", is_admin);
       if (!is_admin) {
-        console.log("givin him admin role");
+        console.log("giving admin role");
         roles_repo.addRole(user, admin_team, true);
       }
     }
+
+
   }
 
   
