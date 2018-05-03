@@ -43,7 +43,7 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      * @returns 
      * @memberof CIRolesRepo
      */
-    public async checkIfUserHasRole(user: DBUser, team: DBTeam) {
+    public async checkIfUserHasRole(user: DBUser, team: DBTeam): Promise<boolean> {
         let role: DBRole[] = await this.repository.find({ member: user, team: team });
         console.log ("roles found:", role);
         return role.length > 0 ? true : false;
@@ -73,7 +73,7 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      * @param {DBTeam} team 
      * @memberof CIRolesRepo
      */
-    public async removeRole(user: DBUser, team: DBTeam) {
+    public async removeRole(user: DBUser, team: DBTeam): Promise<void>{
         let db_role: DBRole = await this.repository.findOne({ member: user, team: team });
         await this.repository.delete(db_role);
         return;

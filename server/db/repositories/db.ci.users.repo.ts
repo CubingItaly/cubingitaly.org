@@ -6,6 +6,7 @@ import { CIUser } from "../../models/ci.user.model";
 import { keys } from "../../secrets/keys"
 import { CITeamsRepo } from "./db.ci.teams.repo";
 import { CIRolesRepo } from "./db.ci.roles.repo";
+import { DBRole } from "../entity/db.role";
 
 /**
  * Defines the cubing italy users repository default helper.
@@ -43,7 +44,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @returns {Promise<DBUser>} 
    * @memberof CiUsersRepo
    */
-  public async findUserById(id: number) {
+  public async findUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .leftJoinAndSelect("user.roles", "roles")
       .leftJoinAndSelect("roles.team", "team")
@@ -59,7 +60,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @returns 
    * @memberof CiUsersRepo
    */
-  public async findAllByTeam(team: DBTeam) {
+  public async findAllByTeam(team: DBTeam): Promise<DBUser[]> {
     let team_users: DBUser[] = await this.repository.createQueryBuilder("user")
       .innerJoinAndSelect("user.roles", "roles")
       .innerJoinAndSelect("roles.team", "team")
@@ -76,7 +77,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @returns 
    * @memberof CiUsersRepo
    */
-  public async checkIfUserExists(id: number) {
+  public async checkIfUserExists(id: number): Promise<boolean> {
     let users: DBUser[] = await this.repository.find({ id: id });
     return users.length > 0 ? true : false;
   }
@@ -90,10 +91,10 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @param {DBUser} user 
    * @memberof CiUsersRepo
    */
-  public async loginUser(user: DBUser) {
+  public async loginUser(user: DBUser): Promise<DBUser> {
 
     let roles_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-    await this.repository.save(user);
+    user = await this.repository.save(user);
 
     //Checks whether the user is admin and if there is the need, adds him to the team.
     if (keys.admin.id == user.id) {
@@ -104,12 +105,13 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
       console.log("has admin perm", is_admin);
       if (!is_admin) {
         console.log("giving admin role");
-        roles_repo.addRole(user, admin_team, true);
+        let admin_role: DBRole = await roles_repo.addRole(user, admin_team, true);
+        user.roles.push(admin_role);
       }
     }
 
-
+    return user;
   }
 
-  
+
 }
