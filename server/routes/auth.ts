@@ -75,12 +75,5 @@ authRouter.get("/me", checkAuth, (req, res) => {
   res.send(JSON.stringify(Serialize(std_res)));
 })
 
-/**
- * # warning: This method is here just for testing purposes and needs to be removed
- */
-authRouter.get("/test/:id", (req,res) => {
-  let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-  user_repo.findCompleteUserById(req.params.id).then(u => res.json(u._transform()));
-});
 
 export { authRouter };

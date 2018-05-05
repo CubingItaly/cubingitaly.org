@@ -44,7 +44,7 @@ passport.serializeUser((user: CIUser, done) => {
 
 passport.deserializeUser((id: number, done) => {
   const users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-  users_repo.findCompleteUserById(id).then(user => {
+  users_repo.findUserById(id).then(user => {
     done(null,user._transform());
   })
 });

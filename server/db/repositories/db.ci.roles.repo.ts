@@ -45,8 +45,18 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      */
     public async checkIfUserHasRole(user: DBUser, team: DBTeam): Promise<boolean> {
         let role: DBRole[] = await this.repository.find({ member: user, team: team });
-        console.log ("roles found:", role);
+        console.log("roles found:", role);
         return role.length > 0 ? true : false;
+    }
+
+
+    public async checkIfUserIsLeader(user: DBUser, team: DBTeam): Promise<boolean> {
+        let hasRole: boolean = await this.checkIfUserHasRole(user, team);
+        if (hasRole) {
+            let role: DBRole = await this.repository.findOne({ member: user, team: team });
+            return role.leader;
+        }
+        return false;
     }
 
     /**
@@ -73,9 +83,36 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      * @param {DBTeam} team 
      * @memberof CIRolesRepo
      */
-    public async removeRole(user: DBUser, team: DBTeam): Promise<void>{
+    public async removeRole(user: DBUser, team: DBTeam): Promise<void> {
         let db_role: DBRole = await this.repository.findOne({ member: user, team: team });
         await this.repository.delete(db_role);
+        return;
+    }
+
+    public async promoteLeader(user: DBUser, team: DBTeam): Promise<DBRole> {
+        let hasRole: boolean = await this.checkIfUserHasRole(user, team);
+        if (hasRole) {
+            let role: DBRole = new DBRole();
+            role.leader = true;
+            role.member = user;
+            role.team = team;
+
+            return await this.repository.save(role);
+        }
+        return;
+    }
+
+
+    public async demoteLeader(user: DBUser, team: DBTeam): Promise<DBRole> {
+        let hasRole: boolean = await this.checkIfUserHasRole(user, team);
+        if (hasRole) {
+            let role: DBRole = new DBRole();
+            role.leader = false;
+            role.member = user;
+            role.team = team;
+
+            return await this.repository.save(role);
+        }
         return;
     }
 }

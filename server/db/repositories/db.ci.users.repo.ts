@@ -45,7 +45,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @returns {Promise<DBUser>} 
    * @memberof CiUsersRepo
    */
-  public async findSimplifiedUserById(id: number): Promise<DBUser> {
+  public async findShortUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
       .where("user.id = :id", { id: id })
@@ -60,7 +60,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
   * @returns {Promise<DBUser>} 
   * @memberof CiUsersRepo
   */
-  public async findPublicUserById(id: number): Promise<DBUser> {
+  public async findUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
       .leftJoinAndSelect("user.roles", "roles")
@@ -78,7 +78,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    * @returns {Promise<DBUser>} 
    * @memberof CiUsersRepo
    */
-  public async findCompleteUserById(id: number): Promise<DBUser> {
+  public async findSensibleUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .leftJoinAndSelect("user.roles", "roles")
       .leftJoinAndSelect("roles.team", "team")

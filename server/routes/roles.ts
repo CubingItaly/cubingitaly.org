@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { CIUser } from "../models/ci.user.model";
-import { Deserialize } from "cerialize";
+import { Deserialize, Serialize } from "cerialize";
 import { CITeam } from "../models/ci.team.model";
 import { CITeamsRepo } from "../db/repositories/db.ci.teams.repo";
 import { getCustomRepository } from "typeorm";
@@ -8,6 +8,10 @@ import { DBTeam } from "../db/entity/db.team";
 import { CiUsersRepo } from "../db/repositories/db.ci.users.repo";
 import { DBUser } from "../db/entity/db.user";
 import { CIRolesRepo } from "../db/repositories/db.ci.roles.repo";
+import { isMaster } from "cluster";
+import { DBRole } from "../db/entity/db.role";
+import { GenericResponse } from "../models/responses/generic.response.model";
+import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 
 
 const rolesRouter: Router = Router();
@@ -16,7 +20,11 @@ function authController(req, res, next): void {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.json({ "error": "you are not authorized" });
+        let response: GenericResponse = new GenericResponse();
+        response.status = RESPONSE_STATUS.ERROR
+        response.error = "User not logged in";
+        res.status(403);
+        res.json(response);
     }
 }
 
@@ -38,40 +46,25 @@ async function getTeam(id: string): Promise<DBTeam> {
 
 async function getUser(id: number): Promise<DBUser> {
     let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-    let user: DBUser = await user_repo.findSimplifiedUserById(id);
+    let user: DBUser = await user_repo.findShortUserById(id);
     return user;
 }
 
+rolesRouter.delete("/:team/:member", authController, async (req, res) => {
+    let db_team: DBTeam = await getTeam(req.params.team);
+    let db_user: DBUser = await getUser(req.params.member);
 
-rolesRouter.delete("/remove", authController, (req, res) => {
-    getTeam(req.query.team).then(team => {
-        if (canAdminTeams(req) || canManageTeam(req, team._transform())) {
-            getUser(req.query.user).then(user => {
-                let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-                let db
-                role_repo.removeRole(user, team).then(() => res.json({ "ok": "deleted" })
-                );
-            });
-        } else {
-            res.json({ "error": "you can't" });
-        };
-    });
-});
-
-rolesRouter.post("/add", authController, (req, res) => {
-    console.log("add role request received");
-    getTeam(req.query.team).then(team => {
-        if (canAdminTeams(req) || canManageTeam(req, team._transform())) {
-            getUser(req.query.user).then(user => {
-                let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-                let leader: boolean = req.query.leader || false;
-                role_repo.addRole(user, team, leader).then(() => res.json({ "ok": "deleted" })
-                );
-            });
-        } else {
-            res.json({ "error": "you can't" });
-        }
-    });
+    if (canAdminTeams(req) || canManageTeam(req, db_team._transform())) {
+        let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
+        role_repo.removeRole(db_user, db_team);
+        res.status(204);
+    } else {
+        res.status(403);
+        let response: GenericResponse = new GenericResponse();
+        response.status = RESPONSE_STATUS.ERROR;
+        response.error = "Action not allowed";
+        res.send(JSON.stringify(Serialize(response)));
+    }
 });
 
 

@@ -10,46 +10,46 @@ import { TeamsResponse } from "../models/responses/teams.response.model";
 import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 import { Serialize } from "cerialize";
 import { UsersResponse } from "../models/responses/users.response.model";
+import { DBUser } from "../db/entity/db.user";
+import { usersRouter } from "./users";
 
 const teamsRouter: Router = Router();
 
 
-teamsRouter.get("/", (req, res) => {
+teamsRouter.get("/", async (req, res) => {
     let team_repo: CITeamsRepo = getCustomRepository(CITeamsRepo);
-    team_repo.findTeams().then(db_teams => {
-        let teams: CITeam[] = [];
-        db_teams.forEach(db_team => teams.push(db_team._transform()));
-        let response: TeamsResponse = new TeamsResponse();
-        response.status = RESPONSE_STATUS.OK;
-        response.teams = teams;
-        res.send(JSON.stringify(Serialize(response)));
-    });
+    let db_teams: DBTeam[] = await team_repo.findTeams();
+    let teams: CITeam[] = [];
+    db_teams.forEach(team => teams.push(team._transform()));
+    let response: TeamsResponse = new TeamsResponse();
+    response.status = RESPONSE_STATUS.OK;
+    response.teams = teams;
+    res.send(JSON.stringify(Serialize(teams)));
 });
 
-teamsRouter.get("/:id", (req, res) => {
+teamsRouter.get("/:id", async (req, res) => {
     let team_repo: CITeamsRepo = getCustomRepository(CITeamsRepo);
-    team_repo.findTeamById(req.params.id).then(db_team => {
-        let team: CITeam = db_team._transform();
-        let response: TeamResponse = new TeamResponse();
-        response.status = RESPONSE_STATUS.OK;
-        response.team = team;
-        res.send(JSON.stringify(Serialize(response)));
-    });
+    let db_team: DBTeam = await team_repo.findTeamById(req.params.id);
+    let response: TeamResponse = new TeamResponse();
+    response.status = RESPONSE_STATUS.OK;
+    response.team = db_team._transform();
+    res.send(JSON.stringify(Serialize(response)));
 });
 
-teamsRouter.get("/:id/members", (req, res) => {
+teamsRouter.get("/:id/members", async (req, res) => {
     let team_repo: CITeamsRepo = getCustomRepository(CITeamsRepo);
-    team_repo.findTeamById(req.params.id).then(db_team => {
-        let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-        user_repo.findAllByTeam(db_team).then(db_users => {
-            let users: CIUser[] = [];
-            db_users.forEach(db_user => users.push(db_user._transform()));
-            let response: UsersResponse = new UsersResponse();
-            response.status = RESPONSE_STATUS.OK;
-            response.users = users;
-            res.json(db_users);
-        });
-    });
+    let team: DBTeam = await team_repo.findTeamById(req.params.id);
+
+    let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+    let db_users: DBUser[] = await user_repo.findAllByTeam(team);
+
+    let users: CIUser[] = [];
+    db_users.forEach(db_user => users.push(db_user._transform()));
+
+    let response: UsersResponse = new UsersResponse();
+    response.status = RESPONSE_STATUS.OK;
+    response.users = users;
+    res.send(JSON.stringify(Serialize(response)));
 });
 
 
