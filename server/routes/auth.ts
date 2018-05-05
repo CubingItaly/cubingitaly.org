@@ -5,7 +5,7 @@ import { Serialize, Deserialize } from "cerialize";
 import { keys } from '../secrets/keys';
 import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 import { DBUser } from "../db/entity/db.user";
-import { UserResponse } from "../models/user.response.model";
+import { UserResponse } from "../models/responses/user.response.model";
 import { CIUser } from "../models/ci.user.model";
 import { CiUsersRepo } from "../db/repositories/db.ci.users.repo";
 import { getCustomRepository } from "typeorm";
@@ -80,7 +80,7 @@ authRouter.get("/me", checkAuth, (req, res) => {
  */
 authRouter.get("/test/:id", (req,res) => {
   let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-  user_repo.findUserById(req.params.id).then(u => res.json(u._transform()));
+  user_repo.findCompleteUserById(req.params.id).then(u => res.json(u._transform()));
 });
 
 export { authRouter };

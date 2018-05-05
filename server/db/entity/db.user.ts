@@ -62,15 +62,20 @@ export class DBUser extends BaseEntity implements ITransformable<CIUser> {
         ci_user.id = this.id;
         ci_user.wca_id = this.wca_id;
         ci_user.name = this.name;
-        ci_user.email = this.email;
         ci_user.delegate_status = this.delegate_status;
-        ci_user.roles = [];
-        this.roles.map(r => {
-            let tmp_role = new CIRole();
-            tmp_role.team = r.team.id;
-            tmp_role.leader = r.leader;
-            ci_user.roles.push(tmp_role)
-        })
+        if (this.email) {
+            ci_user.email = this.email;
+        }
+        if (this.roles) {
+            ci_user.roles = [];
+            this.roles.map(r => {
+                let tmp_role = new CIRole();
+                tmp_role.team = r.team.id;
+                tmp_role.leader = r.leader;
+                ci_user.roles.push(tmp_role)
+            });
+        }
+
         return ci_user;
     }
 

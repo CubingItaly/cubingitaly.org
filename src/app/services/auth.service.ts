@@ -8,7 +8,7 @@ import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
 import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses';
 import { CIUser } from '../../../server/models/ci.user.model';
 import { CITeam } from '../../../server/models/ci.team.model';
-import { UserResponse } from '../../../server/models/user.response.model';
+import { UserResponse } from '../../../server/models/responses/user.response.model';
 
 /**
  * Service use to manage the authentication of the user

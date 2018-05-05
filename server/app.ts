@@ -12,6 +12,9 @@ import { authRouter } from "./routes/auth";
 
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
+import { teamsRouter } from './routes/teams';
+import { usersRouter } from './routes/users';
+import { rolesRouter } from './routes/roles';
 
 const db: CI_DB = new CI_DB();
 
@@ -37,7 +40,7 @@ app.use(urlencoded({ extended: true }));
 
 app.use(session(
   {
-    secret:keys.session.secret,
+    secret: keys.session.secret,
     resave: false,
     saveUninitialized: true,
     cookie: keys.session.cookie
@@ -48,6 +51,9 @@ app.use(passport.session());
 
 // api routes
 app.use("/auth", authRouter);
+app.use("/api/teams", teamsRouter);
+app.use("/api/users", usersRouter);
+app.use("/api/roles", rolesRouter);
 
 if (app.get("env") === "production") {
   // in production mode run application from dist folder

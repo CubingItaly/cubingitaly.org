@@ -37,14 +37,48 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
     return;
   }
 
+
   /**
-   * Returns a user by id, including his roles
+   * Returns a user by id, including only public data 
    * 
    * @param {number} id 
    * @returns {Promise<DBUser>} 
    * @memberof CiUsersRepo
    */
-  public async findUserById(id: number): Promise<DBUser> {
+  public async findSimplifiedUserById(id: number): Promise<DBUser> {
+    let db_user: DBUser = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .where("user.id = :id", { id: id })
+      .getOne();
+    return db_user;
+  }
+
+  /**
+  * Returns a user by id, including public data and roles 
+  * 
+  * @param {number} id 
+  * @returns {Promise<DBUser>} 
+  * @memberof CiUsersRepo
+  */
+  public async findPublicUserById(id: number): Promise<DBUser> {
+    let db_user: DBUser = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .leftJoinAndSelect("user.roles", "roles")
+      .leftJoinAndSelect("roles.team", "team")
+      .where("user.id = :id", { id: id }).getOne();
+
+    return db_user;
+  }
+
+  /**
+   * Returns a user by id, including his roles and sensible data 
+   * e.g. email address
+   * 
+   * @param {number} id 
+   * @returns {Promise<DBUser>} 
+   * @memberof CiUsersRepo
+   */
+  public async findCompleteUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .leftJoinAndSelect("user.roles", "roles")
       .leftJoinAndSelect("roles.team", "team")
@@ -52,6 +86,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
     console.log(db_user);
     return db_user;
   }
+
 
   /**
    * Finds all the users who belong to a team
@@ -62,6 +97,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    */
   public async findAllByTeam(team: DBTeam): Promise<DBUser[]> {
     let team_users: DBUser[] = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
       .innerJoinAndSelect("user.roles", "roles")
       .innerJoinAndSelect("roles.team", "team")
       .where("team.id = :id", { id: team.id })

@@ -158,7 +158,7 @@ export class CIUser {
    * -----------------------------------------------------------------
    */
 
-  public canAdminUsers(): boolean {
+  public canAdminTeams(): boolean {
     return this.isAdmin() || this.isBoard();
   }
 
