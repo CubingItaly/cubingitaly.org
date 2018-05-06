@@ -51,4 +51,14 @@ export abstract class BaseCommonRepository<T extends BaseEntity> extends Abstrac
   public async find(e: FindManyOptions<T>): Promise<T[]> {
     return await this.repository.find(e);
   }
+
+  /**
+   * Returns all the existing entries in the database.
+   * 
+   * @returns {Promise<T[]>} 
+   * @memberof BaseCommonRepository
+   */
+  public async selectAll(): Promise<T[]> {
+    return await this.repository.find();
+  }
 }

@@ -33,10 +33,17 @@ export class AuthService {
     constructor(private http: HttpClient) {
         this.http.get("/auth/me").subscribe(res => {
             console.log("received response from the server");
-            let tempres: UserResponse = Deserialize(res, UserResponse);
-            if (tempres.status === RESPONSE_STATUS.OK) {
-                this.authUser = tempres.user;
-                this.isLoggedIn = true;
+            console.log('res received is:');
+            console.log(res);
+            if (res) {
+                let tempres: UserResponse = Deserialize(res, UserResponse);
+                if (tempres.status === RESPONSE_STATUS.OK) {
+                    this.authUser = tempres.user;
+                    this.isLoggedIn = true;
+                }
+            }
+            else {
+                console.log('received an empty response from the server');
             }
         });
     }

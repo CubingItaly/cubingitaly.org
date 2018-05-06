@@ -21,7 +21,7 @@ const authRouter: Router = Router();
  * @param {any} res 
  * @param {any} next 
  */
-function checkAuth(req, res, next) {
+export function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
     //Goes to the next function
     next();

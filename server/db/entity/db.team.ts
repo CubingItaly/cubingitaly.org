@@ -24,7 +24,7 @@ export class DBTeam extends BaseEntity implements ITransformable<CITeam> {
     name: string;
 
     @OneToMany(type => DBRole, member => member.team)
-    members: DBRole[];
+    members: DBRole[] = [];
 
     /**
      * Loads params from a CITeam 
