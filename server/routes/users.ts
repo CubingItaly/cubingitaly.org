@@ -6,7 +6,8 @@ import { DBUser } from "../db/entity/db.user";
 import { GenericResponse } from "../models/responses/generic.response.model";
 import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 import { CIUser } from "../models/ci.user.model";
-import { Deserialize } from "cerialize";
+import { Deserialize, Serialize } from "cerialize";
+import { UserResponse } from "../models/responses/user.response.model";
 
 
 
@@ -16,7 +17,7 @@ function authController(req, res, next): void {
     if (req.isAuthenticated()) {
         next();
     } else {
-        let response: GenericResponse = new GenericResponse();
+        let response: UserResponse = new UserResponse();
         response.status = RESPONSE_STATUS.ERROR
         response.error = "User not logged in";
         res.status(403);
@@ -25,32 +26,59 @@ function authController(req, res, next): void {
 }
 
 usersRouter.get("/:id", async (req, res) => {
-    let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-    let db_user: DBUser = await user_repo.findUserById(req.params.id);
-    res.json(db_user._transform());
+    const response: UserResponse = new UserResponse();
+    const user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+
+    try {
+        let db_user: DBUser = await user_repo.findUserById(req.params.id);
+        response.user = db_user._transform();
+        response.status = RESPONSE_STATUS.OK
+    } catch (e) {
+        response.error = "An error occurred while processing the request"
+        response.status = RESPONSE_STATUS.ERROR;
+    }
+
+    res.send(JSON.stringify(Serialize(response)));
 });
 
+
 usersRouter.get("/:id/short", async (req, res) => {
-    let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-    let db_user: DBUser = await user_repo.findShortUserById(req.params.id);
-    res.json(db_user._transform());
+    const response: UserResponse = new UserResponse();
+    const user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+
+    try {
+        let db_user: DBUser = await user_repo.findShortUserById(req.params.id);
+        response.user = db_user._transform();
+        response.status = RESPONSE_STATUS.OK
+    } catch (e) {
+        response.error = "An error occurred while processing the request"
+        response.status = RESPONSE_STATUS.ERROR;
+    }
+
+    res.send(JSON.stringify(Serialize(response)));
 });
 
 
 usersRouter.get("/:id/sensible", authController, async (req, res) => {
+    const response: UserResponse = new UserResponse();
     let user: CIUser = Deserialize(req.user, CIUser);
     if (user.canAdminUsers()) {
-        let user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-        let db_user: DBUser = await user_repo.findSensibleUserById(req.params.id);
-        res.json(db_user._transform());
-    }else{
-        let response: GenericResponse = new GenericResponse();
+        const user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+        try {
+            let db_user: DBUser = await user_repo.findSensibleUserById(req.params.id);
+            response.user = db_user._transform();
+            response.status = RESPONSE_STATUS.OK
+        } catch (e) {
+            response.error = "An error occurred while processing the request"
+            response.status = RESPONSE_STATUS.ERROR;
+        }
+    } else {
         response.status = RESPONSE_STATUS.ERROR
         response.error = "Action not authorized";
         res.status(403);
-        res.json(response);
     }
 
+    res.send(JSON.stringify(Serialize(response)));
 });
 
 

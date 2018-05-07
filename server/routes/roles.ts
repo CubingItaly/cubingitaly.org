@@ -8,7 +8,6 @@ import { DBTeam } from "../db/entity/db.team";
 import { CiUsersRepo } from "../db/repositories/db.ci.users.repo";
 import { DBUser } from "../db/entity/db.user";
 import { CIRolesRepo } from "../db/repositories/db.ci.roles.repo";
-import { isMaster } from "cluster";
 import { DBRole } from "../db/entity/db.role";
 import { GenericResponse } from "../models/responses/generic.response.model";
 import { RESPONSE_STATUS } from "../models/enums/response.statuses";
@@ -50,21 +49,59 @@ async function getUser(id: number): Promise<DBUser> {
     return user;
 }
 
-rolesRouter.delete("/:team/:member", authController, async (req, res) => {
-    let db_team: DBTeam = await getTeam(req.params.team);
-    let db_user: DBUser = await getUser(req.params.member);
+rolesRouter.delete("/:team/members/:member", authController, async (req, res) => {
+    const db_team: DBTeam = await getTeam(req.params.team);
+    const db_user: DBUser = await getUser(req.params.member);
 
     if (canAdminTeams(req) || canManageTeam(req, db_team._transform())) {
         let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-        role_repo.removeRole(db_user, db_team);
+        await role_repo.removeRole(db_user, db_team);
         res.status(204);
     } else {
-        res.status(403);
         let response: GenericResponse = new GenericResponse();
         response.status = RESPONSE_STATUS.ERROR;
         response.error = "Action not allowed";
+        res.status(403);
         res.send(JSON.stringify(Serialize(response)));
     }
+});
+
+rolesRouter.post("/:team/members", authController, async (req, res) => {
+    const response: GenericResponse = new GenericResponse();
+
+    const db_team: DBTeam = await getTeam(req.params.team);
+    const db_user: DBUser = await getUser(req.query.member);
+
+    if (canAdminTeams(req) || canManageTeam(req, db_team._transform())) {
+        let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
+        await role_repo.addRole(db_user, db_team, false);
+        response.status = RESPONSE_STATUS.OK
+    } else {
+        response.status = RESPONSE_STATUS.ERROR;
+        response.error = "Action not allowed";
+        res.status(403);
+    }
+
+    res.send(JSON.stringify(Serialize(response)));
+});
+
+rolesRouter.put("/:team/leaders/:member", authController, async (req, res) => {
+    const response: GenericResponse = new GenericResponse();
+
+    const db_team: DBTeam = await getTeam(req.params.team);
+    const db_user: DBUser = await getUser(req.params.member);
+
+    if (canAdminTeams(req)) {
+        let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
+        await role_repo.addRole(db_user, db_team, req.query.leader || false);
+        response.status = RESPONSE_STATUS.OK
+    } else {
+        response.status = RESPONSE_STATUS.ERROR;
+        response.error = "Action not allowed";
+        res.status(403);
+    }
+
+    res.send(JSON.stringify(Serialize(response)));
 });
 
 

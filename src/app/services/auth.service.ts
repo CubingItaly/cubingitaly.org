@@ -31,11 +31,10 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.http.get("/auth/me").subscribe(res => {
-            console.log("received response from the server");
-            let tempres: UserResponse = Deserialize(res, UserResponse);
-            if (tempres.status === RESPONSE_STATUS.OK) {
-                this.authUser = tempres.user;
+        this.http.get<UserResponse>("/auth/me").subscribe((res: UserResponse) => {
+            console.log("received response");
+            if (res.status == RESPONSE_STATUS.OK) {
+                this.authUser = Deserialize(res.user, CIUser);
                 this.isLoggedIn = true;
             }
         });

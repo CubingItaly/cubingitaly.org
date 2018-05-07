@@ -23,17 +23,13 @@ const authRouter: Router = Router();
  */
 function checkAuth(req, res, next) {
   if (req.isAuthenticated()) {
-    //Goes to the next function
     next();
   } else {
-    //Here we should manage what happens in case the user is not logged in
-    //Perhaps we could create a login page and redirect him there
-    console.log("Request from not authenticated user");
-    //We use a standard response object
-    let std_res: UserResponse = new UserResponse();
-    std_res.status = RESPONSE_STATUS.ERROR;
-    std_res.error = "Request from not authenticated user";
-    res.send(JSON.stringify(Serialize(std_res)));
+    let response: UserResponse = new UserResponse();
+    response.status = RESPONSE_STATUS.ERROR
+    response.error = "User not logged in";
+    res.status(403);
+    res.json(response);
   }
 }
 
@@ -68,11 +64,11 @@ authRouter.get('/wca/callback',
 authRouter.get("/me", checkAuth, (req, res) => {
   console.log("User recognized, sending info");
   //We use a standard response object
-  let std_res: UserResponse = new UserResponse();
-  std_res.status = RESPONSE_STATUS.OK;
+  let response: UserResponse = new UserResponse();
+  response.status = RESPONSE_STATUS.OK;
   //We need to deserialize because req.user is of type Express.User
-  std_res.user = Deserialize(req.user, CIUser);
-  res.send(JSON.stringify(Serialize(std_res)));
+  response.user = Deserialize(req.user, CIUser);
+  res.send(JSON.stringify(Serialize(response)));
 })
 
 
