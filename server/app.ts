@@ -13,6 +13,8 @@ import { authRouter } from "./routes/auth";
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
 import { teamsRouter } from './routes/teams';
+import { _ROUTES_ } from './routes/_ROUTES_';
+import { DefaultRouter } from './routes/DefaultRouter.class';
 
 const db: CI_DB = new CI_DB();
 
@@ -47,9 +49,15 @@ app.use(session(
 app.use(passport.initialize());
 app.use(passport.session());
 
+_ROUTES_.forEach((r: DefaultRouter) => {
+  console.log('loading router for path:');
+  console.log(r.absolutePath);
+  app.use(r.absolutePath, r.getRouter());
+})
+
 // api routes
 app.use("/auth", authRouter);
-app.use("/teams", teamsRouter);
+//app.use("/teams", teamsRouter);
 
 if (app.get("env") === "production") {
   // in production mode run application from dist folder
