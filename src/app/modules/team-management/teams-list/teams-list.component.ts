@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TeamsService } from '../services/teams.service';
 import { CITeam } from '../../../../../server/models/ci.team.model';
-import { Observable } from 'rxjs/Observable';
 import { MatTableDataSource } from '@angular/material/table';
 
 

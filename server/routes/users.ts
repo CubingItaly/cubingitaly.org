@@ -8,6 +8,7 @@ import { RESPONSE_STATUS } from "../models/enums/response.statuses";
 import { CIUser } from "../models/ci.user.model";
 import { Deserialize, Serialize } from "cerialize";
 import { UserResponse } from "../models/responses/user.response.model";
+import { UsersResponse } from "../models/responses/users.response.model";
 
 
 
@@ -81,5 +82,19 @@ usersRouter.get("/:id/sensible", authController, async (req, res) => {
     res.send(JSON.stringify(Serialize(response)));
 });
 
+usersRouter.get("/", async (req, res) => {
+    const response: UsersResponse = new UsersResponse();
+    const user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+    try {
+        let db_users: DBUser[] = await user_repo.findUsersByName(req.query.name || "");
+        response.users = db_users.map((u: DBUser) => u._transform());
+        response.status = RESPONSE_STATUS.OK
+    } catch (e) {
+        response.error = "There was an erro while processing the request";
+        console.log(e);
+        response.status = RESPONSE_STATUS.ERROR;
+    }
+    res.send(JSON.stringify(Serialize(response)));
+})
 
 export { usersRouter }

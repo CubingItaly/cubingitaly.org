@@ -84,7 +84,12 @@ export class CIRolesRepo extends BaseCommonRepository<DBRole> {
      * @memberof CIRolesRepo
      */
     public async removeRole(user: DBUser, team: DBTeam): Promise<void> {
-        let db_role: DBRole = await this.repository.findOne({ member: user, team: team });
+        let db_role: DBRole = await this.repository.createQueryBuilder("role")
+                .innerJoinAndSelect("role.member", "member")
+                .innerJoinAndSelect("role.team", "team")
+                .where("member.id = :member and team.id = :team", {member: user.id, team: team.id})
+                .getOne();
+        console.log("found", db_role);
         await this.repository.delete(db_role);
         return;
     }

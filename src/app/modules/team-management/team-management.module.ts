@@ -10,6 +10,12 @@ import { FlexLayoutModule} from '@angular/flex-layout'
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import { TeamMembersComponent } from './team-members/team-members.component';
+import { AuthService } from '../../services/auth.service';
+import { TeamRoleGuard } from './services/team.roleguard.service';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
@@ -18,11 +24,15 @@ import { TeamMembersComponent } from './team-members/team-members.component';
     MatTableModule,
     FlexLayoutModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    MatAutocompleteModule,
+    MatFormFieldModule,
+    MatInputModule,
+    ReactiveFormsModule
   ],
   declarations: [TeamsListComponent, TeamMembersComponent],
   providers: [
-    TeamsService
+    TeamsService, TeamRoleGuard
   ]
 })
 export class TeamManagementModule { }

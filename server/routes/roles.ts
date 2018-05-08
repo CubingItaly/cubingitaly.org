@@ -49,28 +49,34 @@ async function getUser(id: number): Promise<DBUser> {
     return user;
 }
 
-rolesRouter.delete("/:team/members/:member", authController, async (req, res) => {
+rolesRouter.delete("/:team/members/:member",authController, async (req, res) => {
+    const response: GenericResponse = new GenericResponse();
+
     const db_team: DBTeam = await getTeam(req.params.team);
     const db_user: DBUser = await getUser(req.params.member);
 
     if (canAdminTeams(req) || canManageTeam(req, db_team._transform())) {
-        let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-        await role_repo.removeRole(db_user, db_team);
-        res.status(204);
+        try {
+            let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
+            await role_repo.removeRole(db_user, db_team);
+            response.status = RESPONSE_STATUS.OK;
+        } catch (e) {
+            response.status = RESPONSE_STATUS.ERROR;
+            response.error = "An error occurred while processing the request " + e;
+        }
     } else {
-        let response: GenericResponse = new GenericResponse();
         response.status = RESPONSE_STATUS.ERROR;
         response.error = "Action not allowed";
         res.status(403);
-        res.send(JSON.stringify(Serialize(response)));
     }
+    res.send(JSON.stringify(Serialize(response)));
 });
 
 rolesRouter.post("/:team/members", authController, async (req, res) => {
     const response: GenericResponse = new GenericResponse();
 
     const db_team: DBTeam = await getTeam(req.params.team);
-    const db_user: DBUser = await getUser(req.query.member);
+    const db_user: DBUser = await getUser(req.body.member);
 
     if (canAdminTeams(req) || canManageTeam(req, db_team._transform())) {
         let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
@@ -90,11 +96,21 @@ rolesRouter.put("/:team/leaders/:member", authController, async (req, res) => {
 
     const db_team: DBTeam = await getTeam(req.params.team);
     const db_user: DBUser = await getUser(req.params.member);
+    const leader: boolean = req.body.leader || false;
 
     if (canAdminTeams(req)) {
-        let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
-        await role_repo.addRole(db_user, db_team, req.query.leader || false);
-        response.status = RESPONSE_STATUS.OK
+        try {
+            let role_repo: CIRolesRepo = getCustomRepository(CIRolesRepo);
+            if (leader) {
+                await role_repo.promoteLeader(db_user, db_team);
+            } else {
+                await role_repo.demoteLeader(db_user, db_team);
+            }
+            response.status = RESPONSE_STATUS.OK
+        } catch (e) {
+            response.status = RESPONSE_STATUS.ERROR;
+            response.error = "An error occurred while processing the request " + e;
+        }
     } else {
         response.status = RESPONSE_STATUS.ERROR;
         response.error = "Action not allowed";

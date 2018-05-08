@@ -5,6 +5,9 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { CITeam } from '../../../../../server/models/ci.team.model';
 import { MatTableDataSource } from '@angular/material/table';
+import { AuthService } from '../../../services/auth.service';
+import { FormControl } from '@angular/forms';
+import 'rxjs/add/operator/debounceTime';
 
 @Component({
   selector: 'app-team-members',
@@ -13,22 +16,55 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class TeamMembersComponent implements OnInit {
 
-  users: CIUser[];
+  members: CIUser[];
   team: CITeam;
   teamId: string;
-  displayedColumns = ['name', ,'id', 'leader', 'options'];
+  displayedColumns = ['name', , 'id', 'leader', 'options'];
 
-  constructor(private teamSvc: TeamsService, private route: ActivatedRoute) { }
+
+  usersList: CIUser[];
+  auto;
+  newMember: CIUser;
+
+  myControl: FormControl = new FormControl();
+
+  constructor(private teamSvc: TeamsService, private authSvc: AuthService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('id');
-    console.log(this.teamId);
-    this.teamSvc.getTeam(this.teamId).then((t: CITeam) => this.team = t);
-    this.teamSvc.getTeamMembers(this.teamId).then((u: CIUser[]) => {
-      console.log(u);
-      this.users = u;
-    });
+    this.getTeam();
+    this.getMembers();
 
+    this.myControl.valueChanges
+      .debounceTime(400)
+      .subscribe(name => {
+        this.teamSvc.getUsersByName(name).then((u: CIUser[]) => this.usersList = u.filter((user: CIUser) => this.members.findIndex((m: CIUser) => m.id == user.id) == -1));
+      });
+  }
+
+  getTeam() {
+    this.teamSvc.getTeam(this.teamId).then((t: CITeam) => this.team = t);
+  }
+
+  getMembers() {
+    this.teamSvc.getTeamMembers(this.teamId).then((u: CIUser[]) => this.members = u);
+  }
+
+  addRole() {
+    this.teamSvc.addNewMember(this.team.id, this.newMember).then(() => this.getMembers());
+    this.myControl.setValue("");
+  }
+
+  removeMember(id) {
+    this.teamSvc.removeMember(this.team.id, id).then(() => this.getMembers());
+  }
+
+  promoteLeader(id) {
+    this.teamSvc.updateLeader(this.team.id, id, true).then(() => this.getMembers());
+  }
+
+  demoteLeader(id) {
+    this.teamSvc.updateLeader(this.team.id, id, false).then(() => this.getMembers());
   }
 
 }

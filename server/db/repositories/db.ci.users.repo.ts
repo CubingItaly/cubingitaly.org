@@ -1,5 +1,5 @@
 import { BaseCommonRepository } from "../BaseCommonRepository";
-import { EntityRepository, getRepository, getCustomRepository } from "typeorm";
+import { EntityRepository, getRepository, getCustomRepository, QueryBuilder } from "typeorm";
 import { DBTeam } from "../entity/db.team";
 import { DBUser } from "../entity/db.user";
 import { CIUser } from "../../models/ci.user.model";
@@ -100,6 +100,8 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
       .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
       .innerJoinAndSelect("user.roles", "roles")
       .innerJoinAndSelect("roles.team", "team")
+      .orderBy("roles.leader","DESC")
+      .addOrderBy("user.name","ASC")
       .where("team.id = :id", { id: team.id })
       .getMany();
     return team_users;
@@ -142,11 +144,22 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
       if (!is_admin) {
         console.log("giving admin role");
         let admin_role: DBRole = await roles_repo.addRole(user, admin_team, true);
+        if(!user.roles){
+          user.roles = [];
+        }
         user.roles.push(admin_role);
       }
     }
 
     return user;
+  }
+
+  public async findUsersByName(name: string): Promise<DBUser[]> {
+    return await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .where("user.name like :name", { name: "%"+name + "%" })
+      .orderBy("user.name", "ASC")
+      .limit(10).getMany();
   }
 
 
