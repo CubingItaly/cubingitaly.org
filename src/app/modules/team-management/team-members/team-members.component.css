@@ -1,0 +1,37 @@
+.mat-column-options{
+    flex: 0 0 100px;
+    text-align:center;
+}
+
+.mat-column-id{
+    flex: 0 0 100px;
+    text-align:center;
+}
+
+.mat-column-leader{
+    flex: 0 0 100px;
+    text-align:center;
+}
+
+.mat-column-name{
+    flex: 1 0 100px;
+}
+
+.mat-row, .mat-header-row{
+    min-width: 480px    ;
+}
+
+.mat-column-options a{
+    color: #000;
+}
+
+mat-header-cell{
+    font-weight: 700;
+    font-size: 18px;
+    color: #000;
+}
+
+.mat-table{ 
+    overflow: auto;
+}
+  

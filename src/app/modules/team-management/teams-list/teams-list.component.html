@@ -1,0 +1,24 @@
+<div fxLayout fxLayoutAlign="center">
+    <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+        <h2>Gestione dei dei Team di Cubing Italy</h2>
+        <mat-table [dataSource]="teams">
+
+            <ng-container matColumnDef="name">
+                <mat-header-cell *matHeaderCellDef>Team</mat-header-cell>
+                <mat-cell *matCellDef="let team">{{team.name}}</mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="options">
+                <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
+                <mat-cell *matCellDef="let team">
+                    <a routerLink="/teams/{{team.id}}/members">
+                        <mat-icon aria-labelledby="gestisci" aria-label="gestisci">person</mat-icon>
+                    </a>
+                </mat-cell>
+            </ng-container>
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+    </div>
+</div>

@@ -1,11 +1,12 @@
-<mat-toolbar  color="primary">
-  <mat-toolbar-row ngClass.xs="mat-toolbar-xs" fxLayout>
+<mat-toolbar color="primary" fxLayout fxLayoutAlign.gt-xs="center">
+  <mat-toolbar-row ngClass.xs="mat-toolbar-xs" fxFlex.gt-xs="80%" fxLayout="row">
     <button mat-icon-button fxHide.gt-xs>
       <mat-icon>menu</mat-icon>
     </button>
     <a routerLink="/">
       <img class="logo" src="../../../assets/images/logo.png">
     </a>
+    <a fxHide.xs mat-button routerLink="/teams" >Team</a>
     <span fxFlex="grow"></span>
     <button mat-icon-button [matMenuTriggerFor]="menu">
       <button mat-icon-button>

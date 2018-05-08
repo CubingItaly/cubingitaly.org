@@ -48,11 +48,14 @@ export class DBTeam extends BaseEntity implements ITransformable<CITeam> {
         let tmp_team = new CITeam();
         tmp_team.id = this.id;
         tmp_team.name = this.name;
-        this.members.map(m => {
-            let tmp_member = new CIMember();
-            tmp_member.leader = m.leader;
-            tmp_member.id = m.member.id;
-        })
+        if (this.members) {
+            this.members.map(m => {
+                let tmp_member = new CIMember();
+                tmp_member.leader = m.leader;
+                tmp_member.id = m.member.id;
+            });
+        }
+
         return tmp_team;
     }
 

@@ -8,7 +8,7 @@ import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
 import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses';
 import { CIUser } from '../../../server/models/ci.user.model';
 import { CITeam } from '../../../server/models/ci.team.model';
-import { UserResponse } from '../../../server/models/user.response.model';
+import { UserResponse } from '../../../server/models/responses/user.response.model';
 
 /**
  * Service use to manage the authentication of the user
@@ -31,11 +31,10 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.http.get("/auth/me").subscribe(res => {
-            console.log("received response from the server");
-            let tempres: UserResponse = Deserialize(res, UserResponse);
-            if (tempres.status === RESPONSE_STATUS.OK) {
-                this.authUser = tempres.user;
+        this.http.get<UserResponse>("/auth/me").subscribe((res: UserResponse) => {
+            console.log("received response");
+            if (res.status == RESPONSE_STATUS.OK) {
+                this.authUser = Deserialize(res.user, CIUser);
                 this.isLoggedIn = true;
             }
         });

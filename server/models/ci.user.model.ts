@@ -162,6 +162,10 @@ export class CIUser {
     return this.isAdmin() || this.isBoard();
   }
 
+  public canAdminTeams(): boolean {
+    return this.isAdmin() || this.isBoard();
+  }
+
   public canManageTeam(team: CITeam): boolean {
     return this.isLeaderOf(team);
   }

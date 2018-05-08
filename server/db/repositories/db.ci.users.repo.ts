@@ -1,5 +1,5 @@
 import { BaseCommonRepository } from "../BaseCommonRepository";
-import { EntityRepository, getRepository, getCustomRepository } from "typeorm";
+import { EntityRepository, getRepository, getCustomRepository, QueryBuilder } from "typeorm";
 import { DBTeam } from "../entity/db.team";
 import { DBUser } from "../entity/db.user";
 import { CIUser } from "../../models/ci.user.model";
@@ -37,14 +37,48 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
     return;
   }
 
+
   /**
-   * Returns a user by id, including his roles
+   * Returns a user by id, including only public data 
    * 
    * @param {number} id 
    * @returns {Promise<DBUser>} 
    * @memberof CiUsersRepo
    */
+  public async findShortUserById(id: number): Promise<DBUser> {
+    let db_user: DBUser = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .where("user.id = :id", { id: id })
+      .getOne();
+    return db_user;
+  }
+
+  /**
+  * Returns a user by id, including public data and roles 
+  * 
+  * @param {number} id 
+  * @returns {Promise<DBUser>} 
+  * @memberof CiUsersRepo
+  */
   public async findUserById(id: number): Promise<DBUser> {
+    let db_user: DBUser = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .leftJoinAndSelect("user.roles", "roles")
+      .leftJoinAndSelect("roles.team", "team")
+      .where("user.id = :id", { id: id }).getOne();
+
+    return db_user;
+  }
+
+  /**
+   * Returns a user by id, including his roles and sensible data 
+   * e.g. email address
+   * 
+   * @param {number} id 
+   * @returns {Promise<DBUser>} 
+   * @memberof CiUsersRepo
+   */
+  public async findSensibleUserById(id: number): Promise<DBUser> {
     let db_user: DBUser = await this.repository.createQueryBuilder("user")
       .leftJoinAndSelect("user.roles", "roles")
       .leftJoinAndSelect("roles.team", "team")
@@ -52,6 +86,7 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
     console.log(db_user);
     return db_user;
   }
+
 
   /**
    * Finds all the users who belong to a team
@@ -62,8 +97,11 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
    */
   public async findAllByTeam(team: DBTeam): Promise<DBUser[]> {
     let team_users: DBUser[] = await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
       .innerJoinAndSelect("user.roles", "roles")
       .innerJoinAndSelect("roles.team", "team")
+      .orderBy("roles.leader","DESC")
+      .addOrderBy("user.name","ASC")
       .where("team.id = :id", { id: team.id })
       .getMany();
     return team_users;
@@ -106,11 +144,22 @@ export class CiUsersRepo extends BaseCommonRepository<DBUser> {
       if (!is_admin) {
         console.log("giving admin role");
         let admin_role: DBRole = await roles_repo.addRole(user, admin_team, true);
+        if(!user.roles){
+          user.roles = [];
+        }
         user.roles.push(admin_role);
       }
     }
 
     return user;
+  }
+
+  public async findUsersByName(name: string): Promise<DBUser[]> {
+    return await this.repository.createQueryBuilder("user")
+      .select(["user.id", "user.wca_id", "user.name", "user.delegate_status"])
+      .where("user.name like :name", { name: "%"+name + "%" })
+      .orderBy("user.name", "ASC")
+      .limit(10).getMany();
   }
 
 
