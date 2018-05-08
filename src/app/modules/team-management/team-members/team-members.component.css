@@ -14,11 +14,11 @@
 }
 
 .mat-column-name{
-    flex: 1 0 200px;
+    flex: 1 0 100px;
 }
 
 .mat-row, .mat-header-row{
-    min-width: 500px    ;
+    min-width: 480px    ;
 }
 
 .mat-column-options a{

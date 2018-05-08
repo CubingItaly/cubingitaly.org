@@ -1,8 +1,13 @@
-
 .mat-column-options{
     flex: 0 0 100px;
     text-align:center;
 }
+
+
+.mat-column-name{
+    flex: 1 0 100px;
+}
+
 
 .mat-column-options a{
     color: #000;
@@ -14,9 +19,7 @@ mat-header-cell{
     color: #000;
 }
 
-
-
-mat-table{ 
-    overflow-y: auto;
-  }
+.mat-table{ 
+    overflow: auto;
+}
   
