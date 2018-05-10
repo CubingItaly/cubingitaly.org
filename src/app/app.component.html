@@ -1,3 +1,15 @@
-<app-ci-toolbar></app-ci-toolbar>
+<app-toolbar [menuUrls]="menuUrls" [(ngModel)]="isSidebarOpened" ngDefaultControl></app-toolbar>
 
-<router-outlet></router-outlet>
+<mat-sidenav-container>
+
+    <mat-sidenav #sidenav class="example-sidenav" mode="over" [(opened)]="isSidebarOpened" fxHide.gt-xs>
+        <mat-list>
+            <mat-list-item *ngFor="let url of menuUrls">
+                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow">{{url.text | uppercase}}</button>
+            </mat-list-item>
+        </mat-list>
+    </mat-sidenav>
+
+    <router-outlet></router-outlet>
+    <span class="spacer"></span>
+</mat-sidenav-container>

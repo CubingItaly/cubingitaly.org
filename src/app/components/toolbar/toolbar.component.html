@@ -1,0 +1,44 @@
+<mat-toolbar color="primary" ngClass.gt-xs="toolbar-gt-xs">
+    <mat-toolbar-row id="top" fxLayout fxLayoutGap="10px" style="background-color: #0b5ea6">
+        <button #menuButton mat-icon-button fxHide.gt-xs (click)="sideMenuButtonClicked()">
+            <mat-icon>menu</mat-icon>
+        </button>
+        <img src="../../../assets/images/logo.png" (click)="urlClicked('/')" />
+        <span fxFlex="grow"></span>
+        <div fxFlex="noshrink" fxHide.xs>
+            <button mat-button *ngIf="!authSVC.isLoggedIn" (click)="authSVC.login()">
+                <i class="fa fa-sign-in" style="margin-right:5px" aria-hidden="true"> </i> Accedi
+            </button>
+            <button mat-button *ngIf="authSVC.isLoggedIn" [matMenuTriggerFor]="logoutMenu">
+                <mat-icon>person</mat-icon>
+                {{authSVC.authUser.name}}
+            </button>
+            <mat-menu #logoutMenu="matMenu">
+                <button mat-menu-item *ngIf="authSVC.isLoggedIn" (click)="authSVC.logout()">
+                    <span>Esci</span>
+                </button>
+            </mat-menu>
+        </div>
+        <div fxHide.gt-xs>
+            <button mat-icon-button *ngIf="!authSVC.isLoggedIn" (click)="authSVC.login()">
+                <i class="fa fa-sign-in" aria-hidden="true"> </i>
+            </button>
+            <button mat-icon-button *ngIf="authSVC.isLoggedIn" [matMenuTriggerFor]="logoutMenuXS">
+                <mat-icon>person</mat-icon>
+            </button>
+            <mat-menu #logoutMenuXS="matMenu">
+                <button mat-menu-item *ngIf="authSVC.isLoggedIn">
+                    <span>{{authSVC.authUser.name}}</span>
+                </button>
+                <button mat-menu-item *ngIf="authSVC.isLoggedIn" (click)="authSVC.logout()">
+                    <span>Esci</span>
+                </button>
+            </mat-menu>
+        </div>
+    </mat-toolbar-row>
+
+    <mat-toolbar-row fxHide.xs style="background-color: #073C65">
+        <button *ngFor="let url of menuUrls" mat-button (click)="urlClicked(url.url)">{{url.text | uppercase}}</button>
+    </mat-toolbar-row>
+
+</mat-toolbar>

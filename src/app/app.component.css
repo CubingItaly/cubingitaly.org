@@ -1,1 +1,42 @@
 /* huh */
+mat-toolbar-row{
+    padding-left: 0px;
+    padding-right: 0px;
+}
+
+#top img{
+    height: 36px;
+}
+
+.toolbar-gt-xs mat-toolbar-row{
+    padding-left: 10%;
+    padding-right:10%;
+}   
+.toolbar-gt-xs #top{
+    height: 110px;
+}
+
+.toolbar-gt-xs #top img{
+    margin-left: 0px;
+    height: 54px;
+}
+
+router-outlet{
+    margin-top: 60px;
+}
+
+.spacer{
+    min-height:  100%;
+}
+
+mat-sidenav{
+    width: 200px;
+}
+
+mat-sidenav button{
+    text-align: left;
+}
+
+app-footer{
+    margin-top:20px;
+}

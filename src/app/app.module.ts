@@ -26,10 +26,18 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatIconModule} from '@angular/material/icon';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatMenuModule} from '@angular/material/menu';
+import {MatListModule} from '@angular/material/list';
+import {MatDividerModule} from '@angular/material/divider';
+
+
+
+
+import { AngularFontAwesomeModule } from 'angular-font-awesome';
+
 
 //components
-import { CiToolbarComponent } from './components/ci-toolbar/ci-toolbar.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ToolbarComponent } from './components/toolbar/toolbar.component';
 
 
 
@@ -39,8 +47,8 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 @NgModule({
   declarations: [
     AppComponent,
-    CiToolbarComponent,
-    DashboardComponent
+    DashboardComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -53,6 +61,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
     MatIconModule,
     MatSidenavModule,
     MatMenuModule,
+    MatListModule,
+    MatDividerModule,
+    AngularFontAwesomeModule,
+    
     RouterModule.forRoot(routes)
   ],
   providers: [

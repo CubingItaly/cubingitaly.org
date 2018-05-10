@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { routes } from './team-management-routing.module';
+import { routes } from './teams-routing.module';
 import { RouterModule } from '@angular/router';
 import { TeamsListComponent } from './teams-list/teams-list.component';
 import { TeamsService } from './services/teams.service';
@@ -35,4 +35,4 @@ import { ReactiveFormsModule } from '@angular/forms';
     TeamsService, TeamRoleGuard
   ]
 })
-export class TeamManagementModule { }
+export class TeamsModule { }
