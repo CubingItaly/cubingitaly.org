@@ -35,14 +35,6 @@ export class CIUser {
   @autoserialize public name: string;
 
   /**
-   * User's email
-   * 
-   * @type {string}
-   * @memberof CIUser
-   */
-  @autoserialize public email: string;
-
-  /**
    * Handles the delegate status
    * 
    * @type {string}
@@ -168,5 +160,17 @@ export class CIUser {
 
   public canManageTeam(team: CITeam): boolean {
     return this.isLeaderOf(team);
+  }
+
+  public canAdminArticles():boolean{
+    return this.isAdmin() || this.isBoard() || this.isCITC();
+  }
+
+  public canPublishArticles(): boolean{
+    return this.isCITC() || this.isBoard() || this.isAdmin();
+  }
+
+  public canEditArticles():boolean{
+    return this.isAdmin() || this.isBoard() || this.isCITC() || this.isCITQ() || this.isCITI();
   }
 }

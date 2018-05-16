@@ -1,0 +1,29 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxFlex.gt-xs="70%">
+      <h1>Ultimi articoli</h1>
+      <div fxLayout="column" fxLayoutGap="20px">
+        <mat-card *ngFor="let article of articles">
+          <mat-card-header>
+            <div mat-card-avatar class="header-image"></div>
+            <mat-card-title>
+              <h2><a routerLink="../{{article.id}}" color="accent">{{article.title}}</a></h2>
+            </mat-card-title>
+            <mat-card-subtitle>pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.updateDate | date:"shortDate"}}</mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p>
+              {{article.summary}}
+            </p>
+          </mat-card-content>
+          <mat-card-actions align="end">
+            <button mat-raised-button color="accent" (click)="goToArticle(article.id)">Leggi</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+    </div>
+    <div fxFlex.gt-xs="30%">
+      <h2 fxHide>Filtra articoli</h2>
+    </div>
+  </div>
+</div>

@@ -15,6 +15,8 @@ import { production_url, development_url } from "./config";
 import { teamsRouter } from './routes/teams';
 import { usersRouter } from './routes/users';
 import { rolesRouter } from './routes/roles';
+import { articlesRouter } from './routes/articles';
+import { categoriesRouter } from './routes/categories';
 
 const db: CI_DB = new CI_DB();
 
@@ -54,6 +56,8 @@ app.use("/auth", authRouter);
 app.use("/api/teams", teamsRouter);
 app.use("/api/users", usersRouter);
 app.use("/api/roles", rolesRouter);
+app.use("/api/articles", articlesRouter);
+app.use("/api/categories", categoriesRouter);
 
 if (app.get("env") === "production") {
   // in production mode run application from dist folder

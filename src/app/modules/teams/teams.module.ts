@@ -16,6 +16,12 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TeamInfoComponent } from './team-info/team-info.component';
+import { TeamInfoEditorComponent } from './team-info-editor/team-info-editor.component';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
+
+
 
 @NgModule({
   imports: [
@@ -28,9 +34,11 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatAutocompleteModule,
     MatFormFieldModule,
     MatInputModule,
-    ReactiveFormsModule
+    MatListModule,
+    ReactiveFormsModule,
+    MatDividerModule
   ],
-  declarations: [TeamsListComponent, TeamMembersComponent],
+  declarations: [TeamsListComponent, TeamMembersComponent, TeamInfoComponent, TeamInfoEditorComponent],
   providers: [
     TeamsService, TeamRoleGuard
   ]

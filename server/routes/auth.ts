@@ -28,7 +28,7 @@ function checkAuth(req, res, next) {
     let response: UserResponse = new UserResponse();
     response.status = RESPONSE_STATUS.ERROR
     response.error = "User not logged in";
-    res.status(403);
+
     res.json(response);
   }
 }

@@ -9,9 +9,7 @@ export class TeamRoleGuard implements CanActivate {
     constructor(private authSvc: AuthService, private router: Router) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-        console.log("req");
         if (this.authSvc.isLoggedIn) {
-            console.log("is logged");
             const requiredRole: string = route.data.expectedRole;
             let user: CIUser = this.authSvc.authUser;
             if (requiredRole == 'adminTeams') {

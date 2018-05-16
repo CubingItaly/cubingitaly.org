@@ -1,5 +1,4 @@
 import { Entity, PrimaryColumn, Column, ManyToOne, BaseEntity } from 'typeorm';
-import { DB } from '../database';
 import { DBUser } from './db.user';
 import { DBTeam } from './db.team';
 

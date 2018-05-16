@@ -1,0 +1,44 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxFlex.gt-xs="75%" fxLayout="column">
+      <h1 *ngIf="isNew">Nuovo Articolo</h1>
+      <h1 *ngIf="!isNew">Modifica Articolo</h1>
+      <mat-form-field>
+        <input matInput placeholder="Titolo" [(ngModel)]="article.title">
+      </mat-form-field>
+      <mat-form-field>
+        <textarea maxlength="200" matInput placeholder="Riassunto" [(ngModel)]="article.summary"></textarea>
+      </mat-form-field>
+      <h2>Contenuto</h2>
+      <mat-form-field>
+        <textarea maxlength="500" matInput placeholder="Contenuto" [(ngModel)]="article.content"></textarea>
+      </mat-form-field>
+      <h2>Categorie</h2>
+      <mat-chip-list>
+        <mat-chip *ngFor="let chip of categories" selected="true" color="warn">
+          {{chip.name}}
+        </mat-chip>
+      </mat-chip-list>
+      <h2>Azioni</h2>
+      <div *ngIf="user">
+        <button mat-raised-button *ngIf="isNew && user.canAdminArticles()" (click)="createArticle()" style="background-color:rgb(52, 156, 57);">Crea</button>
+        <button mat-raised-button *ngIf="!isNew && user.canEditArticles()" (click)="updateArticle()" color="accent">Aggiorna</button>
+        <button mat-raised-button *ngIf="user.canAdminArticles()" (click)="deleteArticle()" color="warn">Elimina</button>
+        <button mat-raised-button *ngIf="!isPublic && user.canPublishArticles()" (click)="publishArticle()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+        <button mat-raised-button *ngIf="isPublic && user.canPublishArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+
+      </div>
+    </div>
+    <div fxFlex.gt-xs="25%" fxLayout="column">
+      <h2>Stato articolo</h2>
+      <span *ngIf="isNew">Nuovo</span>
+      <span *ngIf="!isNew && isPublic">Articolo pubblicato</span>
+      <span *ngIf="!isNew && !isPublic">Articolo nascosto</span>
+      <span *ngIf="!isNew && article">Ultimo aggiornamento: {{article.updateDate | date:"short"}}</span>
+      <h2>Collegamenti rapidi</h2>
+      <a routerLink="/articles/{{article.id}}">Visualizza articolo</a>
+      <a routerLink="/articles/admin">Visualizza gestore articoli</a>
+      <a href="" target="blank">URL Shortner</a>
+    </div>
+  </div>
+</div>

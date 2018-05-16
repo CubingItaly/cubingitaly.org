@@ -14,6 +14,7 @@ export class TeamsService {
 
   private baseUri: string = "/api/teams";
   public teams: CITeam[];
+  info="";
 
   constructor(private http: HttpClient) {
   }
@@ -60,4 +61,13 @@ export class TeamsService {
       .map((g: GenericResponse) => { if (g.status == RESPONSE_STATUS.ERROR) { console.log(g.error) } })
       .toPromise();
   }
+
+  public getInfo(){
+    return this.info;
+  }
+
+  public setInfo(info):void{
+    this.info= info;
+  }
 }
+

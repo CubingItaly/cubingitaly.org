@@ -1,0 +1,31 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxFlex.gt-xs="70%">
+      <h1>{{article.title}}</h1>
+      <p>Pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.creationDate | date:'shortDate' }} alle {{article.creationDate | date:'shortTime'}}</p>
+      <mat-divider></mat-divider>
+      <div>
+          {{article.content}}
+      </div>
+      <mat-chip-list>
+        <mat-chip *ngFor="let chip of article.categories" selected="true" [color]="warn">
+          {{chip.name}}
+        </mat-chip>
+      </mat-chip-list>
+    </div>
+    <div fxFlex.gt-xs="30%" fxLayout="column">
+      <div>
+        <h2>Condividi Articolo</h2>
+        <div>
+          <share-buttons [include]="['facebook','twitter','google']"></share-buttons>
+          <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
+        </div>
+      </div>
+      <div *ngIf="user && user.canEditArticles()">
+        <h2>Gestione Articolo</h2>
+        <button mat-raised-button color="accent" (click)="editArticle()">Modifica articolo</button>
+      </div>
+    </div>
+
+  </div>
+</div>

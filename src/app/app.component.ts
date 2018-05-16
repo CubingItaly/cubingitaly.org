@@ -35,11 +35,16 @@ export class AppComponent implements OnInit {
     {
       text: "team",
       url: "/teams"
+    },
+    {
+      text: "articoli",
+      url: "/articles"
     }
   ]
 
   urlClicked(url) {
     this.router.navigate([url]);
+    this.sidenav.close();
   }
 
 }
