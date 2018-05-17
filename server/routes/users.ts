@@ -21,7 +21,6 @@ function authController(req, res, next): void {
         let response: UserResponse = new UserResponse();
         response.status = RESPONSE_STATUS.ERROR
         response.error = "User not logged in";
-        res.status(403);
         res.json(response);
     }
 }
@@ -59,28 +58,6 @@ usersRouter.get("/:id/short", async (req, res) => {
     res.send(JSON.stringify(Serialize(response)));
 });
 
-
-usersRouter.get("/:id/sensible", authController, async (req, res) => {
-    const response: UserResponse = new UserResponse();
-    let user: CIUser = Deserialize(req.user, CIUser);
-    if (user.canAdminUsers()) {
-        const user_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-        try {
-            let db_user: DBUser = await user_repo.findSensibleUserById(req.params.id);
-            response.user = db_user._transform();
-            response.status = RESPONSE_STATUS.OK
-        } catch (e) {
-            response.error = "An error occurred while processing the request"
-            response.status = RESPONSE_STATUS.ERROR;
-        }
-    } else {
-        response.status = RESPONSE_STATUS.ERROR
-        response.error = "Action not authorized";
-        res.status(403);
-    }
-
-    res.send(JSON.stringify(Serialize(response)));
-});
 
 usersRouter.get("/", async (req, res) => {
     const response: UsersResponse = new UsersResponse();

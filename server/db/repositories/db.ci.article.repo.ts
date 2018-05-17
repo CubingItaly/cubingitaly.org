@@ -3,9 +3,14 @@ import { EntityRepository } from "typeorm";
 import { DBArticleCategory } from "../entity/db.article.category";
 import { DBArticle } from "../entity/db.article";
 import { DBUser } from "../entity/db.user";
+import { Article } from "../../models/article.model";
 
 @EntityRepository(DBArticle)
 export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
+
+    private adminPageLength: number = 15;
+    private publicPageLength: number = 7;
+
     /**
      * Sets the entity identifier.
      * Sounds useful for whatever kind of reflection.
@@ -45,13 +50,38 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
             .getMany();
     }
 
-    public async findPublicArticles(): Promise<DBArticle[]> {
+    public async findPublicArticles(page: number): Promise<DBArticle[]> {
         return await this.repository.createQueryBuilder("article")
             .innerJoinAndSelect("article.author", "author")
             .leftJoinAndSelect("article.categories", "categories")
             .where("article.isPublic=1")
             .orderBy("article.creationDate", "DESC")
+            .take(this.publicPageLength)
+            .skip(this.publicPageLength * page)
             .getMany();
+    }
+
+    public async findAllArticles(page: number): Promise<DBArticle[]> {
+        return await this.repository.createQueryBuilder("article")
+            .innerJoin("article.author", "author")
+            .leftJoin("article.categories", "categories")
+            .select(["article.id","article.title","article.isPublic","article.creationDate","article.updateDate","author.name","author.id","categories.id","categories.name"])
+            .orderBy("article.updateDate", "DESC")
+            .take(this.adminPageLength)
+            .skip(this.adminPageLength * page)
+            .getMany();
+    }
+
+    public async countPublicArticles(): Promise<number> {
+        return (await 
+            this.repository.createQueryBuilder("articles")
+                .where("isPublic = true")
+                .getMany()
+        ).length;
+    }
+
+    public async countAllArticles(): Promise<number> {
+        return (await this.repository.find()).length;
     }
 
     public async checkIfArticleExists(id: string): Promise<boolean> {
@@ -68,6 +98,37 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         }
         article.id = this.generateArticleId(article.title);
         return await this.repository.save(article);
+    }
+
+    public async updateArticle(article: DBArticle): Promise<DBArticle> {
+        let db_article: DBArticle = await this.findArticleById(article.id);
+        article = this.updateOnlyRelevantColumns(db_article, article);
+        return await this.repository.save(article);
+    }
+
+    private updateOnlyRelevantColumns(old_article: DBArticle, new_article: DBArticle) {
+        new_article.author = old_article.author;
+        new_article.isPublic = old_article.isPublic;
+        return new_article;
+    }
+
+    public async publishArticle(id: string): Promise<DBArticle> {
+        let article: DBArticle = await this.findArticleById(id);
+        article.isPublic = true;
+        return await this.repository.save(article);
+    }
+
+    public async unpublishArticle(id: string): Promise<DBArticle> {
+        let article: DBArticle = await this.findArticleById(id);
+        article.isPublic = false;
+        return await this.repository.save(article);
+    }
+
+    public async deleteArticle(id: string): Promise<void> {
+        let article: DBArticle = await this.findArticleById(id);
+        article.categories = [];
+        await this.repository.save(article);
+        return await this.repository.removeById(article);
     }
 
     private generateArticleId(title: string): string {
@@ -88,34 +149,6 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         id = id.replace(/([^a-z0-9-])/g, "");
 
         return id;
-    }
-
-    public async updateArticle(article: DBArticle): Promise<DBArticle> {
-        return await this.repository.createQueryBuilder("article")
-            .update({
-                title: article.title,
-                content: article.content,
-                summary: article.summary,
-            })
-            .where({ id: article.id })
-            .execute();
-    }
-
-    public async publishArticle(id: string): Promise<DBArticle> {
-        let article: DBArticle = await this.findArticleById(id);
-        article.isPublic = true;
-        return await this.repository.save(article);
-    }
-
-    public async unpublishArticle(id: string): Promise<DBArticle> {
-        let article: DBArticle = await this.findArticleById(id);
-        article.isPublic = false;
-        return await this.repository.save(article);
-    }
-
-    public async deleteArticle(id: string): Promise<void> {
-        let article: DBArticle = await this.findArticleById(id);
-        return await this.repository.delete(article);
     }
 
 }

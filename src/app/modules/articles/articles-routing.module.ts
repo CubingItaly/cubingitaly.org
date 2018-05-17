@@ -8,22 +8,28 @@ import { ArticleAdminComponent } from './article-admin/article-admin.component';
 
 const routes: Routes = [
   {
-    path: '', redirectTo: 'list', pathMatch: 'full'
+    path: '', redirectTo: 'list/1', pathMatch: 'full'
   },
   {
-    path: 'list', component: ArticleListComponent
+    path: 'list', redirectTo: 'list/1', pathMatch: 'full'
   },
   {
-    path: 'admin', canActivate: [ArticlesRoleGuard], component: ArticleAdminComponent, data: { expectedRole: "adminArticles" }
+    path: 'list/:page', component: ArticleListComponent
+  },
+  {
+    path: 'admin', redirectTo: 'admin/1', pathMatch: 'full'
+  },
+  {
+    path: 'admin/:page', canActivate: [ArticlesRoleGuard], component: ArticleAdminComponent, data: { expectedRole: "adminArticles" }
   },
   {
     path: 'new', canActivate: [ArticlesRoleGuard], component: ArticleEditorComponent, data: { action: 0, expectedRole: "publishArticles" }
   },
   {
-    path: ':id/edit', canActivate: [ArticlesRoleGuard], component: ArticleEditorComponent, data: { action: 1, expectedRole: "editArticles" }
+    path: ':id', canActivate: [ArticlesRoleGuard], component: ArticleViewComponent, data: { expectedRole: "viewArticles" }
   },
   {
-    path: ':id', canActivate: [ArticlesRoleGuard], component: ArticleViewComponent, data: { expectedRole: "viewArticles" }
+    path: ':id/edit', canActivate: [ArticlesRoleGuard], component: ArticleEditorComponent, data: { action: 1, expectedRole: "editArticles" }
   }
 ];
 

@@ -38,7 +38,7 @@
     </mat-toolbar-row>
 
     <mat-toolbar-row fxHide.xs style="background-color: #073C65">
-        <button *ngFor="let url of menuUrls" mat-button (click)="urlClicked(url.url)">{{url.text | uppercase}}</button>
+        <button *ngFor="let url of menuUrls" mat-button class="menu-url" (click)="urlClicked(url.url)">{{url.text | uppercase}}</button>
     </mat-toolbar-row>
 
 </mat-toolbar>

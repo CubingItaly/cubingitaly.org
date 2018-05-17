@@ -22,10 +22,11 @@ function authController(req, res, next): void {
         let response: GenericResponse = new GenericResponse();
         response.status = RESPONSE_STATUS.ERROR
         response.error = "User not logged in";
-        res.status(403);
         res.json(response);
     }
 }
+
+
 
 function canAdminTeams(req): boolean {
     let user: CIUser = Deserialize(req.user, CIUser);

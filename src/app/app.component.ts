@@ -19,7 +19,6 @@ export class AppComponent implements OnInit {
 
   constructor(public authSVC: AuthService, private router: Router) { }
 
-
   @ViewChild("sidenav") sidenav: MatSidenav;
   isSidebarOpened: boolean = false;
 
@@ -29,16 +28,22 @@ export class AppComponent implements OnInit {
 
   menuUrls = [
     {
+      id: "home",
       text: "home",
-      url: "/"
+      url: "/",
+      isSelected: true
     },
     {
+      id: "teams",
       text: "team",
-      url: "/teams"
+      url: "/teams",
+      isSelected: false
     },
     {
+      id: "articles",
       text: "articoli",
-      url: "/articles"
+      url: "/articles",
+      isSelected: false
     }
   ]
 

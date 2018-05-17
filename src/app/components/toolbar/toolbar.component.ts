@@ -12,12 +12,14 @@ import { Router } from '@angular/router';
 export class ToolbarComponent implements OnInit {
 
   @ViewChild("sidenav") sidenav: MatSidenav;
+
   @Input() menuUrls: any[];
 
   @Input() ngModel: boolean = false;
   @Output() ngModelChange = new EventEmitter<boolean>();
 
   constructor(public authSVC: AuthService, private router: Router) { }
+
 
   ngOnInit() {
   }
@@ -30,4 +32,5 @@ export class ToolbarComponent implements OnInit {
   urlClicked(url) {
     this.router.navigate([url]);
   }
+
 }

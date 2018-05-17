@@ -13,12 +13,15 @@ import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { MatInputModule } from '@angular/material/input';
 import { ArticlesService } from './services/articles.service';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { ArticlesRoleGuard } from './services/articles.roleguard.service';
 import { ArticleAdminComponent } from './article-admin/article-admin.component';
 import { ArticlePanelComponent } from './article-panel/article-panel.component';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 
@@ -36,11 +39,11 @@ import { ArticlePanelComponent } from './article-panel/article-panel.component';
       MatInputModule,
       MatChipsModule,
       MatIconModule,
-      MatToolbarModule
-    ],
-  exports:
-    [
-      ArticlePanelComponent
+      MatToolbarModule,
+      MatAutocompleteModule,
+      ReactiveFormsModule,
+      MatTableModule,
+      MatPaginatorModule
     ],
   declarations:
     [

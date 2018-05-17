@@ -53,7 +53,8 @@ export class DBArticle extends BaseEntity implements ITransformable<Article>{
         if (origin.categories) {
             this.categories = origin.categories.map(cat => {
                 let db_category: DBArticleCategory = new DBArticleCategory();
-                return db_category._assimilate(cat);
+                db_category._assimilate(cat);
+                return db_category;
             });
         }
 

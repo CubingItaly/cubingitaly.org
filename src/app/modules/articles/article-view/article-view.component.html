@@ -1,6 +1,6 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
-    <div fxFlex.gt-xs="70%">
+    <div fxFlex.gt-xs="70%" *ngIf="article">
       <h1>{{article.title}}</h1>
       <p>Pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.creationDate | date:'shortDate' }} alle {{article.creationDate | date:'shortTime'}}</p>
       <mat-divider></mat-divider>
@@ -8,7 +8,7 @@
           {{article.content}}
       </div>
       <mat-chip-list>
-        <mat-chip *ngFor="let chip of article.categories" selected="true" [color]="warn">
+        <mat-chip *ngFor="let chip of article.categories">
           {{chip.name}}
         </mat-chip>
       </mat-chip-list>
@@ -17,8 +17,14 @@
       <div>
         <h2>Condividi Articolo</h2>
         <div>
-          <share-buttons [include]="['facebook','twitter','google']"></share-buttons>
-          <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
+          <share-buttons fxHide.gt-xs [show]="3" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
+          <share-buttons fxHide.xs fxHide.gt-sm [show]="4" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
+          <share-buttons fxHide.lt-md fxHide.gt-md [show]="6" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
+          <div fxHide.lt-lg fxLayout="column">
+            <share-buttons [include]="['facebook','twitter','copy']"></share-buttons>
+            <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
+          </div>
+          
         </div>
       </div>
       <div *ngIf="user && user.canEditArticles()">

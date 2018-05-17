@@ -12,15 +12,21 @@ import { ArticlesResponse } from '../../../../../server/models/responses/article
 import { ArticleResponse } from '../../../../../server/models/responses/article.response.model';
 import { AuthService } from '../../../services/auth.service';
 import { GenericResponse } from '../../../../../server/models/responses/generic.response.model';
+import { GenericNumberResponse } from '../../../../../server/models/responses/generic.number.respose.model';
 
 @Injectable()
 export class ArticlesService {
+
+    private article_short: string = "/api/articles";
+    private article_base: string = "/api/articles/";
+    private categories_base: string = "/api/categories";
+
     constructor(private httpClient: HttpClient, private authSvc: AuthService) { }
 
     public async createArticle(article: Article): Promise<Article> {
         article.author = this.authSvc.authUser;
         article.isPublic = false;
-        return await this.httpClient.post<ArticleResponse>("/api/articles", { article: article })
+        return await this.httpClient.post<ArticleResponse>(this.article_short, { article: article })
             .map((response: ArticleResponse) => {
                 console.log("got created article");
                 console.log(response);
@@ -31,7 +37,7 @@ export class ArticlesService {
     }
 
     public async deleteArticle(article: Article): Promise<void> {
-        return await this.httpClient.delete<GenericResponse>("/api/articles/" + article.id)
+        return await this.httpClient.delete<GenericResponse>(this.article_base + article.id)
             .map((response: GenericResponse) => {
                 if (response.status == RESPONSE_STATUS.OK) {
                     return;
@@ -40,7 +46,7 @@ export class ArticlesService {
     }
 
     public async updateArticle(article: Article): Promise<Article> {
-        return await this.httpClient.put<ArticleResponse>("/api/articles/" + article.id, { article: article })
+        return await this.httpClient.put<ArticleResponse>(this.article_base + article.id, { article: article })
             .map((response: ArticleResponse) => {
                 if (response.status == RESPONSE_STATUS.OK) {
                     return Deserialize(response.article, Article);
@@ -50,6 +56,7 @@ export class ArticlesService {
 
     public async publishArticle(article: Article): Promise<Article> {
         article.isPublic = true;
+        article.author = this.authSvc.authUser;
         return await this.updateArticle(article);
     }
 
@@ -59,7 +66,7 @@ export class ArticlesService {
     }
 
     public async getArticle(id: string): Promise<Article> {
-        return await this.httpClient.get<ArticleResponse>("/api/articles/" + id)
+        return await this.httpClient.get<ArticleResponse>(this.article_base + id)
             .map((response: ArticleResponse) => {
                 if (response.status == RESPONSE_STATUS.OK) {
                     return Deserialize(response.article, Article);
@@ -67,22 +74,51 @@ export class ArticlesService {
             }).toPromise();
     }
 
-    public async getArticles(): Promise<Article[]> {
-        return await this.httpClient.get<ArticlesResponse>("/api/articles").map((response: ArticlesResponse) => {
+    public async getPublicArticles(page: number): Promise<Article[]> {
+        page--;
+        return await this.httpClient.get<ArticlesResponse>(this.article_short + "?page=" + page).map((response: ArticlesResponse) => {
             if (response.status == RESPONSE_STATUS.OK) {
                 return Deserialize(response.articles, Article);
             }
         }).toPromise();
     }
 
+    public async getPublicAllArticleNumber(): Promise<number> {
+        return await this.httpClient.get<GenericNumberResponse>(this.article_base + "count/public")
+            .map((response: GenericNumberResponse) => {
+                console.log(response);
+                if (response.status == RESPONSE_STATUS.OK) {
+                    return response.value;
+                }
+            }).toPromise();
+    }
+
+    public async getAdminAllArticles(page: number): Promise<Article[]> {
+        page--;
+        return await this.httpClient.get<ArticlesResponse>(this.article_base + "admin?page=" + page)
+            .map((response: ArticlesResponse) => {
+                console.log(response);
+                if (response.status == RESPONSE_STATUS.OK) {
+                    return Deserialize(response.articles, Article);
+                }
+            }).toPromise();
+    }
+
+    public async getAdminAllArticleNumber(): Promise<number> {
+        return await this.httpClient.get<GenericNumberResponse>(this.article_base + "count/all")
+            .map((response: GenericNumberResponse) => {
+                if (response.status == RESPONSE_STATUS.OK) {
+                    return response.value;
+                }
+            }).toPromise();
+    }
+
     public async getCategories(): Promise<ArticleCategory[]> {
-        return await this.httpClient.get<CategoriesResponse>("/api/categories").map((response: CategoriesResponse) => {
+        return await this.httpClient.get<CategoriesResponse>(this.categories_base).map((response: CategoriesResponse) => {
             if (response.status == RESPONSE_STATUS.OK) {
                 return Deserialize(response.categories, ArticleCategory);
             }
         }).toPromise();
     }
-
-
 
 }

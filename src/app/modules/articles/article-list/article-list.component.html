@@ -7,7 +7,9 @@
           <mat-card-header>
             <div mat-card-avatar class="header-image"></div>
             <mat-card-title>
-              <h2><a routerLink="../{{article.id}}" color="accent">{{article.title}}</a></h2>
+              <h2>
+                <a routerLink="../../{{article.id}}" color="accent">{{article.title}}</a>
+              </h2>
             </mat-card-title>
             <mat-card-subtitle>pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.updateDate | date:"shortDate"}}</mat-card-subtitle>
           </mat-card-header>
@@ -16,14 +18,23 @@
               {{article.summary}}
             </p>
           </mat-card-content>
-          <mat-card-actions align="end">
+          <mat-card-actions align="end" fxHide>
             <button mat-raised-button color="accent" (click)="goToArticle(article.id)">Leggi</button>
           </mat-card-actions>
         </mat-card>
       </div>
+      <mat-paginator [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlePerPage" [pageSizeOptions]="[articlePerPage]" (page)="pageChange($event)">
+      </mat-paginator>
     </div>
     <div fxFlex.gt-xs="30%">
-      <h2 fxHide>Filtra articoli</h2>
+      <div fxLayout="column">
+        <h2 fxHide>Filtra articoli</h2>
+      </div>
+      <div *ngIf="user && user.canAdminArticles()" class="quick-links" fxLayout="column">
+        <h2>Collegamenti rapidi</h2>
+        <a routerLink="/articles/admin">Visualizza gestore articoli</a>
+        <a routerLink="/articles/new">Crea nuovo articolo</a>
+      </div>
     </div>
   </div>
 </div>

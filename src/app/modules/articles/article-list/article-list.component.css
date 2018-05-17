@@ -18,3 +18,7 @@ mat-card-actions{
     padding-left:16px;
     padding-right: 16px;
 }
+
+.quick-links a{
+    text-decoration: none;
+}
