@@ -15,17 +15,18 @@ import { AuthService } from '../../../services/auth.service';
 export class ArticleViewComponent implements OnInit {
 
   article: Article;
+
   user: CIUser;
+
   constructor(private authSvc: AuthService, private articleSvc: ArticlesService, private router: Router, private route: ActivatedRoute) { }
 
-  ngOnInit() {
+  async ngOnInit() {
+    //Get the current user
     this.user = this.authSvc.authUser;
+    //Retrieve the artcle id from the URL
     let article_id: string = this.route.snapshot.paramMap.get("id");
-    this.articleSvc.getArticle(article_id).then((article: Article) => this.article = article);
+    //Get the article
+    this.article = await this.articleSvc.getArticle(article_id);
   }
 
-
-  editArticle() {
-    this.router.navigate(['./edit'], { relativeTo: this.route });
-  }
 }

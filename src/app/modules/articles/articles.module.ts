@@ -22,7 +22,8 @@ import { ArticlePanelComponent } from './article-panel/article-panel.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
-
+import { SummernoteModule } from '../summernote/summernote.module';
+import {MatDialogModule} from '@angular/material/dialog';
 
 
 @NgModule({
@@ -43,7 +44,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
       MatAutocompleteModule,
       ReactiveFormsModule,
       MatTableModule,
-      MatPaginatorModule
+      MatPaginatorModule,
+      SummernoteModule,
+      MatDialogModule
     ],
   declarations:
     [

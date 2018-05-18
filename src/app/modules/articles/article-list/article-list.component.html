@@ -5,7 +5,7 @@
       <div fxLayout="column" fxLayoutGap="20px">
         <mat-card *ngFor="let article of articles">
           <mat-card-header>
-            <div mat-card-avatar class="header-image"></div>
+           
             <mat-card-title>
               <h2>
                 <a routerLink="../../{{article.id}}" color="accent">{{article.title}}</a>
@@ -30,10 +30,10 @@
       <div fxLayout="column">
         <h2 fxHide>Filtra articoli</h2>
       </div>
-      <div *ngIf="user && user.canAdminArticles()" class="quick-links" fxLayout="column">
-        <h2>Collegamenti rapidi</h2>
-        <a routerLink="/articles/admin">Visualizza gestore articoli</a>
-        <a routerLink="/articles/new">Crea nuovo articolo</a>
+      <div fxLayout="column" *ngIf="user && (user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles())">
+        <h2>Gestione Articoli</h2>
+        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()"><mat-icon>add_box</mat-icon> Nuovo articolo</button>
+        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()"><mat-icon>format_list_bulleted</mat-icon> Gestisci articoli</button>
       </div>
     </div>
   </div>

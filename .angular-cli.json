@@ -22,9 +22,13 @@
         "../node_modules/normalize.css/normalize.css",
         "styles.css",
         "theme.scss",
-        "../node_modules/font-awesome/css/font-awesome.css"
+        "../node_modules/font-awesome/css/font-awesome.css",
+        "../src/assets/summernote/summernote-lite.css"
       ],
       "scripts": [
+        "../node_modules/jquery/dist/jquery.min.js",
+        "../src/assets/summernote/summernote-lite.js",
+        "../src/assets/summernote/lang/summernote-it-IT.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

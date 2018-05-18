@@ -1,4 +1,4 @@
-import { Entity, PrimaryColumn, Column, BaseEntity, PrimaryGeneratedColumn, OneToMany, ManyToMany, RelationOptions } from 'typeorm';
+import { Entity, Column, BaseEntity, PrimaryGeneratedColumn, ManyToMany, RelationOptions } from 'typeorm';
 import { DBArticle } from './db.article';
 import { ITransformable } from '../transformable';
 import { ArticleCategory } from '../../models/article.category.model';

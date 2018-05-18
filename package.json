@@ -70,6 +70,7 @@
     "express-jwt": "^5.1.0",
     "express-session": "^1.15.6",
     "font-awesome": "^4.7.0",
+    "jquery": "^3.3.1",
     "jsonwebtoken": "^7.3.0",
     "mysql": "^2.15.0",
     "ng-animate": "^0.3.1",
@@ -91,6 +92,7 @@
     "zone.js": "^0.8.14"
   },
   "devDependencies": {
+    "@types/jquery": "^3.3.2",
     "codelyzer": "~4.0.1",
     "concurrently": "^3.5.0",
     "jasmine-core": "~2.5.2",

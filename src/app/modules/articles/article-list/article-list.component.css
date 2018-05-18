@@ -10,8 +10,11 @@ mat-card h2{
 }
 mat-card-title a{
     text-decoration: none;
-    color: #000;/*#073C65;*/
+    color: #073C65;
+    width: 100%;
 }
+
+
 
 
 mat-card-actions{
