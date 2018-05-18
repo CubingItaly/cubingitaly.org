@@ -39,7 +39,7 @@
         <button mat-raised-button *ngIf="isNew && user.canAdminArticles()" (click)="createArticle()" style="background-color:rgb(52, 156, 57);">Crea</button>
         <button mat-raised-button *ngIf="!isNew && user.canEditArticles()" (click)="updateArticle()" color="accent">Aggiorna</button>
         <button mat-raised-button *ngIf="user.canAdminArticles()" (click)="deleteArticle()" color="warn">Elimina</button>
-        <button mat-raised-button *ngIf="!isPublic && user.canPublishArticles()" (click)="publishArticle()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+        <button mat-raised-button *ngIf="!isNew && !isPublic && user.canPublishArticles()" (click)="publishArticle()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
         <button mat-raised-button *ngIf="isPublic && user.canPublishArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
 
       </div>

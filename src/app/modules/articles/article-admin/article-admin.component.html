@@ -41,10 +41,10 @@
       <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
         <mat-cell *matCellDef="let article">
-          <button mat-icon-button routerLink="../../{{article.id}}/edit">
+          <button mat-icon-button routerLink="../../{{article.id}}/edit" aria-label="Modifica articolo">
             <mat-icon>edit</mat-icon>
           </button>
-          <button mat-icon-button routerLink="../../{{article.id}}">
+          <button mat-icon-button routerLink="../../{{article.id}}" aria-label="Visualizza articolo">
             <mat-icon>open_in_browser</mat-icon>
           </button>
         </mat-cell>

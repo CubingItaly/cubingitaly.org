@@ -9,7 +9,7 @@ import { Article } from "../../models/article.model";
 export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
 
     private adminPageLength: number = 15;
-    private publicPageLength: number = 7;
+    private publicPageLength: number = 10;
 
     /**
      * Sets the entity identifier.

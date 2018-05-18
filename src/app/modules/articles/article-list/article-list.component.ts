@@ -20,7 +20,7 @@ export class ArticleListComponent implements OnInit {
   page: number;
   maxPage: number;
   articlesNumber: number;
-  articlePerPage: number = 7;
+  articlePerPage: number = 10;
 
   constructor(private authSvc: AuthService, private articleSvc: ArticlesService, private router: Router, private route: ActivatedRoute) { }
 

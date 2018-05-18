@@ -11,12 +11,6 @@
 
       <summernote-viewer [content]="article.content"></summernote-viewer>
 
-      <mat-chip-list>
-        <mat-chip selected="true" *ngFor="let chip of article.categories">
-          {{chip.name}}
-        </mat-chip>
-      </mat-chip-list>
-
     </div>
 
     <div fxFlex.gt-xs="25%" fxLayout="column">
@@ -30,14 +24,25 @@
             <share-buttons [include]="['facebook','twitter','copy']"></share-buttons>
             <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
           </div>
-
         </div>
+      </div>
+      <div>
+        <h2>Categorie</h2>
+        <mat-chip-list *ngIf="article">
+          <mat-chip selected="true" *ngFor="let chip of article.categories">
+            {{chip.name}}
+          </mat-chip>
+        </mat-chip-list>
+
       </div>
       <div fxLayout="column" *ngIf="user && (user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles())">
         <h2>Gestione Articoli</h2>
-        <button mat-button style="text-align: left" routerLink="./edit" *ngIf="user.canEditArticles() || user.canA-dminArticles()"><mat-icon>edit</mat-icon> Modifica articolo</button>
-        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()"><mat-icon>add_box</mat-icon> Nuovo articolo</button>
-        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()"><mat-icon>format_list_bulleted</mat-icon> Gestisci articoli</button>
+        <button mat-button style="text-align: left" routerLink="./edit" *ngIf="user.canEditArticles() || user.canA-dminArticles()">
+          <mat-icon>edit</mat-icon> Modifica articolo</button>
+        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
+          <mat-icon>add_box</mat-icon> Nuovo articolo</button>
+        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()">
+          <mat-icon>format_list_bulleted</mat-icon> Gestisci articoli</button>
       </div>
     </div>
 

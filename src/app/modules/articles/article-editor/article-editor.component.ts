@@ -65,9 +65,11 @@ export class ArticleEditorComponent implements OnInit {
     //Loading phase finished, now we can show the text editor
     this.articleLoaded = true;
 
-    this.categories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
+    if(this.article.categories){
+      this.categories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
 
-    this.categoryControl.valueChanges.debounceTime(400).subscribe();
+    }
+   
   }
 
   /**

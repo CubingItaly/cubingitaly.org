@@ -18,6 +18,13 @@ export class ArticleViewComponent implements OnInit {
 
   user: CIUser;
 
+  availableColors = [
+    { name: 'none', color: '' },
+    { name: 'Primary', color: 'primary' },
+    { name: 'Accent', color: 'accent' },
+    { name: 'Warn', color: 'warn' }
+  ];
+
   constructor(private authSvc: AuthService, private articleSvc: ArticlesService, private router: Router, private route: ActivatedRoute) { }
 
   async ngOnInit() {

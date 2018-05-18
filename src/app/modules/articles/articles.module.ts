@@ -18,13 +18,12 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { ArticlesRoleGuard } from './services/articles.roleguard.service';
 import { ArticleAdminComponent } from './article-admin/article-admin.component';
-import { ArticlePanelComponent } from './article-panel/article-panel.component';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { SummernoteModule } from '../summernote/summernote.module';
 import {MatDialogModule} from '@angular/material/dialog';
-
+import {MatTooltipModule} from '@angular/material/tooltip';
 
 @NgModule({
   imports:
@@ -46,15 +45,15 @@ import {MatDialogModule} from '@angular/material/dialog';
       MatTableModule,
       MatPaginatorModule,
       SummernoteModule,
-      MatDialogModule
+      MatDialogModule,
+      MatTooltipModule
     ],
   declarations:
     [
       ArticleViewComponent,
       ArticleListComponent,
       ArticleEditorComponent,
-      ArticleAdminComponent,
-      ArticlePanelComponent
+      ArticleAdminComponent
     ],
   providers:
     [
