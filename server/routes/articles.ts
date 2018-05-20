@@ -13,6 +13,7 @@ import { DBArticleCategory } from "../db/entity/db.article.category";
 import { CategoriesResponse } from "../models/responses/categories.response.model";
 import { CIUser } from "../models/ci.user.model";
 import { GenericNumberResponse } from "../models/responses/generic.number.respose.model";
+import { DBUser } from "../db/entity/db.user";
 
 const articlesRouter: Router = Router();
 
@@ -105,7 +106,7 @@ articlesRouter.get("/:id", async (req, res) => {
     const response: ArticleResponse = new ArticleResponse();
     try {
         let db_article: DBArticle = await article_repo.findArticleById(article_id);
-        if (db_article.isPublic || user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles()) {
+        if (db_article.isPublic || user.canEditArticles()) {
             response.article = db_article._transform();
             response.status = RESPONSE_STATUS.OK;
         } else {
@@ -153,7 +154,7 @@ articlesRouter.put("/:id", authCheck, async (req, res) => {
     const user: CIUser = Deserialize(req.user, CIUser);
     const response: ArticleResponse = new ArticleResponse();
 
-    if (user.canEditArticles() || user.canPublishArticles() || user.canAdminArticles()) {
+    if (user.canEditArticles()) {
         let article: Article = Deserialize(req.body.article, Article);
         const article_repo: CIArticlesRepository = getCustomRepository(CIArticlesRepository);
         try {
@@ -161,14 +162,16 @@ articlesRouter.put("/:id", authCheck, async (req, res) => {
             let db_article = new DBArticle();
             db_article._assimilate(article);
 
-            if (user.canEditArticles() || user.canAdminArticles()) {
+            if (user.canEditArticles()) {
                 let updated_article: DBArticle = await article_repo.updateArticle(db_article);
             }
-
-            if (user.canPublishArticles() || user.canAdminArticles()) {
-                if (article.isPublic) {
-                    db_article = await article_repo.publishArticle(db_article.id);
-                } else {
+            let isPublic: boolean = await article_repo.isArticlePublic(article.id);
+            if (isPublic != article.isPublic && user.canAdminArticles()) {
+                if (article.isPublic && !isPublic) {
+                    let db_user: DBUser = new DBUser();
+                    db_user._assimilate(user);
+                    db_article = await article_repo.publishArticle(db_article.id, db_user);
+                } else if (!article.isPublic && isPublic) {
                     db_article = await article_repo.unpublishArticle(db_article.id);
                 }
             }

@@ -162,15 +162,11 @@ export class CIUser {
     return this.isLeaderOf(team);
   }
 
-  public canAdminArticles():boolean{
+  public canAdminArticles(): boolean {
     return this.isAdmin() || this.isBoard() || this.isCITC();
   }
 
-  public canPublishArticles(): boolean{
-    return this.isCITC() || this.isBoard() || this.isAdmin();
-  }
-
-  public canEditArticles():boolean{
-    return this.isAdmin() || this.isBoard() || this.isCITC() || this.isCITQ() || this.isCITI();
+  public canEditArticles(): boolean {
+    return this.canAdminArticles() || this.isCITQ() || this.isCITI();
   }
 }

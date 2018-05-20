@@ -39,8 +39,8 @@
         <button mat-raised-button *ngIf="isNew && user.canAdminArticles()" (click)="createArticle()" style="background-color:rgb(52, 156, 57);">Crea</button>
         <button mat-raised-button *ngIf="!isNew && user.canEditArticles()" (click)="updateArticle()" color="accent">Aggiorna</button>
         <button mat-raised-button *ngIf="user.canAdminArticles()" (click)="deleteArticle()" color="warn">Elimina</button>
-        <button mat-raised-button *ngIf="!isNew && !isPublic && user.canPublishArticles()" (click)="publishArticle()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
-        <button mat-raised-button *ngIf="isPublic && user.canPublishArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+        <button mat-raised-button *ngIf="!isNew && !isPublic && user.canAdminArticles()" (click)="publishArticle()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+        <button mat-raised-button *ngIf="isPublic && user.canAdminArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
 
       </div>
     </div>
@@ -51,14 +51,18 @@
       <span *ngIf="!isNew && !isPublic">Articolo nascosto</span>
       <span *ngIf="!isNew && article">Creazione articolo: {{article.creationDate | date:"short"}}</span>
       <span *ngIf="!isNew && article">Ultimo aggiornamento: {{article.updateDate | date:"short"}}</span>
-      <div fxLayout="column" *ngIf="user && (user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles())">
+      <div fxLayout="column" *ngIf="user && user.canEditArticles()">
         <h2>Gestione Articoli</h2>
-        <button mat-button style="text-align: left" routerLink="../" *ngIf="!isNew"><mat-icon>open_in_browser</mat-icon> Visualizza articolo</button>
-        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()"><mat-icon>add_box</mat-icon> Nuovo articolo</button>
-        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()"><mat-icon>format_list_bulleted</mat-icon> Gestisci articoli</button>
+        <button mat-button style="text-align: left" routerLink="../" *ngIf="!isNew">
+          <mat-icon>open_in_browser</mat-icon> Visualizza articolo</button>
+        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
+          <mat-icon>add_box</mat-icon> Nuovo articolo</button>
+        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()">
+          <mat-icon>format_list_bulleted</mat-icon> Gestisci articoli</button>
       </div>
       <h2>Collegamenti rapidi</h2>
-      <button mat-button style="text-align: left" routerLink="https://tinyurl.com/" *ngIf="user.canAdminArticles()"><mat-icon>link</mat-icon> URL Shortner</button>
+      <button mat-button style="text-align: left" routerLink="https://tinyurl.com/">
+        <mat-icon>link</mat-icon> URL Shortner</button>
     </div>
   </div>
 </div>

@@ -28,8 +28,6 @@ export class ArticlesService {
         article.isPublic = false;
         return await this.httpClient.post<ArticleResponse>(this.article_short, { article: article })
             .map((response: ArticleResponse) => {
-                console.log("got created article");
-                console.log(response);
                 if (response.status == RESPONSE_STATUS.OK) {
                     return Deserialize(response.article, Article);
                 }

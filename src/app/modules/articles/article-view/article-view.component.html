@@ -35,9 +35,9 @@
         </mat-chip-list>
 
       </div>
-      <div fxLayout="column" *ngIf="user && (user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles())">
+      <div fxLayout="column" *ngIf="user && user.canEditArticles()">
         <h2>Gestione Articoli</h2>
-        <button mat-button style="text-align: left" routerLink="./edit" *ngIf="user.canEditArticles() || user.canA-dminArticles()">
+        <button mat-button style="text-align: left" routerLink="./edit" *ngIf="user.canEditArticles()">
           <mat-icon>edit</mat-icon> Modifica articolo</button>
         <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
           <mat-icon>add_box</mat-icon> Nuovo articolo</button>

@@ -48,6 +48,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ShareButtonsOptions } from '@ngx-share/core';
 import { FooterComponent } from './components/footer/footer.component';
+import { ErrorpageComponent } from './components/errorpage/errorpage.component';
 
 
 
@@ -61,7 +62,8 @@ import { FooterComponent } from './components/footer/footer.component';
     AppComponent,
     DashboardComponent,
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    ErrorpageComponent
   ],
   imports: [
     BrowserModule,

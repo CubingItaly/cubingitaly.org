@@ -25,8 +25,6 @@ export class ArticlesRoleGuard implements CanActivate {
             let user: CIUser = this.authSvc.authUser;
             if (requiredRole == 'editArticles') {
                 return user.canEditArticles();
-            } else if (requiredRole == 'publishArticles') {
-                return user.canPublishArticles();
             } else if (requiredRole == 'adminArticles') {
                 return user.canAdminArticles();
             }

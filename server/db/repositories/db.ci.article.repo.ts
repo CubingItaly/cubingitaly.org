@@ -65,7 +65,7 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return await this.repository.createQueryBuilder("article")
             .innerJoin("article.author", "author")
             .leftJoin("article.categories", "categories")
-            .select(["article.id","article.title","article.isPublic","article.creationDate","article.updateDate","author.name","author.id","categories.id","categories.name"])
+            .select(["article.id", "article.title", "article.isPublic", "article.creationDate", "article.updateDate", "author.name", "author.id", "categories.id", "categories.name"])
             .orderBy("article.updateDate", "DESC")
             .take(this.adminPageLength)
             .skip(this.adminPageLength * page)
@@ -73,7 +73,7 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
     }
 
     public async countPublicArticles(): Promise<number> {
-        return (await 
+        return (await
             this.repository.createQueryBuilder("articles")
                 .where("isPublic = true")
                 .getMany()
@@ -112,9 +112,10 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return new_article;
     }
 
-    public async publishArticle(id: string): Promise<DBArticle> {
+    public async publishArticle(id: string, user: DBUser): Promise<DBArticle> {
         let article: DBArticle = await this.findArticleById(id);
         article.isPublic = true;
+        article.author = user;
         return await this.repository.save(article);
     }
 
@@ -122,6 +123,11 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         let article: DBArticle = await this.findArticleById(id);
         article.isPublic = false;
         return await this.repository.save(article);
+    }
+
+    public async isArticlePublic(id: string): Promise<boolean> {
+        let articles: DBArticle[] = await this.repository.find({ id: id, isPublic: true });
+        return articles.length > 0;
     }
 
     public async deleteArticle(id: string): Promise<void> {

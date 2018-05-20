@@ -65,11 +65,11 @@ export class ArticleEditorComponent implements OnInit {
     //Loading phase finished, now we can show the text editor
     this.articleLoaded = true;
 
-    if(this.article.categories){
+    if (this.article.categories) {
       this.categories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
 
     }
-   
+
   }
 
   /**
@@ -78,10 +78,15 @@ export class ArticleEditorComponent implements OnInit {
    * @memberof ArticleEditorComponent
    */
   createArticle() {
-    this.articleSvc.createArticle(this.article).then((article: Article) => {
-      let redirect_url: string = "/articles/" + article.id + "/edit";
-      this.router.navigate([redirect_url]);
-    });
+    //if title is not set, don't le the article be created
+    if (this.article.title) {
+      this.articleSvc.createArticle(this.article).then((article: Article) => {
+        let redirect_url: string = "/articles/" + article.id + "/edit";
+        this.router.navigate([redirect_url]);
+      });
+    } else {
+      //TODO
+    }
   }
 
   /**
@@ -90,10 +95,14 @@ export class ArticleEditorComponent implements OnInit {
    * @memberof ArticleEditorComponent
    */
   updateArticle() {
-    this.articleSvc.updateArticle(this.article).then((article: Article) => {
-      this.article = article;
-      this.isPublic = this.article.isPublic;
-    });
+    if (!this.isPublic || (this.article.title && this.article.summary && this.article.content)) {
+      this.articleSvc.updateArticle(this.article).then((article: Article) => {
+        this.article = article;
+        this.isPublic = this.article.isPublic;
+      });
+    } else {
+      //TODO
+    }
   }
 
   /**
@@ -115,10 +124,14 @@ export class ArticleEditorComponent implements OnInit {
    * @memberof ArticleEditorComponent
    */
   publishArticle() {
-    this.articleSvc.publishArticle(this.article).then((article: Article) => {
-      this.article = article;
-      this.isPublic = this.article.isPublic;
-    });
+    if (this.article.title && this.article.summary && this.article.content) {
+      this.articleSvc.publishArticle(this.article).then((article: Article) => {
+        this.article = article;
+        this.isPublic = this.article.isPublic;
+      });
+    } else {
+      //TODO
+    }
   }
 
   /**
@@ -152,9 +165,13 @@ export class ArticleEditorComponent implements OnInit {
     this.catInput.nativeElement.value = "";
   }
 
+  //remove category from the one of the article
   remove(id: number): void {
+    //find the category
     let category: ArticleCategory = this.article.categories.find(c => c.id == id);
+    //remove it from those of the article
     this.article.categories = this.article.categories.filter(c => c.id != id);
+    //add it back to the categories repo
     this.categories.push(category);
   }
 }

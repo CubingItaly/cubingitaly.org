@@ -4,7 +4,9 @@
       <h1>Ultimi articoli</h1>
       <div fxLayout="column" fxLayoutGap="20px">
         <mat-card class="card" *ngFor="let article of articles">
-          <mat-card-title class="card-title z-depth-1"><a routerLink="../../{{article.id}}">{{article.title}}</a></mat-card-title>
+          <mat-card-title class="card-title z-depth-1">
+            <a routerLink="../../{{article.id}}">{{article.title}}</a>
+          </mat-card-title>
           <mat-card-subtitle class="card-subtitle">pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.updateDate | date:"shortDate"}}</mat-card-subtitle>
           <mat-card-content class="card-content">
             <p>{{article.summary}}</p>
@@ -23,7 +25,7 @@
       <div fxLayout="column">
         <h2 fxHide>Filtra articoli</h2>
       </div>
-      <div fxLayout="column" *ngIf="user && (user.canAdminArticles() || user.canPublishArticles() || user.canEditArticles())">
+      <div fxLayout="column" *ngIf="user && user.canAdminArticles()">
         <h2>Gestione Articoli</h2>
         <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
           <mat-icon>add_box</mat-icon> Nuovo articolo</button>

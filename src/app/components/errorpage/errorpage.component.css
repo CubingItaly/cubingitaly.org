@@ -1,0 +1,12 @@
+.error-container{
+    text-align: center;
+    margin-top:20px;
+}
+
+.error-container img{
+    width: 30%;
+}
+
+.error-container-xs img{
+    width: 70%;
+}

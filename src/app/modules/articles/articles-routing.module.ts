@@ -23,7 +23,7 @@ const routes: Routes = [
     path: 'admin/:page', canActivate: [ArticlesRoleGuard], component: ArticleAdminComponent, data: { expectedRole: "adminArticles" }
   },
   {
-    path: 'new', canActivate: [ArticlesRoleGuard], component: ArticleEditorComponent, data: { action: 0, expectedRole: "publishArticles" }
+    path: 'new', canActivate: [ArticlesRoleGuard], component: ArticleEditorComponent, data: { action: 0, expectedRole: "adminArticles" }
   },
   {
     path: ':id', canActivate: [ArticlesRoleGuard], component: ArticleViewComponent, data: { expectedRole: "viewArticles" }
