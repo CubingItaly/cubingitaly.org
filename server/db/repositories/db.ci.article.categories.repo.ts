@@ -3,6 +3,13 @@ import { EntityRepository } from "typeorm";
 import { DBArticleCategory } from "../entity/db.article.category";
 import { DBArticle } from "../entity/db.article";
 
+/**
+ * Repository used to handle article categories
+ * 
+ * @export
+ * @class CIArticleCategoriesRepository
+ * @extends {BaseCommonRepository<DBArticleCategory>}
+ */
 @EntityRepository(DBArticleCategory)
 export class CIArticleCategoriesRepository extends BaseCommonRepository<DBArticleCategory> {
     /**
@@ -51,10 +58,17 @@ export class CIArticleCategoriesRepository extends BaseCommonRepository<DBArticl
         return;
     }
 
+    /**
+     * Get all the cagtegories
+     * 
+     * @returns {Promise<DBArticleCategory[]>} 
+     * @memberof CIArticleCategoriesRepository
+     */
     public async findCategories(): Promise<DBArticleCategory[]> {
         return await this.repository.find();
     }
 
+    //Find category by id
     public async findCategoryById(id: number): Promise<DBArticleCategory> {
         return await this.repository.findOneById(id);
     }

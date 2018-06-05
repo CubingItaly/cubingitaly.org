@@ -32,7 +32,6 @@ export class AuthService {
      */
     constructor(private http: HttpClient) {
         this.http.get<UserResponse>("/auth/me").subscribe((res: UserResponse) => {
-            console.log("received response");
             if (res.status == RESPONSE_STATUS.OK) {
                 this.authUser = Deserialize(res.user, CIUser);
                 this.isLoggedIn = true;

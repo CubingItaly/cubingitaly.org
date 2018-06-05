@@ -5,10 +5,19 @@ import { DBArticle } from "../entity/db.article";
 import { DBUser } from "../entity/db.user";
 import { Article } from "../../models/article.model";
 
+/**
+ * Repository used to handle articles
+ * 
+ * @export
+ * @class CIArticlesRepository
+ * @extends {BaseCommonRepository<DBArticle>}
+ */
 @EntityRepository(DBArticle)
 export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
 
+    //Number of articles displayed in the admin page
     private adminPageLength: number = 15;
+    //Number of articles displayed in public article lists
     private publicPageLength: number = 10;
 
     /**
@@ -30,26 +39,24 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return;
     }
 
+    /**
+     * Find article by id
+     * 
+     * @param {string} id 
+     * @returns {Promise<DBArticle>} 
+     * @memberof CIArticlesRepository
+     */
     public async findArticleById(id: string): Promise<DBArticle> {
         return await this.repository.findOneById(id);
     }
 
-    public async findArticlesByCategory(category: DBArticleCategory): Promise<DBArticle[]> {
-        return await this.repository.createQueryBuilder("article")
-            .innerJoinAndSelect("article.categories", "category")
-            .where("category.id = :id", { id: category.id })
-            .orderBy("article.creationDate", "DESC")
-            .getMany();
-    }
-
-    public async findArticlesByAuthor(author: DBUser): Promise<DBArticle[]> {
-        return await this.repository.createQueryBuilder("article")
-            .innerJoinAndSelect("article.author", "author")
-            .where("author.id = :id", { id: author.id })
-            .orderBy("article.creationDate", "DESC")
-            .getMany();
-    }
-
+    /**
+     * Find the list of all the public article belonging to the given page
+     * 
+     * @param {number} page 
+     * @returns {Promise<DBArticle[]>} 
+     * @memberof CIArticlesRepository
+     */
     public async findPublicArticles(page: number): Promise<DBArticle[]> {
         return await this.repository.createQueryBuilder("article")
             .innerJoinAndSelect("article.author", "author")
@@ -61,6 +68,13 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
             .getMany();
     }
 
+    /**
+     * Find the list of all the articles belonging to the given page, both public and hidden
+     * 
+     * @param {number} page 
+     * @returns {Promise<DBArticle[]>} 
+     * @memberof CIArticlesRepository
+     */
     public async findAllArticles(page: number): Promise<DBArticle[]> {
         return await this.repository.createQueryBuilder("article")
             .innerJoin("article.author", "author")
@@ -72,6 +86,12 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
             .getMany();
     }
 
+    /**
+     * Count the total number of public articles
+     * 
+     * @returns {Promise<number>} 
+     * @memberof CIArticlesRepository
+     */
     public async countPublicArticles(): Promise<number> {
         return (await
             this.repository.createQueryBuilder("articles")
@@ -80,10 +100,23 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         ).length;
     }
 
+    /**
+     * Count the total number of articles, both public and hidden
+     * 
+     * @returns {Promise<number>} 
+     * @memberof CIArticlesRepository
+     */
     public async countAllArticles(): Promise<number> {
         return (await this.repository.find()).length;
     }
 
+    /**
+     * Checks whether an article exists
+     * 
+     * @param {string} id 
+     * @returns {Promise<boolean>} 
+     * @memberof CIArticlesRepository
+     */
     public async checkIfArticleExists(id: string): Promise<boolean> {
         let articles: DBArticle[] = await this.repository.find({ id: id });
         if (articles.length > 0) {
@@ -92,26 +125,64 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return false;
     }
 
+    /**
+     * Create an article, if it already exists return false
+     * 
+     * @param {DBArticle} article 
+     * @returns {Promise<DBArticle>} 
+     * @memberof CIArticlesRepository
+     */
     public async createArticle(article: DBArticle): Promise<DBArticle> {
+        //if the article already has an id, return
         if (article.id) {
             return;
         }
         article.id = this.generateArticleId(article.title);
+        //if an article with this id already exists, return
+        if (this.checkIfArticleExists(article.id)) {
+            return;
+        }
+        article.isPublic = false;
         return await this.repository.save(article);
     }
 
+    /**
+     * Update an article
+     * 
+     * @param {DBArticle} article 
+     * @returns {Promise<DBArticle>} 
+     * @memberof CIArticlesRepository
+     */
     public async updateArticle(article: DBArticle): Promise<DBArticle> {
         let db_article: DBArticle = await this.findArticleById(article.id);
         article = this.updateOnlyRelevantColumns(db_article, article);
         return await this.repository.save(article);
     }
 
+    /**
+     * Private method used to update only relevant column of an article
+     * e.g. not those relevant to the status or to the author
+     * 
+     * @private
+     * @param {DBArticle} old_article 
+     * @param {DBArticle} new_article 
+     * @returns 
+     * @memberof CIArticlesRepository
+     */
     private updateOnlyRelevantColumns(old_article: DBArticle, new_article: DBArticle) {
         new_article.author = old_article.author;
         new_article.isPublic = old_article.isPublic;
         return new_article;
     }
 
+    /**
+     * Publish an article and update the author
+     * 
+     * @param {string} id 
+     * @param {DBUser} user 
+     * @returns {Promise<DBArticle>} 
+     * @memberof CIArticlesRepository
+     */
     public async publishArticle(id: string, user: DBUser): Promise<DBArticle> {
         let article: DBArticle = await this.findArticleById(id);
         article.isPublic = true;
@@ -119,17 +190,38 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return await this.repository.save(article);
     }
 
+    /**
+     * Make hidden an article
+     * 
+     * @param {string} id 
+     * @returns {Promise<DBArticle>} 
+     * @memberof CIArticlesRepository
+     */
     public async unpublishArticle(id: string): Promise<DBArticle> {
         let article: DBArticle = await this.findArticleById(id);
         article.isPublic = false;
         return await this.repository.save(article);
     }
 
+    /**
+     * Checks wether an article is public
+     * 
+     * @param {string} id 
+     * @returns {Promise<boolean>} 
+     * @memberof CIArticlesRepository
+     */
     public async isArticlePublic(id: string): Promise<boolean> {
         let articles: DBArticle[] = await this.repository.find({ id: id, isPublic: true });
         return articles.length > 0;
     }
 
+    /**
+     * Delete an existing article
+     * 
+     * @param {string} id 
+     * @returns {Promise<void>} 
+     * @memberof CIArticlesRepository
+     */
     public async deleteArticle(id: string): Promise<void> {
         let article: DBArticle = await this.findArticleById(id);
         article.categories = [];
@@ -137,6 +229,14 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         return await this.repository.removeById(article);
     }
 
+    /**
+     * Generate the article id starting from the title
+     * 
+     * @private
+     * @param {string} title 
+     * @returns {string} 
+     * @memberof CIArticlesRepository
+     */
     private generateArticleId(title: string): string {
         let id: string = title;
         //remove spaces at the start or at the end of the id
