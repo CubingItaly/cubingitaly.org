@@ -112,7 +112,7 @@ export class ArticleEditorComponent implements OnInit {
    */
   deleteArticle() {
     if (this.isNew) {
-      this.router.navigate(['../../admin'], { relativeTo: this.route });
+      this.router.navigate(['../admin'], { relativeTo: this.route });
     } else {
       this.articleSvc.deleteArticle(this.article).then(() => this.router.navigate(['../../admin'], { relativeTo: this.route }));
     }

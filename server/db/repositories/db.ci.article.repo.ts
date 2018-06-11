@@ -139,7 +139,8 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
         }
         article.id = this.generateArticleId(article.title);
         //if an article with this id already exists, return
-        if (this.checkIfArticleExists(article.id)) {
+        let articleExists: boolean = await this.checkIfArticleExists(article.id);
+        if (articleExists) {
             return;
         }
         article.isPublic = false;

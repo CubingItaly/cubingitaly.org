@@ -101,7 +101,7 @@ articlesRouter.post("/", authCheck, async (req, res) => {
             let db_article = new DBArticle();
             db_article._assimilate(article);
             db_article = await article_repo.createArticle(db_article);
-
+            console.log(db_article);
             response.article = db_article._transform();
             response.status = RESPONSE_STATUS.OK;
 
