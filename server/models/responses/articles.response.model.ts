@@ -1,4 +1,4 @@
-import { autoserialize, inheritSerialization } from 'cerialize';
+import { autoserialize, inheritSerialization, Deserialize } from 'cerialize';
 import { GenericResponse } from './generic.response.model';
 import { Article } from '../article.model';
 
@@ -11,4 +11,19 @@ export class ArticlesResponse extends GenericResponse {
 
     @autoserialize public articles?: Article[];
 
+    /**
+     * Handles the deserialization of this response.
+     *
+     * @param {ArticlesResponse} response
+     * @returns {Article[]}
+     * @memberof ArticlesResponse
+     */
+    public DeserializeResponse(response: ArticlesResponse) {
+        if (!response || !response.articles) {
+            return [];
+        }
+        else {
+            return response.articles.map(e => Deserialize(e, Article));
+        }
+    }
 }

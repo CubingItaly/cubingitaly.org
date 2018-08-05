@@ -9,8 +9,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { FormControl } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import 'rxjs/add/operator/debounceTime';
-
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-article-editor',

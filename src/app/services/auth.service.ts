@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Serialize, Deserialize } from 'cerialize';
 import { ReducerObservable } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
 

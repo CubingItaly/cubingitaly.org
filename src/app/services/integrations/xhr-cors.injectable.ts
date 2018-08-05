@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BrowserXhr } from "@angular/http";
 import { HttpInterceptor, HttpHandler, HttpEvent, HttpRequest } from "@angular/common/http";
-import { Observable } from "rxjs/Observable";
+import { Observable } from "rxjs";
 
 @Injectable()
 export class CustomInterceptor implements HttpInterceptor {

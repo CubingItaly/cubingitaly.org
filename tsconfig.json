@@ -15,8 +15,10 @@
       "es2017",
       "dom"
     ],
-    "types":[
+    "types": [
       "jquery"
-    ]
+    ],
+    "module": "es2015",
+    "baseUrl": "./"
   }
 }

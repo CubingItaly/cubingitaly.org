@@ -9,7 +9,7 @@ export class GenericResponse implements IGenericResponse {
      * Object that contains the status of the response
      * 
      * @type {RESPONSE_STATUS}
-     * @memberof UserResponse
+     * @memberof GenericResponse
      */
     @autoserialize public status: RESPONSE_STATUS;
 
@@ -17,7 +17,7 @@ export class GenericResponse implements IGenericResponse {
      * Nullable string that contains the error message in case of negative result
      * 
      * @type {string}
-     * @memberof UserResponse
+     * @memberof GenericResponse
      */
     @autoserialize public error: string;
 

@@ -2,12 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { TeamsService } from '../services/teams.service';
 import { CIUser } from '../../../../../server/models/ci.user.model';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Observable } from 'rxjs';
 import { CITeam } from '../../../../../server/models/ci.team.model';
 import { MatTableDataSource } from '@angular/material/table';
 import { AuthService } from '../../../services/auth.service';
 import { FormControl } from '@angular/forms';
-import 'rxjs/add/operator/debounceTime';
+import { debounceTime } from 'rxjs/operators';
 
 @Component({
   selector: 'app-team-members',
@@ -36,7 +36,7 @@ export class TeamMembersComponent implements OnInit {
     this.getMembers();
 
     this.myControl.valueChanges
-      .debounceTime(400)
+      .pipe(debounceTime(400))
       .subscribe(name => {
         this.teamSvc.getUsersByName(name).then((u: CIUser[]) => this.usersList = u.filter((user: CIUser) => this.members.findIndex((m: CIUser) => m.id == user.id) == -1));
       });
