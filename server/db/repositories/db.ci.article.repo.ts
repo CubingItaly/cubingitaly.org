@@ -47,7 +47,7 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
      * @memberof CIArticlesRepository
      */
     public async findArticleById(id: string): Promise<DBArticle> {
-        return await this.repository.findOneById(id);
+        return await this.repository.findOne({id:id});
     }
 
     /**
@@ -223,11 +223,11 @@ export class CIArticlesRepository extends BaseCommonRepository<DBArticle> {
      * @returns {Promise<void>} 
      * @memberof CIArticlesRepository
      */
-    public async deleteArticle(id: string): Promise<void> {
+    public async deleteArticle(id: string): Promise<DBArticle> {
         let article: DBArticle = await this.findArticleById(id);
         article.categories = [];
         await this.repository.save(article);
-        return await this.repository.removeById(article);
+        return await this.repository.remove(article);
     }
 
     /**

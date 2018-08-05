@@ -70,7 +70,7 @@ export class CIArticleCategoriesRepository extends BaseCommonRepository<DBArticl
 
     //Find category by id
     public async findCategoryById(id: number): Promise<DBArticleCategory> {
-        return await this.repository.findOneById(id);
+        return await this.repository.findOne({id:id});
     }
 
 }

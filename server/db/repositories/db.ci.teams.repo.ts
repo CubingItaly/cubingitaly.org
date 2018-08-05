@@ -119,6 +119,6 @@ export class CITeamsRepo extends BaseCommonRepository<DBTeam> {
   }
 
   public async findTeamById(id: string): Promise<DBTeam> {
-    return await this.repository.findOneById(id);
+    return await this.repository.findOne({id:id});
   }
 }
