@@ -3,10 +3,10 @@ import * as passport from 'passport';
 import { Strategy as WCAStrategy } from 'passport-wca';
 import { Deserialize } from 'cerialize';
 import { keys } from '../secrets/keys';
-import { CIUser } from '../models/ci.user.model';
-import { CiUsersRepo } from '../db/repositories/db.ci.users.repo'
 import { getCustomRepository } from 'typeorm';
-import { DBUser } from '../db/entity/db.user';
+import { UserRepository } from '../db/repositories/user.repository';
+import { UserModel } from '../models/classes/user.model';
+import { UserEntity } from '../db/entity/user.entity';
 
 const authUrl = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/authorize" : "https://staging.worldcubeassociation.org/oauth/authorize";
 const tokUrl = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/token" : "https://staging.worldcubeassociation.org/oauth/token";
@@ -24,27 +24,27 @@ passport.use(new WCAStrategy({
 },
   async function (accessToken, refreshToken, profile, done) {
     //Extracts a CI User from the data received from the WCA server
-    const user: CIUser = Deserialize(profile._json.me, CIUser);
+    const user: UserModel = Deserialize(profile._json.me, UserModel);
     //Retrieves the CIUsersRepo
-    const users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
+    const users_repo: UserRepository = getCustomRepository(UserRepository);
     //Generates a new DBUser
-    let db_user: DBUser = new DBUser();
+    let db_user: UserEntity = new UserEntity();
     db_user._assimilate(user);
     //calls the method to manage the user login with the database
-    db_user = await users_repo.loginUser(db_user);
+    db_user = await users_repo.updateUser(db_user);
 
     done(null, db_user._transform());
   }
 ));
 
-passport.serializeUser((user: CIUser, done) => {
+passport.serializeUser((user: UserModel, done) => {
   done(null, user.id);
 });
 
 
 passport.deserializeUser((id: number, done) => {
-  const users_repo: CiUsersRepo = getCustomRepository(CiUsersRepo);
-  users_repo.findUserById(id).then(user => {
+  const users_repo: UserRepository = getCustomRepository(UserRepository);
+  users_repo.getUserById(id).then(user => {
     done(null,user._transform());
   })
 });

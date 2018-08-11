@@ -7,21 +7,20 @@ import * as passport from 'passport';
 import * as session from 'express-session';
 import { keys } from './secrets/keys';
 
-//Routers files
-import { authRouter } from "./routes/auth";
+//Router files
+import { router as authRoutes } from './api/v0/auth.api';
+import { router as articleRoutes } from './api/v0/article.api';
+import { router as teamRoutes } from './api/v0/team.api';
+import { router as userRoutes } from './api/v0/user.api';
 
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
-import { teamsRouter } from './routes/teams';
-import { usersRouter } from './routes/users';
-import { rolesRouter } from './routes/roles';
-import { articlesRouter } from './routes/articles';
-import { categoriesRouter } from './routes/categories';
+
 
 const db: CI_DB = new CI_DB();
 
 db.initDefaultValues().then(() => {
-  console.log('db successfully initialized');
+  console.log('DB successfully initialized');
 });
 
 const app: express.Application = express();
@@ -52,12 +51,11 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // api routes
-app.use("/auth", authRouter);
-app.use("/api/teams", teamsRouter);
-app.use("/api/users", usersRouter);
-app.use("/api/roles", rolesRouter);
-app.use("/api/articles", articlesRouter);
-app.use("/api/categories", categoriesRouter);
+app.use("/api/v0/auth", authRoutes);
+app.use("/api/v0/teams", teamRoutes);
+app.use("/api/v0/users", userRoutes);
+app.use("/api/v0/articles", articleRoutes);
+
 
 if (app.get("env") === "production") {
   // in production mode run application from dist folder

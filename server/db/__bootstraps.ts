@@ -1,11 +1,13 @@
 import { BaseCommonRepository } from "./BaseCommonRepository";
 import { getCustomRepository } from "typeorm";
 import { BaseEntity } from "typeorm/repository/BaseEntity";
-import { CITeamsRepo } from "./repositories/db.ci.teams.repo";
-import { CiUsersRepo } from "./repositories/db.ci.users.repo";
-import { CIRolesRepo } from "./repositories/db.ci.roles.repo";
-import { CIArticleCategoriesRepository } from "./repositories/db.ci.article.categories.repo";
-import { CIArticlesRepository } from "./repositories/db.ci.article.repo";
+import { TeamRepository } from "./repositories/team.repository";
+import { ArticleCategoryRepository } from "./repositories/category.repository";
+import { UserRepository } from "./repositories/user.repository";
+import { RoleRepository } from "./repositories/role.repository";
+import { ArticleRepository } from "./repositories/article.repository";
+import { SinglePageRepository } from "./repositories/singlepage.repository";
+import { PageCollectionRepository } from "./repositories/pagecollection.repository";
 
 /**
  * Holds all the custom repositories that needs to run a custom function check when the database connection is available (init).
@@ -15,10 +17,12 @@ import { CIArticlesRepository } from "./repositories/db.ci.article.repo";
  */
 export function _BOOTSTRAPS(): BaseCommonRepository<BaseEntity>[] {
   return [
-    getCustomRepository(CITeamsRepo),
-    getCustomRepository(CIArticleCategoriesRepository),
-    getCustomRepository(CiUsersRepo),
-    getCustomRepository(CIRolesRepo),
-    getCustomRepository(CIArticlesRepository)
+    getCustomRepository(UserRepository),
+    getCustomRepository(TeamRepository),
+    getCustomRepository(ArticleCategoryRepository),
+    getCustomRepository(RoleRepository),
+    getCustomRepository(ArticleRepository),
+    getCustomRepository(SinglePageRepository),
+    getCustomRepository(PageCollectionRepository)
   ];
 }
