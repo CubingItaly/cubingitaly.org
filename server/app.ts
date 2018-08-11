@@ -3,9 +3,9 @@ import { json, urlencoded } from "body-parser";
 import * as compression from 'compression';
 import * as express from 'express';
 import * as path from 'path';
-import * as passport from 'passport';
 import * as session from 'express-session';
 import { keys } from './secrets/keys';
+import * as passport from 'passport';
 
 //Router files
 import { router as authRoutes } from './api/v0/auth.api';
@@ -47,6 +47,8 @@ app.use(session(
     cookie: keys.session.cookie
   }
 ));
+
+
 app.use(passport.initialize());
 app.use(passport.session());
 

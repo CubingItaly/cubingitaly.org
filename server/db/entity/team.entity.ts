@@ -2,6 +2,7 @@ import { ITransformable } from "../transformable";
 import { TeamModel } from "../../models/classes/team.model";
 import { BaseEntity, PrimaryColumn, Column, Entity, OneToMany } from "typeorm";
 import { RoleEntity } from "./role.entity";
+import { RoleModel } from "../../models/classes/role.model";
 
 /**
  * The database entity that represents the teams of Cubing Italy
@@ -23,7 +24,6 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     @PrimaryColumn({ length: 5 })
     public id: string;
 
-
     /**
      * The team's name
      *
@@ -36,7 +36,6 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     @OneToMany(type => RoleEntity, role => role.team, { nullable: true })
     public roles: RoleEntity[];
 
-
     /**
      * Takes a TeamModel in input and copies its data
      *
@@ -46,8 +45,12 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     _assimilate(origin: TeamModel): void {
         this.id = origin.id;
         this.name = origin.name;
+        this.roles = origin.roles.map((role: RoleModel) => {
+            let tmp: RoleEntity = new RoleEntity();
+            tmp._assimilate(role);
+            return tmp;
+        });
     }
-
 
     /**
      * Returns a TeamModel which is the copy of the current entity
@@ -59,6 +62,9 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
         let team: TeamModel = new TeamModel();
         team.id = this.id;
         team.name = this.name;
+        if (this.roles !== undefined && this.roles !== null) {
+            team.roles = this.roles.map((role: RoleEntity) => role._transform());
+        }
         return team;
     }
 }

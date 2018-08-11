@@ -1,5 +1,6 @@
 import { UserModel } from "../models/classes/user.model";
 import { Deserialize } from "cerialize";
+import { return403 } from "./error.utils";
 
 
 /**
@@ -21,7 +22,7 @@ export function verifyLogin(req, res, next): void {
     if (req.isAuthenticated()) {
         next();
     } else {
-        res.status(403).send("Request not authorized, please login");
+        return403(res);
     }
 }
 

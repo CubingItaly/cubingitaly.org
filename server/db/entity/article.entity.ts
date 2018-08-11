@@ -4,7 +4,6 @@ import { ArticleModel } from "../../models/classes/article.model";
 import { ArticleCategoryEntity } from "./category.entity";
 import { UserEntity } from "./user.entity";
 import { ArticleCategoryModel } from "../../models/classes/category.model";
-import { getCategoryEntity } from "../../shared/repository.utils";
 
 
 /**
@@ -36,7 +35,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
     @Column({ nullable: false, length: 100 })
     public title: string;
 
-
     /**
      * Main content of the page
      *
@@ -46,7 +44,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
     @Column({ type: "text", nullable: true })
     public content: string;
 
-
     /**
      * Automatically inserted when the page is created
      *
@@ -55,7 +52,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      */
     @CreateDateColumn()
     public createDate: Date;
-
 
     /**
      * Automatically updates every time the page is edited
@@ -75,7 +71,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
     @Column({ nullable: true, length: 250 })
     public summary: string;
 
-
     /**
      * Whether the article is public or not
      *
@@ -84,7 +79,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      */
     @Column({ nullable: false })
     public isPublic: boolean;
-
 
     /**
      * Cetegories to which the article belongs to
@@ -95,7 +89,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
     @ManyToMany(type => ArticleCategoryEntity, category => category.articles, { nullable: true, eager: true })
     public categories: ArticleCategoryEntity[];
 
-
     /**
      * Author of the article, it is set when the article goes public for the first time
      *
@@ -105,7 +98,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
     @ManyToOne(type => UserEntity, user => user.createdArticles, { eager: true, nullable: true })
     public author: UserEntity;
 
-
     /**
      * Last editor of the article, every time someone edits it, it changes
      *
@@ -114,7 +106,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      */
     @ManyToOne(type => UserEntity, user => user.editedArticles, { eager: true, nullable: true })
     public lastEditor: UserEntity;
-
 
     /**
      * Takes an ArticleModel in input and copies its data
@@ -126,7 +117,11 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
         this.id = origin.id || "";
         this.summary = origin.summary || "";
         this.isPublic = origin.isPublic || false;
-        this.categories = origin.categories.map((category: ArticleCategoryModel) => getCategoryEntity(category));
+        this.categories = origin.categories.map((category: ArticleCategoryModel) => {
+            let tmp: ArticleCategoryEntity = new ArticleCategoryEntity();
+            tmp._assimilate(category);
+            return tmp;
+        });
         this.title = origin.title;
         this.content = origin.content || "";
         this.createDate = origin.createDate || null;
@@ -140,7 +135,6 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
 
     }
 
-
     /**
      * Returns an ArticleModel which is the copy of the current entity
      *
@@ -153,7 +147,9 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
         article.title = this.title;
         article.summary = this.summary;
         article.isPublic = this.isPublic;
-        article.categories = this.categories.map((c: ArticleCategoryEntity) => c._transform());
+        if (this.categories !== undefined && this.categories !== null) {
+            article.categories = this.categories.map((c: ArticleCategoryEntity) => c._transform());
+        }
         article.content = this.content;
         article.author = this.author._transform();
         article.lastEditor = this.lastEditor._transform();

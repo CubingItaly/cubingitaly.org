@@ -3,7 +3,6 @@ import { ITransformable } from "../transformable";
 import { RoleModel } from "../../models/classes/role.model";
 import { UserEntity } from "./user.entity";
 import { TeamEntity } from "./team.entity";
-import { getUserRepository } from "../../shared/repository.utils";
 
 @Entity()
 export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
