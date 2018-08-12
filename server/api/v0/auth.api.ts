@@ -1,7 +1,7 @@
 import { Router } from "express";
 import * as passport from 'passport';
-import '../../passport/strategy.passport.wca'
 const router: Router = Router();
+
 
 
 /**
@@ -20,9 +20,11 @@ router.get("/wca", passport.authenticate('wca'));
 /**
  * Logs in the user and then redirects him to the root
  */
-router.get("/wca/callback", passport.authenticate('wca'), function (req, res) {
-    res.status(200).redirect("/");
-});
+router.get('/wca/callback', passport.authenticate('wca'),
+    function (req, res) {
+        console.log("Successful login, redirecting user to root")
+        res.redirect("/");
+    });
 
 
 export { router } 

@@ -1,9 +1,10 @@
-import { Entity, BaseEntity, PrimaryColumn, Column, OneToMany } from "typeorm";
+import { Entity, BaseEntity, PrimaryColumn, Column, OneToMany, JoinTable } from "typeorm";
 import { ITransformable } from "../transformable";
 import { UserModel } from "../../models/classes/user.model";
 import { RoleEntity } from "./role.entity";
 import { RoleModel } from "../../models/classes/role.model";
 import { ArticleEntity } from "./article.entity";
+import { SinglePageEntity } from "./singlepage.entity";
 
 
 /**
@@ -62,7 +63,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
      * @type {RoleEntity[]}
      * @memberof UserEntity
      */
-    @OneToMany(type => RoleEntity, role => role.user, { nullable: true })
+    @OneToMany(type => RoleEntity, role => role.user)
     public roles: RoleEntity[];
 
     /**
@@ -82,6 +83,25 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
      */
     @OneToMany(type => ArticleEntity, article => article.lastEditor, { nullable: true })
     public editedArticles: ArticleEntity[];
+
+    /**
+     * Pages whose creator is the user
+     *
+     * @type {SinglePageEntity[]}
+     * @memberof UserEntity
+     */
+    @OneToMany(type => SinglePageEntity, page => page.author, { nullable: true })
+    public createdPages: SinglePageEntity[];
+
+    /**
+     * Pages whose last editor is the user
+     *
+     * @type {SinglePageEntity[]}
+     * @memberof UserEntity
+     */
+    @OneToMany(type => SinglePageEntity, page => page.lastEditor, { nullable: true })
+    public editedPages: SinglePageEntity[];
+
 
     /**
      * Takes a UserModel in input and copies its data
@@ -113,10 +133,28 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
         user.name = this.name;
         user.wca_id = this.wcaId;
         user.delegate_satus = this.delegateStatus;
-        if (this.roles !== undefined && this.roles !== null) {
+        if (!this.checkIfRoleIsStupid() && this.roles !== undefined && this.roles !== null) {
             user.roles = this.roles.map((role: RoleEntity) => role._transform());
         }
         return user;
+    }
+
+    /**
+     * This is a workaround because in case a user has no role, typeorm adds a completely null role in the roles array
+     * If we don't check this, it'll make the conversion from Entity to Model crash
+     *
+     * @private
+     * @returns {boolean}
+     * @memberof UserEntity
+     */
+    private checkIfRoleIsStupid(): boolean {
+        if (this.roles.length == 1) {
+            let role: RoleEntity = this.roles[0];
+            if (role.isLeader === null && role.team === null && role.user === null) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

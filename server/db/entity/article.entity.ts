@@ -1,5 +1,5 @@
 import { ITransformable } from "../transformable";
-import { Column, PrimaryColumn, ManyToMany, ManyToOne, Entity, UpdateDateColumn, CreateDateColumn, BaseEntity } from "typeorm";
+import { Column, PrimaryColumn, ManyToMany, ManyToOne, Entity, UpdateDateColumn, CreateDateColumn, BaseEntity, JoinTable } from "typeorm";
 import { ArticleModel } from "../../models/classes/article.model";
 import { ArticleCategoryEntity } from "./category.entity";
 import { UserEntity } from "./user.entity";
@@ -50,8 +50,8 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {Date}
      * @memberof BasicPageEntity
      */
-    @CreateDateColumn()
-    public createDate: Date;
+    @Column({ nullable: true })
+    public publishDate: Date;
 
     /**
      * Automatically updates every time the page is edited
@@ -77,8 +77,9 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {boolean}
      * @memberof ArticleEntity
      */
-    @Column({ nullable: false })
+    @Column({ nullable: false, default: false })
     public isPublic: boolean;
+
 
     /**
      * Cetegories to which the article belongs to
@@ -87,6 +88,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @memberof ArticleEntity
      */
     @ManyToMany(type => ArticleCategoryEntity, category => category.articles, { nullable: true, eager: true })
+    @JoinTable()
     public categories: ArticleCategoryEntity[];
 
     /**
@@ -96,6 +98,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @memberof ArticleEntity
      */
     @ManyToOne(type => UserEntity, user => user.createdArticles, { eager: true, nullable: true })
+    @JoinTable()
     public author: UserEntity;
 
     /**
@@ -105,6 +108,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @memberof ArticleEntity
      */
     @ManyToOne(type => UserEntity, user => user.editedArticles, { eager: true, nullable: true })
+    @JoinTable()
     public lastEditor: UserEntity;
 
     /**
@@ -124,7 +128,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
         });
         this.title = origin.title;
         this.content = origin.content || "";
-        this.createDate = origin.createDate || null;
+        this.publishDate = origin.publishDate || null;
         this.updateDate = origin.updateDate || null;
         if (origin.author !== undefined && origin.author !== null) {
             this.author._assimilate(origin.author);
@@ -153,7 +157,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
         article.content = this.content;
         article.author = this.author._transform();
         article.lastEditor = this.lastEditor._transform();
-        article.createDate = this.createDate;
+        article.publishDate = this.publishDate;
         article.updateDate = this.updateDate;
         return article;
     }

@@ -52,7 +52,7 @@ export class SinglePageEntity extends BaseEntity implements ITransformable<Singl
      * @memberof BasicPageEntity
      */
     @CreateDateColumn()
-    public createDate: Date;
+    public publishDate: Date;
 
 
     /**
@@ -112,7 +112,7 @@ export class SinglePageEntity extends BaseEntity implements ITransformable<Singl
         this.inCollectionIndex = origin.inCollectionIndex || 0;
         this.title = origin.title;
         this.content = origin.content || "";
-        this.createDate = origin.createDate || null;
+        this.publishDate = origin.publishDate || null;
         this.updateDate = origin.updateDate || null;
         if (origin.author !== undefined && origin.author !== null) {
             this.author._assimilate(origin.author);
@@ -134,7 +134,7 @@ export class SinglePageEntity extends BaseEntity implements ITransformable<Singl
         page.inCollectionIndex = this.inCollectionIndex;
         page.title = this.title;
         page.content = this.content;
-        page.createDate = this.createDate;
+        page.publishDate = this.publishDate;
         page.updateDate = this.updateDate;
         page.author = this.author._transform();
         page.lastEditor = this.lastEditor._transform();

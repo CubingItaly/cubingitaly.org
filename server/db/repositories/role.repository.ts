@@ -67,5 +67,4 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return;
     }
 
-
 }

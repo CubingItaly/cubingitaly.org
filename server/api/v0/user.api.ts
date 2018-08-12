@@ -4,9 +4,9 @@ import { getCustomRepository } from "typeorm";
 import { UserEntity } from "../../db/entity/user.entity";
 import { return404 } from "../../shared/error.utils";
 import { Router } from "express";
-/** We need this even if it's not used because otherwise we can't access to some methods and attributes */
-import * as passport from "passport";
 import { verifyLogin } from "../../shared/login.utils";
+import * as passport from "passport";
+
 const router: Router = Router();
 
 /**
@@ -23,7 +23,6 @@ function getUserRepository(): UserRepository {
  * If the user is logged in, return his information
  */
 router.get("/me", verifyLogin, (req, res) => {
-    console.log("ciao");
     sendUserFromRepository(req, res, req.user.id, false);
 });
 
@@ -56,10 +55,11 @@ async function sendUserFromRepository(req, res, id: number, short: boolean): Pro
     let exist: boolean = await userRepo.checkIfUserExistsById(req.params.id || "");
     if (exist) {
         let dbUser: UserEntity = short ? await userRepo.getShortUserById(id) : await userRepo.getUserById(id);
+        console.log(dbUser);
         let modelUser: UserModel = dbUser._transform();
-        res.status(200).send(modelUser);
+        return res.status(200).send(modelUser);
     } else {
-        return404(res);
+        return return404(res);
     }
 }
 
@@ -70,7 +70,7 @@ router.get("/", async (req, res) => {
     let userRepo: UserRepository = getUserRepository();
     let dbUsers: UserEntity[] = await userRepo.findUsersByName(req.query.name || "");
     let modelUsers: UserModel[] = dbUsers.map((user: UserEntity) => user._transform());
-    res.status(200).send(modelUsers);
+    return res.status(200).send(modelUsers);
 });
 
 

@@ -183,7 +183,7 @@ export class UserModel {
     }
 
     public canManageTeam(team: TeamModel): boolean {
-        return this.isLeaderOf(team);
+        return this.isLeaderOf(team) || this.canAdminTeams();
     }
 
     public canAdminArticles(): boolean {

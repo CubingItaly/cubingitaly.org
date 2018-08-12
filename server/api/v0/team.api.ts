@@ -7,8 +7,6 @@ import { return404, return403, return400 } from "../../shared/error.utils";
 import { UserRepository } from "../../db/repositories/user.repository";
 import { UserEntity } from "../../db/entity/user.entity";
 import { UserModel } from "../../models/classes/user.model";
-/** We need this even if it's not used because otherwise we can't access to some methods and attributes */
-import * as passport from "passport";
 import { getCustomRepository } from "typeorm";
 import { RoleRepository } from "../../db/repositories/role.repository";
 import { RoleEntity } from "../../db/entity/role.entity";
@@ -58,7 +56,7 @@ async function checkIfTeamExist(req, res, next) {
     if (exist) {
         next();
     } else {
-        return404(res);
+        return return404(res);
     }
 }
 
@@ -95,10 +93,10 @@ async function getMember(id): Promise<UserEntity> {
 async function checkIfCanManageTeam(req, res, next) {
     let dbTeam: TeamEntity = await getTeam(req.params.team);
     let user: UserModel = getUser(req);
-    if (user.canManageTeam(dbTeam._transform()) || user.canAdminTeams) {
+    if (user.canManageTeam(dbTeam._transform())) {
         next();
     } else {
-        return403(res);
+        return return403(res);
     }
 }
 
@@ -111,12 +109,11 @@ async function checkIfCanManageTeam(req, res, next) {
  * @param {*} next
  */
 async function checkIfCanAdminTeam(req, res, next) {
-    let dbTeam: TeamEntity = await getTeam(req.params.team);
     let user: UserModel = getUser(req);
     if (user.canAdminTeams) {
         next();
     } else {
-        return403(res);
+        return return403(res);
     }
 }
 
@@ -134,7 +131,7 @@ async function checkIfUserIsInTheRequest(req, res, next) {
         next();
     }
     else {
-        return400(res);
+        return return400(res);
     }
 }
 
@@ -153,7 +150,7 @@ async function checkIfUserExist(req, res, next) {
     if (exist) {
         next();
     } else {
-        return404(res);
+        return return404(res);
     }
 }
 
@@ -166,7 +163,7 @@ router.get("/", async (req: Request, res: Response) => {
     let dbTeams: TeamEntity[] = await teamRepo.getTeams();
     console.log(dbTeams);
     let modelTeams: TeamModel[] = dbTeams.map((team: TeamEntity) => team._transform());
-    res.status(200).json(modelTeams);
+    return res.status(200).json(modelTeams);
 });
 
 
@@ -178,9 +175,9 @@ router.get("/:team", async (req: Request, res: Response) => {
     let exist: boolean = await teamRepo.checkIfTeamExistsById(req.params.team || "");
     if (exist) {
         let dbTeam: TeamEntity = await teamRepo.getTeamById(req.params.team);
-        res.status(200).json(dbTeam._transform());
+        return res.status(200).json(dbTeam._transform());
     } else {
-        return404(res);
+        return return404(res);
     }
 });
 
@@ -196,9 +193,9 @@ router.get("/:team/members", async (req: Request, res: Response) => {
         let dbTeam: TeamEntity = await teamRepo.getTeamById(req.params.team);
         let dbUsers: UserEntity[] = await userRepo.findUsersByTeam(dbTeam);
         let modelUsers: UserModel[] = dbUsers.map((user: UserEntity) => user._transform());
-        res.status(200).json(modelUsers);
+        return res.status(200).json(modelUsers);
     } else {
-        return404(res);
+        return return404(res);
     }
 });
 
@@ -212,7 +209,7 @@ router.post("/:team/members", verifyLogin, checkIfTeamExist, checkIfCanManageTea
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
     let role: RoleEntity = await roleRepo.addRole(user, team);
-    res.status(200).json(role._transform());
+    return res.status(200).json(role._transform());
 });
 
 
@@ -224,7 +221,7 @@ router.delete("/:team/members/:member", verifyLogin, checkIfTeamExist, checkIfCa
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
     await roleRepo.removeRole(user, team);
-    res.status(200);
+    return res.status(200);
 });
 
 
@@ -236,7 +233,7 @@ router.put("/:team/leaders", verifyLogin, checkIfTeamExist, checkIfCanAdminTeam,
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
     let role: RoleEntity = await roleRepo.addLeader(user, team);
-    res.status(200).json(role._transform());
+    return res.status(200).json(role._transform());
 });
 
 
@@ -247,7 +244,7 @@ router.delete("/:team/leaders/:member", verifyLogin, checkIfTeamExist, checkIfCa
     const roleRepo: RoleRepository = getRoleRepository();
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
-    await roleRepo.removeLeader(user, team);
+    return await roleRepo.removeLeader(user, team);
 });
 
 export { router }

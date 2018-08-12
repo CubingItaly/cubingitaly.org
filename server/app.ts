@@ -4,8 +4,10 @@ import * as compression from 'compression';
 import * as express from 'express';
 import * as path from 'path';
 import * as session from 'express-session';
+import * as expressSanitizer from 'express-sanitizer';
 import { keys } from './secrets/keys';
 import * as passport from 'passport';
+import './passport/strategy.passport.wca';
 
 //Router files
 import { router as authRoutes } from './api/v0/auth.api';
@@ -38,6 +40,7 @@ app.disable("x-powered-by");
 app.use(json());
 app.use(compression());
 app.use(urlencoded({ extended: true }));
+app.use(expressSanitizer());
 
 app.use(session(
   {
@@ -47,7 +50,6 @@ app.use(session(
     cookie: keys.session.cookie
   }
 ));
-
 
 app.use(passport.initialize());
 app.use(passport.session());

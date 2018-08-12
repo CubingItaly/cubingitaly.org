@@ -37,7 +37,7 @@ export class BasicPageModel {
      * @memberof BasicPageModel
      */
     @autoserialize
-    public createDate: Date;
+    public publishDate: Date;
 
 
     /**

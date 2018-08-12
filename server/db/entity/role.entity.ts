@@ -11,11 +11,9 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
     public isLeader: boolean;
 
     @ManyToOne(type => UserEntity, user => user.roles, { nullable: false, primary: true })
-    @JoinTable()
     public user: UserEntity;
 
     @ManyToOne(type => TeamEntity, team => team.roles, { nullable: false, primary: true })
-    @JoinTable()
     public team: TeamEntity;
 
 

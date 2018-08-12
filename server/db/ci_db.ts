@@ -1,7 +1,6 @@
 import { DB } from "./database";
 import { _BOOTSTRAPS } from "./__bootstraps";
 import { TeamRepository } from "./repositories/team.repository";
-import { getTeamRepository, getUserRepository } from "../shared/repository.utils";
 import { UserRepository } from "./repositories/user.repository";
 import { TeamEntity } from "./entity/team.entity";
 import { UserEntity } from "./entity/user.entity";
@@ -40,15 +39,6 @@ export class CI_DB extends DB {
       })(0, _BOOTSTRAPS().length);
 
       console.log('Connected to the database');
-
-      //# warning: The following lines are just for test purpose and they'll be deleted before going on production
-      /*let teamRepo: TeamRepository = getTeamRepository();
-      let userRepo: UserRepository = getUserRepository();
-      let adminTeam: TeamEntity = await teamRepo.getTeamById("admin");
-      console.log(adminTeam);
-      /let users: UserEntity[] = await userRepo.findUsersByTeam(adminTeam);
-      *console.log("Admins:", users);
-      */
     }
     catch (e) {
       console.error('Exception occurred.');
