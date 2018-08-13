@@ -142,6 +142,11 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         return await this.repository.save(oldArticle);
     }
 
+    /**
+     * Creates an article with only id and title
+     * 
+     * @param title 
+     */
     public async createArticle(title: string): Promise<ArticleEntity> {
         let id: string = await this.generateId(title);
         let article: ArticleEntity = new ArticleEntity();
@@ -150,6 +155,12 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         return await this.repository.save(article);
     }
 
+    /**
+     * Generates an id for a new article.
+     * If the candidate id already exists, adds an index after the id.
+     * 
+     * @param title 
+     */
     private async generateId(title: string): Promise<string> {
         let id: string = this.generateArticleId(title);
         let exists: boolean;
@@ -164,6 +175,11 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         } while (exists);
     }
 
+    /**
+     * Cleans the title to generate a candidate id.
+     * 
+     * @param title 
+     */
     private generateArticleId(title: string): string {
         let id: string = title;
         //remove spaces at the start or at the end of the id
@@ -184,6 +200,11 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         return id;
     }
 
+    /**
+     * Counts the number of ids that are like the candidate one.
+     * 
+     * @param id 
+     */
     private async countArticleIdsLike(id: string): Promise<number> {
         let count: number = await this.repository.count({ id: Like(id + "%") });
         return count;

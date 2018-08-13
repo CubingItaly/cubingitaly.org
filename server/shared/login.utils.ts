@@ -1,6 +1,6 @@
 import { UserModel } from "../models/classes/user.model";
 import { Deserialize } from "cerialize";
-import { return403 } from "./error.utils";
+import { sendError } from "./error.utils";
 
 
 /**
@@ -22,7 +22,7 @@ export function verifyLogin(req, res, next): void {
     if (req.isAuthenticated()) {
         next();
     } else {
-        return403(res);
+        sendError(res, 403, "Login is required. Please, login and retry.")
     }
 }
 

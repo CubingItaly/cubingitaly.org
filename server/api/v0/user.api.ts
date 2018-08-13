@@ -1,16 +1,16 @@
 import { UserModel } from "../../models/classes/user.model";
-import { UserRepository } from "../../db/repositories/user.repository";
+import { UserRepository } from "../../db/repository/user.repository";
 import { getCustomRepository } from "typeorm";
 import { UserEntity } from "../../db/entity/user.entity";
-import { return404 } from "../../shared/error.utils";
+import { sendError } from "../../shared/error.utils";
 import { Router } from "express";
-import { verifyLogin } from "../../shared/login.utils";
+//# we need this because otherwise passport doesn't work
 import * as passport from "passport";
 
 const router: Router = Router();
 
 /**
- * Instantiates a UserRepository and returns it
+ * Instantiate a UserRepository and return it
  *
  * @returns {UserRepository}
  */
@@ -22,7 +22,10 @@ function getUserRepository(): UserRepository {
 /**
  * If the user is logged in, return his information
  */
-router.get("/me", verifyLogin, (req, res) => {
+router.get("/me", (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(200).json({});
+    }
     sendUserFromRepository(req, res, req.user.id, false);
 });
 
@@ -41,8 +44,8 @@ router.get("/:id/short", async (req, res) => {
 });
 
 /**
- * Retrieves a specific user from the database and sends it to the client
- * If the user doesn't exist, returns error 404
+ * Retrieve a specific user from the database and send it to the client
+ * If the user doesn't exist, return error 404
  *
  * @param {*} req
  * @param {*} res
@@ -52,14 +55,13 @@ router.get("/:id/short", async (req, res) => {
  */
 async function sendUserFromRepository(req, res, id: number, short: boolean): Promise<void> {
     let userRepo: UserRepository = getUserRepository();
-    let exist: boolean = await userRepo.checkIfUserExistsById(req.params.id || "");
+    let exist: boolean = await userRepo.checkIfUserExistsById(id);
     if (exist) {
         let dbUser: UserEntity = short ? await userRepo.getShortUserById(id) : await userRepo.getUserById(id);
-        console.log(dbUser);
         let modelUser: UserModel = dbUser._transform();
         return res.status(200).send(modelUser);
     } else {
-        return return404(res);
+        return sendError(res, 404, "The requested user does not exist.");
     }
 }
 

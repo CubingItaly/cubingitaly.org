@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserModel } from '../../../server/models/classes/user.model';
-import { TeamModel } from '../../../server/models/classes/team.model';
 
 /**
  * Service use to manage the authentication of the user
@@ -14,7 +13,6 @@ export class AuthService {
 
     public isLoggedIn: boolean = false;
     public authUser: UserModel;
-    public userTeams: TeamModel[];
     private apiBase: string = "/api/v0";
 
     /**
@@ -25,9 +23,14 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.http.get<UserModel>(this.apiBase + "/users/me").subscribe((user: UserModel) => {
-            this.authUser = user;
-        });
+        this.http.get<UserModel>(this.apiBase + "/users/me")
+            .subscribe((user: UserModel) => {
+                if (user.id !== undefined) {
+                    this.authUser = user;
+                    this.isLoggedIn = true;
+                }
+            }
+                , (err: HttpErrorResponse) => { console.log("There was an error while retrieving the user from the server") });
     }
 
     /**
@@ -36,7 +39,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public login(): void {
-        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/wca";
+        this.http.get(this.apiBase+"/auth/wca");
     }
 
     /**
@@ -45,7 +48,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public logout(): void {
-        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/logout";
+        this.http.delete(this.apiBase+"/auth/logout");
     }
 
 }

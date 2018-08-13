@@ -1,7 +1,7 @@
 import { DB } from "./database";
 import { _BOOTSTRAPS } from "./__bootstraps";
-import { TeamRepository } from "./repositories/team.repository";
-import { UserRepository } from "./repositories/user.repository";
+import { TeamRepository } from "./repository/team.repository";
+import { UserRepository } from "./repository/user.repository";
 import { TeamEntity } from "./entity/team.entity";
 import { UserEntity } from "./entity/user.entity";
 

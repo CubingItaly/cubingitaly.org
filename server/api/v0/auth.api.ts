@@ -5,7 +5,7 @@ const router: Router = Router();
 
 
 /**
- * Logs out the user and then redirects him to the homepage
+ * Log out the user and then redirect him to the homepage
  */
 router.delete("/logout", (req, res): void => {
     req.logout();
@@ -13,12 +13,12 @@ router.delete("/logout", (req, res): void => {
 });
 
 /**
- * Redirects the user to the WCA website to ask for the permissions 
+ * Redirect the user to the WCA website to ask for the permissions 
  */
 router.get("/wca", passport.authenticate('wca'));
 
 /**
- * Logs in the user and then redirects him to the root
+ * Log in the user and then redirect him to the root
  */
 router.get('/wca/callback', passport.authenticate('wca'),
     function (req, res) {

@@ -3,7 +3,7 @@ import { Strategy as WCAStrategy } from 'passport-wca';
 import { keys } from '../secrets/keys';
 import { UserModel } from '../models/classes/user.model';
 import { Deserialize } from 'cerialize';
-import { UserRepository } from '../db/repositories/user.repository';
+import { UserRepository } from '../db/repository/user.repository';
 import { getCustomRepository } from 'typeorm';
 import { UserEntity } from '../db/entity/user.entity';
 
