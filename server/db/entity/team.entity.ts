@@ -33,6 +33,15 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     @Column({ nullable: false, length: 35 })
     public name: string;
 
+    /**
+     * Whether the team is public or not
+     *
+     * @type {boolean}
+     * @memberof TeamEntity
+     */
+    @Column({ nullable: false, default: true })
+    public isPublic: boolean;
+
     @OneToMany(type => RoleEntity, role => role.team, { nullable: true })
     public roles: RoleEntity[];
 
@@ -45,6 +54,7 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     _assimilate(origin: TeamModel): void {
         this.id = origin.id;
         this.name = origin.name;
+        this.isPublic = origin.isPublic || true;
         this.roles = origin.roles.map((role: RoleModel) => {
             let tmp: RoleEntity = new RoleEntity();
             tmp._assimilate(role);
@@ -62,6 +72,7 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
         let team: TeamModel = new TeamModel();
         team.id = this.id;
         team.name = this.name;
+        team.isPublic = this.isPublic;
         if (this.roles !== undefined && this.roles !== null) {
             team.roles = this.roles.map((role: RoleEntity) => role._transform());
         }

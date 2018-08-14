@@ -7,7 +7,7 @@ const router: Router = Router();
 /**
  * Log out the user and then redirect him to the homepage
  */
-router.delete("/logout", (req, res): void => {
+router.get("/logout", (req, res): void => {
     req.logout();
     res.redirect("/");
 });

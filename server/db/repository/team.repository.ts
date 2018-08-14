@@ -11,6 +11,9 @@ import { TeamEntity } from "../entity/team.entity";
  */
 @EntityRepository(TeamEntity)
 export class TeamRepository extends BaseCommonRepository<TeamEntity> {
+    private teamIds: string[] = ["admin", "board", "citc", "citi", "citq"];
+    private teamNames: string[] = ["Admin", "Cubing Italy Board", "Cubing Italy Team Comunicazione", "Cubing Italy Team Informatico", "Cubing Italy Team Qualità"];
+    private publicStatus: boolean[] = [false, true, true, true, true];
 
     /**
      *
@@ -28,6 +31,17 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
      * @memberof Repository
      */
     public async InitDefaults(): Promise<void> {
+        let exist: boolean = false;
+        let team: TeamEntity = new TeamEntity;
+        for (let i = 0; i < this.teamIds.length; i++) {
+            exist = await this.checkIfTeamExistsById(this.teamIds[i]);
+            if (!exist) {
+                team.id = this.teamIds[i];
+                team.name = this.teamNames[i]
+                team.isPublic = this.publicStatus[i];
+                await this.repository.save(team);
+            }
+        }
         return;
     }
 
@@ -43,14 +57,10 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
 
     public async getTeamById(id: string): Promise<TeamEntity> {
         let exist: boolean = await this.checkIfTeamExistsById(id);
-        if(exist){
+        if (exist) {
             let result: TeamEntity = await this.repository.findOne(id);
             return result;
         }
-        return;
-    }
-
-    public async addTeam(team: TeamEntity): Promise<boolean> {
         return;
     }
 

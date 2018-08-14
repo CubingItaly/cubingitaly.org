@@ -97,8 +97,8 @@ export class UserModel {
      * @returns {boolean}
      * @memberof UserModel
      */
-    public isMemberOf(team: TeamModel): boolean {
-        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team.id));
+    public isMemberOf(team: string): boolean {
+        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team));
         return (index >= 0);
     }
 
@@ -112,8 +112,8 @@ export class UserModel {
      * @returns {boolean}
      * @memberof UserModel
      */
-    public isLeaderOf(team: TeamModel): boolean {
-        return this.isMemberOf(team) && this.roles.find((r: RoleModel) => r.team === team.id).isLeader;
+    public isLeaderOf(team: string): boolean {
+        return this.isMemberOf(team) && this.roles.find((r: RoleModel) => r.team === team).isLeader;
     }
 
 
@@ -183,7 +183,7 @@ export class UserModel {
     }
 
     public canManageTeam(team: TeamModel): boolean {
-        return this.isLeaderOf(team) || this.canAdminTeams();
+        return this.isLeaderOf(team.id) || this.canAdminTeams();
     }
 
     public canAdminArticles(): boolean {

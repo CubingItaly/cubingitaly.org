@@ -148,7 +148,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
      * @memberof UserEntity
      */
     private checkIfRoleIsStupid(): boolean {
-        if (this.roles.length == 1) {
+        if (this.roles && this.roles.length == 1) {
             let role: RoleEntity = this.roles[0];
             if (role.isLeader === null && role.team === null && role.user === null) {
                 return true;

@@ -39,7 +39,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public login(): void {
-        this.http.get(this.apiBase+"/auth/wca");
+        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/wca";
     }
 
     /**
@@ -48,7 +48,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public logout(): void {
-        this.http.delete(this.apiBase+"/auth/logout");
+        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/logout";
     }
 
 }

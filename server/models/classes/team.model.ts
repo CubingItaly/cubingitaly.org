@@ -30,6 +30,16 @@ export class TeamModel {
     public name: string;
 
     /**
+     * Whether the team is public or not
+     * Private team should not be displayed on the website
+     *
+     * @type {boolean}
+     * @memberof TeamModel
+     */
+    @autoserialize
+    public isPublic: boolean;
+
+    /**
     * The roles associated to the team 
     * 
     * @type {RoleModel[]}

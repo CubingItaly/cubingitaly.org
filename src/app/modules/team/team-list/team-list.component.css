@@ -1,0 +1,24 @@
+.mat-header-cell{
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+}
+
+.mat-column-name{
+    flex: 1 0 150px;
+}
+
+.mat-column-options {
+    flex: 0 0 100px !important;
+    white-space: unset !important;
+    justify-content: center;
+}
+
+.mat-table{
+    overflow: auto;
+}
+
+a{
+    color: #000;
+    text-decoration: none;
+}

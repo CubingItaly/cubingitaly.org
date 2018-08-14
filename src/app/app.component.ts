@@ -35,12 +35,6 @@ export class AppComponent implements OnInit {
       text: "team",
       url: "/teams",
       isSelected: false
-    },
-    {
-      id: "articles",
-      text: "articoli",
-      url: "/articles",
-      isSelected: false
     }
   ]
 
