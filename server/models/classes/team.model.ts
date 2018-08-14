@@ -62,14 +62,4 @@ export class TeamModel {
         return false;
     }
 
-    /**
-     * Returns true if the team is equal to the parameter
-     *
-     * @param {TeamModel} t
-     * @returns {boolean}
-     * @memberof TeamModel
-     */
-    public equals(team: TeamModel): boolean {
-        return this.id === team.id;
-    }
 }

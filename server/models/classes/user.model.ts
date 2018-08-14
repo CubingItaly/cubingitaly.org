@@ -65,19 +65,6 @@ export class UserModel {
      * Methods
      * ---------------------------- **/
 
-
-    /**
-     * Returns true if the user is equale to the parameter one
-     *
-     * @param {UserModel} user
-     * @returns {boolean}
-     * @memberof UserModel
-     */
-    public equals(user: UserModel): boolean {
-        return this.id === user.id;
-    }
-
-
     /**
      * Returns true if the user is a Delegate, false otherwise
      *

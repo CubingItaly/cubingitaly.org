@@ -9,6 +9,7 @@
     "lint:client": "ng lint",
     "lint:server": "tslint './server/**/*.ts' -c ./server/tslint.json --fix",
     "test:client": "ng test --watch false",
+    "test:server": "mocha -r ts-node/register ./server/**/*.spec.ts",
     "e2e:client": "ng e2e",
     "build": "ng build --prod --aot --output-path=dist/client && npm run server:build",
     "server:run": "nodemon $NODE_DEBUG_OPTION",
@@ -86,7 +87,6 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
     "ts-helpers": "^1.1.2",
-    "ts-node": "~7.0.0",
     "tslint": "^5.11.0",
     "typeorm": "^0.2.7",
     "typescript": "^2.9.2",
@@ -96,7 +96,10 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.7.0",
+    "@types/chai": "^4.1.4",
     "@types/jquery": "^3.3.5",
+    "@types/mocha": "^5.2.5",
+    "chai": "^4.1.2",
     "codelyzer": "^4.4.2",
     "concurrently": "^3.6.1",
     "jasmine-core": "^3.1.0",
@@ -108,8 +111,10 @@
     "karma-jasmine": "^1.1.2",
     "karma-jasmine-html-reporter": "^1.2.0",
     "karma-remap-istanbul": "^0.6.0",
+    "mocha": "^5.2.0",
     "nodemon": "^1.18.3",
     "protractor": "^5.4.0",
+    "ts-node": "^7.0.1",
     "webdriver-manager": "12.1.0"
   }
 }
