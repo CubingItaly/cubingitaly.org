@@ -55,11 +55,6 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
         this.id = origin.id;
         this.name = origin.name;
         this.isPublic = origin.isPublic || true;
-        this.roles = origin.roles.map((role: RoleModel) => {
-            let tmp: RoleEntity = new RoleEntity();
-            tmp._assimilate(role);
-            return tmp;
-        });
     }
 
     /**

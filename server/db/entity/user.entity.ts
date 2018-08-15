@@ -114,11 +114,6 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
         this.wcaId = origin.wca_id;
         this.name = origin.name;
         this.delegateStatus = origin.delegate_satus;
-        this.roles = origin.roles.map((role: RoleModel) => {
-            let tmp: RoleEntity = new RoleEntity();
-            tmp._assimilate(role);
-            return tmp;
-        });
     }
 
     /**
