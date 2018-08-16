@@ -85,7 +85,7 @@ export class UserModel {
      * @memberof UserModel
      */
     public isMemberOf(team: string): boolean {
-        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team));
+        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team ));
         return (index >= 0);
     }
 

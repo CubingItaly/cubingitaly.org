@@ -2,13 +2,12 @@ import { Entity, BaseEntity, PrimaryColumn, Column, OneToMany, JoinTable } from 
 import { ITransformable } from "../transformable";
 import { UserModel } from "../../models/classes/user.model";
 import { RoleEntity } from "./role.entity";
-import { RoleModel } from "../../models/classes/role.model";
 import { ArticleEntity } from "./article.entity";
 import { SinglePageEntity } from "./singlepage.entity";
 
 
 /**
- * Database Entity that represents a User 
+ * Database Entity that represents a User.
  *
  * @export
  * @class UserEntity
@@ -19,7 +18,7 @@ import { SinglePageEntity } from "./singlepage.entity";
 export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
 
     /**
-     * User's id, the same as on the WCA website
+     * User's id, the same as on the WCA website.
      *
      * @type {number}
      * @memberof UserEntity
@@ -29,7 +28,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
 
     /**
      * User's WCA id.
-     * Null if the user never competed in a WCA competition
+     * Null if the user never competed in a WCA competition.
      *
      * @type {string}
      * @memberof UserEntity
@@ -38,7 +37,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public wcaId: string;
 
     /**
-     * User's name
+     * User's name.
      *
      * @type {string}
      * @memberof UserEntity
@@ -47,8 +46,8 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public name: string;
 
     /**
-     * Delegate status of the user
-     * Null if the user is not a delegate
+     * Delegate status of the user.
+     * Null if the user is not a delegate.
      *
      * @type {string}
      * @memberof UserEntity
@@ -57,8 +56,8 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public delegateStatus: string;
 
     /**
-     * Roles of the user in the teams of Cubing Italy
-     * Null if the user has no roles
+     * Roles of the user in the teams of Cubing Italy.
+     * Null if the user has no roles.
      *
      * @type {RoleEntity[]}
      * @memberof UserEntity
@@ -67,7 +66,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public roles: RoleEntity[];
 
     /**
-     * Articles published by the user
+     * Articles published by the user.
      *
      * @type {ArticleEntity[]}
      * @memberof UserEntity
@@ -76,7 +75,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public createdArticles: ArticleEntity[];
 
     /**
-     * Articles of  which the user is the last editor
+     * Articles of  which the user is the last editor.
      *
      * @type {ArticleEntity[]}
      * @memberof UserEntity
@@ -85,7 +84,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public editedArticles: ArticleEntity[];
 
     /**
-     * Pages whose creator is the user
+     * Pages whose creator is the user.
      *
      * @type {SinglePageEntity[]}
      * @memberof UserEntity
@@ -94,7 +93,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     public createdPages: SinglePageEntity[];
 
     /**
-     * Pages whose last editor is the user
+     * Pages whose last editor is the user.
      *
      * @type {SinglePageEntity[]}
      * @memberof UserEntity
@@ -104,7 +103,8 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
 
 
     /**
-     * Takes a UserModel in input and copies its data
+     * Takes a UserModel in input and copies its data.
+     * Only user's personal information are assimilated, not roles and other relations.
      *
      * @param {UserModel} origin
      * @memberof UserEntity
@@ -117,7 +117,8 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     }
 
     /**
-     * Returns a UserModel which is the copy of the current entity
+     * Returns a UserModel which is the copy of the current entity.
+     * If present, roles are included.
      *
      * @returns {UserModel}
      * @memberof UserEntity
@@ -135,8 +136,8 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
     }
 
     /**
-     * This is a workaround because in case a user has no role, typeorm adds a completely null role in the roles array
-     * If we don't check this, it'll make the conversion from Entity to Model crash
+     * This is a workaround because in case a user has no role, typeorm adds a completely null role in the roles array.
+     * If we don't check this, it'll make the conversion from Entity to Model crash.
      *
      * @private
      * @returns {boolean}

@@ -46,7 +46,7 @@ export class TeamModel {
     * @memberof TeamModel
     */
     @autoserializeAs(RoleModel)
-    public roles: RoleModel[];
+    public roles: RoleModel[] = [];
 
 
     /**
