@@ -146,7 +146,7 @@ async function checkIfUserIsInTheRequest(req, res, next) {
 async function checkIfUserExist(req, res, next) {
     let member: number = req.params.member || req.body.member;
     const userRepo: UserRepository = getUserRepository();
-    let exist: boolean = await userRepo.checkIfUserExistsById(member);
+    let exist: boolean = await userRepo.checkIfUserExists(member);
     if (exist) {
         next();
     } else {

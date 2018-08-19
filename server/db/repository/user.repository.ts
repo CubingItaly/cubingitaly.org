@@ -18,48 +18,31 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
     /**
      * Checks if the given user exists and, if so, returns true
      * 
-     * @param user 
-     */
-    public async checkIfUserExists(user: UserEntity): Promise<boolean> {
-        return await this.checkIfUserExistsById(user.id);
-    }
-
-    /**
-     * Checks if the given user exists and, if so, returns true
-     * 
      * @param id 
      */
-    public async checkIfUserExistsById(id: number): Promise<boolean> {
+    public async checkIfUserExists(id: number): Promise<boolean> {
         let result: UserEntity = await this.repository.findOne(id);
         return (result !== undefined && result !== null);
     }
 
     /**
      * Search for a user and returns it
-     * If the user is not found returns null
+     * If the user is not found returns undefined
      * 
      * @param id  
      */
     public async getUserById(id: number): Promise<UserEntity> {
-        let exist: boolean = await this.checkIfUserExistsById(id);
-        if (exist) {
-            return await this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
-        }
-        return;
+        return await this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
     }
 
     /**
      * Search for a user and returns it with only his personal data
-     * If the user is not found returns null
+     * If the user is not found returns undefined
      * 
      * @param id  
      */
     public async getShortUserById(id: number): Promise<UserEntity> {
-        let exist: boolean = await this.checkIfUserExistsById(id);
-        if (exist) {
-            return await this.repository.findOne(id);
-        }
-        return;
+        return await this.repository.findOne(id);
     }
 
     /**

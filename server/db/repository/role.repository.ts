@@ -12,7 +12,7 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
     public async InitDefaults(): Promise<void> {
         return;
     }
-
+    
     private async getRole(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         return (await this.repository.find({ where: { team: team, user: user } }))[0];
     }

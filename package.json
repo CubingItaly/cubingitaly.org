@@ -101,6 +101,8 @@
     "@types/chai": "^4.1.4",
     "@types/jquery": "^3.3.5",
     "@types/mocha": "^5.2.5",
+    "@types/mysql": "^2.15.5",
+    "@types/sinon": "^5.0.1",
     "chai": "^4.1.2",
     "codelyzer": "^4.4.2",
     "concurrently": "^3.6.1",
@@ -114,9 +116,12 @@
     "karma-jasmine-html-reporter": "^1.2.0",
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^5.2.0",
+    "mysql-import": "^1.0.9",
+    "mysqldump": "^2.2.1",
     "nodemon": "^1.18.3",
     "nyc": "^12.0.2",
     "protractor": "^5.4.0",
+    "sinon": "^6.1.5",
     "webdriver-manager": "12.1.0"
   }
 }

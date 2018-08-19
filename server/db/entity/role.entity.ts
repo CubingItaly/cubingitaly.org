@@ -25,7 +25,7 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
      * @type {UserEntity}
      * @memberof RoleEntity
      */
-    @ManyToOne(type => UserEntity, user => user.roles, { nullable: false, primary: true })
+    @ManyToOne(type => UserEntity, user => user.roles, { primary: true })
     public user: UserEntity;
 
     /**
@@ -34,7 +34,7 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
      * @type {TeamEntity}
      * @memberof RoleEntity
      */
-    @ManyToOne(type => TeamEntity, team => team.roles, { nullable: false, primary: true })
+    @ManyToOne(type => TeamEntity, team => team.roles, { primary: true })
     public team: TeamEntity;
 
     /**

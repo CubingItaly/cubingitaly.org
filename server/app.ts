@@ -1,4 +1,4 @@
-import { CI_DB } from './db/ci_db';
+import { Database } from './db/database';
 import { json, urlencoded } from "body-parser";
 import * as compression from 'compression';
 import * as express from 'express';
@@ -19,11 +19,11 @@ import { router as userRoutes } from './api/v0/user.api';
 import { production_url, development_url } from "./config";
 
 
-const db: CI_DB = new CI_DB();
+const db: Database = new Database();
+db.createConnection()
+  .then(() => db.initDatabase())
+  .then(() => console.log('DB successfully initialized'));
 
-db.initDefaultValues().then(() => {
-  console.log('DB successfully initialized');
-});
 
 const app: express.Application = express();
 

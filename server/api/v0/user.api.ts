@@ -55,7 +55,7 @@ router.get("/:id/short", async (req, res) => {
  */
 async function sendUserFromRepository(req, res, id: number, short: boolean): Promise<void> {
     let userRepo: UserRepository = getUserRepository();
-    let exist: boolean = await userRepo.checkIfUserExistsById(id);
+    let exist: boolean = await userRepo.checkIfUserExists(id);
     if (exist) {
         let dbUser: UserEntity = short ? await userRepo.getShortUserById(id) : await userRepo.getUserById(id);
         let modelUser: UserModel = dbUser._transform();
