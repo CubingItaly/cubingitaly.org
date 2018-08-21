@@ -34,6 +34,8 @@ export class MysqlTool {
 
 
     private db: MysqlDatabase;
+    private wasVoid: boolean;
+
     constructor() {
         this.db = new MysqlDatabase({
             host: keys.db.host,
@@ -84,12 +86,15 @@ export class MysqlTool {
         } catch (e) {
             /* istanbul ignore next */
             console.log("the database was void");
+            this.wasVoid = true;
         }
     }
 
     public async restoreDatabaseAfterTest() {
-        await this.cleanDatabase();
-        await this.restoreDatabase();
+        if (!this.wasVoid) {
+            await this.cleanDatabase();
+            await this.restoreDatabase();
+        }
         await this.closeDatabase();
     }
 }

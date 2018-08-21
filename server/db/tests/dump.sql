@@ -162,10 +162,6 @@ CREATE TABLE IF NOT EXISTS `user_entity` (
 # DATA DUMP FOR TABLE: user_entity
 # ------------------------------------------------------------
 
-INSERT INTO
-  `user_entity` (`id`, `wcaId`, `name`, `delegateStatus`)
-VALUES
-  (1, NULL, 'Test User', NULL);
 
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

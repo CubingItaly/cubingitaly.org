@@ -10,6 +10,7 @@ export class Database {
     public async createConnection(): Promise<void> {
         this.connection = await createConnection();
         this.isConnected = true;
+        console.log("connection created");
     }
 
     public async closeConnection() {
@@ -18,10 +19,12 @@ export class Database {
     }
 
     public async initDatabase(): Promise<void> {
-        let repo: BaseCommonRepository<BaseEntity>[] = _BOOTSTRAPS();
-        for(let i = 0; i< repo.length; i++){
-            await repo[i].InitDefaults();
+        let repos: BaseCommonRepository<BaseEntity>[] = _BOOTSTRAPS();
+        for (const repo of repos) {
+            await repo.InitDefaults();
+            console.log("Initialized " + repo._entityIdentifier);
         }
+        console.log("inizialization done");
         return;
     }
 
