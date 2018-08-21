@@ -53,7 +53,7 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
      * @memberof Repository
      */
     public async InitDefaults(): Promise<void> {
-        /*let exist: boolean = false;
+        let exist: boolean = false;
         let team: TeamEntity = new TeamEntity;
 
         for (const t of this.teams) {
@@ -63,10 +63,8 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
                 team.name = t.name;
                 team.isPublic = t.isPublic;
                 await this.repository.save(team);
-                console.log("saved team " + t.id);
             }
-        }*/
-        console.log("teams saved");
+        }
         return;
     }
 
@@ -81,12 +79,7 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
     }
 
     public async getTeamById(id: string): Promise<TeamEntity> {
-        let exist: boolean = await this.checkIfTeamExistsById(id);
-        if (exist) {
-            let result: TeamEntity = await this.repository.findOne(id);
-            return result;
-        }
-        return;
+        return await this.repository.findOne(id);
     }
 
     public async getTeams(): Promise<TeamEntity[]> {

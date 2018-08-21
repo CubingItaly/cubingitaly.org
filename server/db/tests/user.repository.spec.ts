@@ -6,12 +6,10 @@ import { MysqlTool } from './mysql.tool';
 import { UserRepository } from '../repository/user.repository';
 import { getCustomRepository } from 'typeorm';
 import { UserEntity } from '../entity/user.entity';
-import { TeamRepository } from '../repository/team.repository';
-import { TeamEntity } from '../entity/team.entity';
 
 let database: Database;
 let dbTool: MysqlTool;
-let userRepo: UserRepository
+let userRepo: UserRepository;
 
 
 describe('Test the user repository', () => {
@@ -25,26 +23,18 @@ describe('Test the user repository', () => {
         return result;
     }
 
-    before(() => {
-        return new Promise(async (resolve) => {
-            dbTool = new MysqlTool();
-            await dbTool.prepareDatabaseToTest();
-            database = new Database();
-            await database.createConnection();
-            await database.initDatabase();
-            userRepo = getCustomRepository(UserRepository);
-            resolve();
-        })
+    before(async () => {
+        dbTool = new MysqlTool();
+        await dbTool.prepareDatabaseToTest();
+        database = new Database();
+        await database.createConnection();
+        await database.initDatabase();
+        userRepo = getCustomRepository(UserRepository);
     });
 
     after(async () => {
         await database.closeConnection();
         await dbTool.restoreDatabaseAfterTest();
-    });
-
-    it('Assert true = true', () => {
-        console.log("testing");
-        assert.equal(true, true);
     });
 
     it('Test the login of a new user', async () => {

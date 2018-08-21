@@ -38,6 +38,7 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
     public team: TeamEntity;
 
     /**
+     * #WARNING: Do not use this method
      * Convert a RoleModel into a role entity.
      *
      * @param {RoleModel} origin
@@ -45,11 +46,7 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
      * @memberof RoleEntity
      */
     async _assimilate(origin: RoleModel): Promise<void> {
-        this.isLeader = origin.isLeader;
-        const userRepo: UserRepository = getCustomRepository(UserRepository);
-        this.user = await userRepo.getShortUserById(origin.user);
-        const teamRepo: TeamRepository = getCustomRepository(TeamRepository);
-        this.team = await teamRepo.getTeamById(origin.team);
+        //# WARN: Do not use this method
     }
 
     /**

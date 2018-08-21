@@ -10,7 +10,6 @@ export class Database {
     public async createConnection(): Promise<void> {
         this.connection = await createConnection();
         this.isConnected = true;
-        console.log("connection created");
     }
 
     public async closeConnection() {
@@ -22,9 +21,8 @@ export class Database {
         let repos: BaseCommonRepository<BaseEntity>[] = _BOOTSTRAPS();
         for (const repo of repos) {
             await repo.InitDefaults();
-            console.log("Initialized " + repo._entityIdentifier);
         }
-        console.log("inizialization done");
+
         return;
     }
 
