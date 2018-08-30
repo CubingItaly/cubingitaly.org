@@ -48,7 +48,7 @@ export class UserModel {
      * @memberof UserModel
      */
     @autoserialize
-    public delegate_satus: string;
+    public delegate_status: string;
 
 
     /**
@@ -72,7 +72,7 @@ export class UserModel {
      * @memberof UserModel
      */
     public isDelegate(): boolean {
-        return (this.delegate_satus !== undefined && this.delegate_satus !== null);
+        return (this.delegate_status !== undefined && this.delegate_status !== null);
     }
 
 

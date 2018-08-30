@@ -157,6 +157,26 @@ CREATE TABLE IF NOT EXISTS `user_entity` (
 # DATA DUMP FOR TABLE: team_entity
 # ------------------------------------------------------------
 
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('admin', 'Admin', 0);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('board', 'Cubing Italy Board', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citc', 'Cubing Italy Team Comunicazione', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citi', 'Cubing Italy Team Informatico', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citq', 'Cubing Italy Team Qualità', 1);
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: user_entity

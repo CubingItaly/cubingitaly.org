@@ -113,7 +113,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
         this.id = origin.id;
         this.wcaId = origin.wca_id;
         this.name = origin.name;
-        this.delegateStatus = origin.delegate_satus;
+        this.delegateStatus = origin.delegate_status;
     }
 
     /**
@@ -128,7 +128,7 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
         user.id = this.id;
         user.name = this.name;
         user.wca_id = this.wcaId;
-        user.delegate_satus = this.delegateStatus;
+        user.delegate_status = this.delegateStatus;
         if (!this.checkIfRoleIsStupid() && this.roles !== undefined && this.roles !== null) {
             user.roles = this.roles.map((role: RoleEntity) => role._transform());
         }

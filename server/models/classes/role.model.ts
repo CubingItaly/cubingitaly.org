@@ -47,6 +47,6 @@ export class RoleModel {
      * @memberof RoleModel
      */
     public equals(r: RoleModel): boolean {
-        return (this.isLeader === r.isLeader && this.team === r.team && this.user === r.user);
+        return (this.isLeader === r.isLeader && this.team === r.team && this.user == r.user);
     }
 }

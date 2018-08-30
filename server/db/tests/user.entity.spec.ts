@@ -20,7 +20,7 @@ describe('Test the assimilate method', () => {
         userModel.id = 0;
         userModel.name = "Test Name";
         userModel.wca_id = "2010NAME01";
-        userModel.delegate_satus = "Delegate"
+        userModel.delegate_status = "Delegate"
 
         user._assimilate(userModel);
 
@@ -62,7 +62,7 @@ describe('Test the transform method', () => {
         expect(userModel.id).to.equal(0);
         expect(userModel.name).to.equal("Test Name");
         expect(userModel.wca_id).to.equal("2010NAME01");
-        expect(userModel.delegate_satus).to.equal("Delegate");
+        expect(userModel.delegate_status).to.equal("Delegate");
         expect(userModel.roles).to.length(0);
     });
 

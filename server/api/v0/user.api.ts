@@ -6,6 +6,7 @@ import { sendError } from "../../shared/error.utils";
 import { Router } from "express";
 //# we need this because otherwise passport doesn't work
 import * as passport from "passport";
+import { isLoggedIn, getUser } from "../../shared/login.utils";
 
 const router: Router = Router();
 
@@ -22,25 +23,25 @@ function getUserRepository(): UserRepository {
 /**
  * If the user is logged in, return his information
  */
-router.get("/me", (req, res) => {
-    if (!req.isAuthenticated()) {
+router.get("/me", async (req, res) => {
+    if (!isLoggedIn(req)) {
         return res.status(200).json({});
     }
-    sendUserFromRepository(req, res, req.user.id, false);
+    await sendUserFromRepository(req, res, getUser(req).id, false);
 });
 
 /**
  * Get a specific user with all his personal data including the roles
  */
 router.get("/:id", async (req, res) => {
-    sendUserFromRepository(req, res, req.params.id, false);
+    await sendUserFromRepository(req, res, req.params.id, false);
 });
 
 /**
  * Get a specific user with all his personal data but the roles
  */
 router.get("/:id/short", async (req, res) => {
-    sendUserFromRepository(req, res, req.params.id, true);
+    await sendUserFromRepository(req, res, req.params.id, true);
 });
 
 /**
@@ -54,6 +55,7 @@ router.get("/:id/short", async (req, res) => {
  * @returns {Promise<void>}
  */
 async function sendUserFromRepository(req, res, id: number, short: boolean): Promise<void> {
+    id = Number(id);
     let userRepo: UserRepository = getUserRepository();
     let exist: boolean = await userRepo.checkIfUserExists(id);
     if (exist) {

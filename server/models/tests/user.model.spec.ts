@@ -31,7 +31,7 @@ describe('Test function to check if user is delegate', function () {
             user.wca_id = "2010NAME01";
         });
         it('Checks if user is delegate', () => {
-            user.delegate_satus = test.status;
+            user.delegate_status = test.status;
 
             assert.equal(user.isDelegate(), test.expected);
         });
@@ -44,7 +44,7 @@ describe('Test memberships', () => {
     before(() => {
         user.id = 0;
         user.name = "Test Name";
-        user.delegate_satus = null;
+        user.delegate_status = null;
         user.wca_id = null;
     });
 
@@ -95,7 +95,7 @@ describe('Test permissions', () => {
     beforeEach(() => {
         user.id = 0;
         user.name = "Test Name";
-        user.delegate_satus = null;
+        user.delegate_status = null;
         user.wca_id = null;
     });
 

@@ -19,7 +19,7 @@ export function isLoggedIn(req): boolean {
  * @param next 
  */
 export function verifyLogin(req, res, next): void {
-    if (req.isAuthenticated()) {
+    if (this.isLoggedIn(req)) {
         next();
     } else {
         sendError(res, 403, "Login is required. Please, login and retry.")

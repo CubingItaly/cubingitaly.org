@@ -16,7 +16,7 @@ describe('Test the user repository', () => {
 
     function compareUser(first: UserEntity, second: UserEntity): boolean {
         let result: boolean = true;
-        result = (first.id === second.id) ? result : false;
+        result = (first.id == second.id) ? result : false;
         result = (first.name === second.name) ? result : false;
         result = (first.wcaId == second.wcaId) ? result : false;
         result = (first.delegateStatus == second.delegateStatus) ? result : false;
