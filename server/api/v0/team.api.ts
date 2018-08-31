@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { verifyLogin, getUser } from "../../shared/login.utils";
+import { verifyLogin, getUser, isLoggedIn } from "../../shared/login.utils";
 import { TeamRepository } from "../../db/repository/team.repository";
 import { TeamEntity } from "../../db/entity/team.entity";
 import { TeamModel } from "../../models/classes/team.model";
@@ -79,7 +79,7 @@ async function getTeam(id): Promise<TeamEntity> {
  */
 async function getMember(id): Promise<UserEntity> {
     const userRepo: UserRepository = getUserRepository();
-    return await userRepo.getUserById(id);
+    return await userRepo.getUserById(Number(id));
 }
 
 /**
@@ -126,7 +126,7 @@ async function checkIfCanAdminTeam(req, res, next) {
  * @param {*} next
  */
 async function checkIfUserIsInTheRequest(req, res, next) {
-    let member: number = req.body.member || null;
+    let member: number = Number(req.body.member) || null;
     if (member !== null && member !== undefined) {
         next();
     }
@@ -144,7 +144,8 @@ async function checkIfUserIsInTheRequest(req, res, next) {
  * @param {*} next
  */
 async function checkIfUserExist(req, res, next) {
-    let member: number = req.params.member || req.body.member;
+    let member: number = Number(req.params.member || req.body.member);
+    console.log(member);
     const userRepo: UserRepository = getUserRepository();
     let exist: boolean = await userRepo.checkIfUserExists(member);
     if (exist) {
@@ -153,6 +154,10 @@ async function checkIfUserExist(req, res, next) {
         return sendError(res, 404, "The requested user does not exist");
     }
 }
+
+router.get("/germano", verifyLogin, async (req: Request, res: Response) => {
+    return res.status(200).json({});
+});
 
 
 /**

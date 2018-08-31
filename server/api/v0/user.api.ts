@@ -68,7 +68,7 @@ async function sendUserFromRepository(req, res, id: number, short: boolean): Pro
 }
 
 /**
- * Search between the users and get a list 
+ * Search between the users and return the list of those matching the name
  */
 router.get("/", async (req, res) => {
     let userRepo: UserRepository = getUserRepository();
