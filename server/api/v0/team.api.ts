@@ -52,7 +52,7 @@ function getRoleRepository(): RoleRepository {
  */
 async function checkIfTeamExist(req, res, next) {
     const teamRepo: TeamRepository = getTeamRepository();
-    let exist: boolean = await teamRepo.checkIfTeamExistsById(req.params.team || "");
+    let exist: boolean = await teamRepo.checkIfTeamExistsById(req.params.team);
     if (exist) {
         next();
     } else {
@@ -110,7 +110,7 @@ async function checkIfCanManageTeam(req, res, next) {
  */
 async function checkIfCanAdminTeam(req, res, next) {
     let user: UserModel = getUser(req);
-    if (user.canAdminTeams) {
+    if (user.canAdminTeams()) {
         next();
     } else {
         return sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");
@@ -144,20 +144,15 @@ async function checkIfUserIsInTheRequest(req, res, next) {
  * @param {*} next
  */
 async function checkIfUserExist(req, res, next) {
-    let member: number = Number(req.params.member || req.body.member);
-    console.log(member);
+    let member: number = req.params.member || req.body.member;
     const userRepo: UserRepository = getUserRepository();
-    let exist: boolean = await userRepo.checkIfUserExists(member);
+    let exist: boolean = await userRepo.checkIfUserExists(Number(member));
     if (exist) {
         next();
     } else {
         return sendError(res, 404, "The requested user does not exist");
     }
 }
-
-router.get("/germano", verifyLogin, async (req: Request, res: Response) => {
-    return res.status(200).json({});
-});
 
 
 /**
@@ -196,7 +191,7 @@ router.get("/:team/members", checkIfTeamExist, async (req: Request, res: Respons
  */
 router.post("/:team/members", verifyLogin, checkIfTeamExist, checkIfCanManageTeam, checkIfUserIsInTheRequest, checkIfUserExist, async (req: Request, res: Response) => {
     let team: TeamEntity = await getTeam(req.params.team);
-    let user: UserEntity = await getMember(req.params.member);
+    let user: UserEntity = await getMember(req.body.member);
     let role: RoleEntity = await getRoleRepository().addRole(user, team);
     return res.status(200).json(role._transform());
 });
@@ -209,7 +204,7 @@ router.delete("/:team/members/:member", verifyLogin, checkIfTeamExist, checkIfCa
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
     await getRoleRepository().removeRole(user, team);
-    return res.status(200);
+    return res.status(200).send();
 });
 
 
@@ -218,7 +213,7 @@ router.delete("/:team/members/:member", verifyLogin, checkIfTeamExist, checkIfCa
  */
 router.put("/:team/leaders", verifyLogin, checkIfTeamExist, checkIfCanAdminTeam, checkIfUserExist, async (req: Request, res: Response) => {
     let team: TeamEntity = await getTeam(req.params.team);
-    let user: UserEntity = await getMember(req.params.member);
+    let user: UserEntity = await getMember(req.body.member);
     let role: RoleEntity = await getRoleRepository().addLeader(user, team);
     return res.status(200).json(role._transform());
 });
@@ -230,7 +225,8 @@ router.put("/:team/leaders", verifyLogin, checkIfTeamExist, checkIfCanAdminTeam,
 router.delete("/:team/leaders/:member", verifyLogin, checkIfTeamExist, checkIfCanAdminTeam, checkIfUserExist, async (req: Request, res: Response) => {
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
-    return await getRoleRepository().removeLeader(user, team);
+    let role: RoleEntity = await getRoleRepository().removeLeader(user, team);
+    return res.status(200).json(role);
 });
 
 export { router }

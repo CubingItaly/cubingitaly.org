@@ -12,12 +12,12 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
     public async InitDefaults(): Promise<void> {
         return;
     }
-    
+
     private async getRole(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         return (await this.repository.find({ where: { team: team, user: user } }))[0];
     }
 
-    public async checkIfRoleExist(user: UserEntity, team: TeamEntity): Promise<boolean> {
+    private async checkIfRoleExist(user: UserEntity, team: TeamEntity): Promise<boolean> {
         let role: RoleEntity[] = await this.repository.find({ where: { team: team, user: user } });
         return role.length > 0;
     }
@@ -57,12 +57,13 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return await this.repository.save(tmp);
     }
 
-    public async removeLeader(user: UserEntity, team: TeamEntity): Promise<void> {
+    public async removeLeader(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         let exist: boolean = await this.checkIfRoleExist(user, team);
         if (exist) {
             let tmp: RoleEntity = await this.getRole(user, team);
             tmp.isLeader = false;
             this.repository.save(tmp);
+            return tmp;
         }
         return;
     }

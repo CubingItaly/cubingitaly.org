@@ -15,7 +15,7 @@ export class FakeUserRepo extends UserRepository {
         { id: 5, name: "Name Test", delegateStatus: null, wcaId: null }, //citc leader
         { id: 6, name: "Name Test", delegateStatus: null, wcaId: null }, //citi member
         { id: 7, name: "Name Test", delegateStatus: null, wcaId: null }, // citq member
-        { id: 8, name: "Name Test", delegateStatus: null, wcaId: null }, //citi member
+        { id: 8, name: "Name Test", delegateStatus: null, wcaId: null }, //citc member
         { id: 9, name: "Name Test", delegateStatus: "Delegate", wcaId: null },//board
         { id: 10, name: "Name Test", delegateStatus: "Candidate Delegate", wcaId: null }//board
     ];
