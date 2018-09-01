@@ -9,7 +9,7 @@
     "lint:client": "ng lint",
     "lint:server": "tslint './server/**/*.ts' -c ./server/tslint.json --fix",
     "test:server": "mocha -t 5000 -r ts-node/register ./server/**/*.spec.ts",
-    "test:swc": "nyc -r lcov -e .ts -x \"*.spec.ts\" mocha -t 5000 -r ts-node/register ./server/**/*.spec.ts && nyc report",
+    "test:swc": "nyc -r lcov -e .ts -x **/tests/** mocha -t 5000 -r ts-node/register ./server/**/*.spec.ts && nyc report",
     "e2e:client": "ng e2e",
     "build": "ng build --prod --aot --output-path=dist/client && npm run server:build",
     "server:run": "nodemon $NODE_DEBUG_OPTION",
