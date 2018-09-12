@@ -3,7 +3,6 @@ import { assert, expect } from 'chai';
 import { TeamEntity } from '../entity/team.entity';
 import { TeamModel } from '../../models/classes/team.model';
 import { RoleEntity } from '../entity/role.entity';
-import { UserModel } from '../../models/classes/user.model';
 import { UserEntity } from '../entity/user.entity';
 
 let team: TeamEntity;
@@ -19,6 +18,18 @@ describe('Test the assimilate function of a TeamEntity', () => {
         teamModel.id = "citi";
         teamModel.name = "Team Name";
         teamModel.isPublic = true;
+
+        team._assimilate(teamModel);
+
+        expect(team.id).to.equal(teamModel.id);
+        expect(team.name).to.equal(teamModel.name);
+        assert.equal(team.isPublic, true);
+    });
+
+    it('Test the assimilate with isPublic=undefined', () => {
+        let teamModel: TeamModel = new TeamModel();
+        teamModel.id = "citi";
+        teamModel.name = "Team Name";
 
         team._assimilate(teamModel);
 

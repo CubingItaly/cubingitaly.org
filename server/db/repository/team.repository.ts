@@ -2,17 +2,10 @@ import { BaseCommonRepository } from "../BaseCommonRepository";
 import { EntityRepository } from "typeorm";
 import { TeamEntity } from "../entity/team.entity";
 
-/**
- *
- *
- * @export
- * @class Repository
- * @extends {BaseCommonRepository<TeamEntity>}
- */
+
+
 @EntityRepository(TeamEntity)
 export class TeamRepository extends BaseCommonRepository<TeamEntity> {
-
-
 
     private teams: { id: string, name: string, isPublic: boolean }[] = [{
         id: "admin",
@@ -47,14 +40,15 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
 
 
     /**
-     *
+     * Init the teams table in the database.
+     * If the default teams do not exist, they are added.
      *
      * @returns {Promise<void>}
-     * @memberof Repository
+     * @memberof TeamRepository
      */
     public async InitDefaults(): Promise<void> {
         let exist: boolean = false;
-        let team: TeamEntity = new TeamEntity;
+        let team: TeamEntity = new TeamEntity();
 
         for (const t of this.teams) {
             exist = await this.checkIfTeamExistsById(t.id);
@@ -68,20 +62,48 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
         return;
     }
 
-
+    /**
+     * Check if a team exist, return true if so.
+     * Only the id of the team is compared.
+     *
+     * @param {TeamEntity} team
+     * @returns {Promise<boolean>}
+     * @memberof TeamRepository
+     */
     public async checkIfTeamExists(team: TeamEntity): Promise<boolean> {
         return this.checkIfTeamExistsById(team.id);
     }
 
+    /**
+     * Check if a team exist after searching hit by id.
+     * Return true if the team exists.
+     * 
+     * @param {string} id
+     * @returns {Promise<boolean>}
+     * @memberof TeamRepository
+     */
     public async checkIfTeamExistsById(id: string): Promise<boolean> {
         let result: TeamEntity = await this.repository.findOne(id);
         return (result !== undefined && result !== null);
     }
 
+    /**
+     * Return a single team, if the team is not found returns null
+     *
+     * @param {string} id
+     * @returns {Promise<TeamEntity>}
+     * @memberof TeamRepository
+     */
     public async getTeamById(id: string): Promise<TeamEntity> {
         return await this.repository.findOne(id);
     }
 
+    /**
+     * Return the list of the teams in the database
+     *
+     * @returns {Promise<TeamEntity[]>}
+     * @memberof TeamRepository
+     */
     public async getTeams(): Promise<TeamEntity[]> {
         let teams: TeamEntity[] = await this.repository.find();
         return teams;

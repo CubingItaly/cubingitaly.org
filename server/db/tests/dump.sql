@@ -11,7 +11,7 @@
 # ------------------------------------------------------------
 
 CREATE TABLE IF NOT EXISTS `article_category_entity` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` varchar(255) NOT NULL,
   `name` varchar(15) NOT NULL,
   `color` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS `article_entity` (
 
 CREATE TABLE IF NOT EXISTS `article_entity_categories_article_category_entity` (
   `articleEntityId` varchar(255) NOT NULL,
-  `articleCategoryEntityId` int(11) NOT NULL,
+  `articleCategoryEntityId` varchar(255) NOT NULL,
   PRIMARY KEY (`articleEntityId`, `articleCategoryEntityId`),
   KEY `FK_4b0c5955c05382d3ced4dd2456f` (`articleCategoryEntityId`),
   CONSTRAINT `FK_4b0c5955c05382d3ced4dd2456f` FOREIGN KEY (`articleCategoryEntityId`) REFERENCES `article_category_entity` (`id`) ON DELETE CASCADE,
@@ -157,26 +157,6 @@ CREATE TABLE IF NOT EXISTS `user_entity` (
 # DATA DUMP FOR TABLE: team_entity
 # ------------------------------------------------------------
 
-INSERT INTO
-  `team_entity` (`id`, `name`, `isPublic`)
-VALUES
-  ('admin', 'Admin', 0);
-INSERT INTO
-  `team_entity` (`id`, `name`, `isPublic`)
-VALUES
-  ('board', 'Cubing Italy Board', 1);
-INSERT INTO
-  `team_entity` (`id`, `name`, `isPublic`)
-VALUES
-  ('citc', 'Cubing Italy Team Comunicazione', 1);
-INSERT INTO
-  `team_entity` (`id`, `name`, `isPublic`)
-VALUES
-  ('citi', 'Cubing Italy Team Informatico', 1);
-INSERT INTO
-  `team_entity` (`id`, `name`, `isPublic`)
-VALUES
-  ('citq', 'Cubing Italy Team Qualità', 1);
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: user_entity

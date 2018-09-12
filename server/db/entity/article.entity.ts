@@ -118,22 +118,26 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @memberof ArticleEntity
      */
     _assimilate(origin: ArticleModel): void {
-        this.id = origin.id || "";
-        this.summary = origin.summary || "";
+        this.id = origin.id;
+        this.summary = origin.summary;
         this.isPublic = origin.isPublic || false;
+
         this.categories = origin.categories.map((category: ArticleCategoryModel) => {
             let tmp: ArticleCategoryEntity = new ArticleCategoryEntity();
             tmp._assimilate(category);
             return tmp;
         });
+
         this.title = origin.title;
-        this.content = origin.content || "";
-        this.publishDate = origin.publishDate || null;
-        this.updateDate = origin.updateDate || null;
-        if (origin.author !== undefined && origin.author !== null) {
+        this.content = origin.content;
+        this.publishDate = origin.publishDate;
+        this.updateDate = origin.updateDate;
+        if (origin.author !== undefined) {
+            this.author = new UserEntity();
             this.author._assimilate(origin.author);
         }
-        if (origin.lastEditor !== undefined && origin.lastEditor !== null) {
+        if (origin.lastEditor !== undefined) {
+            this.lastEditor = new UserEntity();
             this.lastEditor._assimilate(origin.lastEditor);
         }
 
@@ -155,8 +159,13 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
             article.categories = this.categories.map((c: ArticleCategoryEntity) => c._transform());
         }
         article.content = this.content;
-        article.author = this.author._transform();
-        article.lastEditor = this.lastEditor._transform();
+        if (this.author !== undefined && this.author !== null) {
+            article.author = this.author._transform();
+        }
+
+        if (this.lastEditor !== undefined && this.lastEditor !== null) {
+            article.lastEditor = this.lastEditor._transform();
+        }
         article.publishDate = this.publishDate;
         article.updateDate = this.updateDate;
         return article;

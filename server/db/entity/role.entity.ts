@@ -1,13 +1,17 @@
 import { Entity, BaseEntity, Column, ManyToOne, JoinTable, getCustomRepository } from "typeorm";
-import { ITransformable } from "../transformable";
 import { RoleModel } from "../../models/classes/role.model";
 import { UserEntity } from "./user.entity";
 import { TeamEntity } from "./team.entity";
-import { UserRepository } from "../repository/user.repository";
-import { TeamRepository } from "../repository/team.repository";
 
+/**
+ * Database entity that represents a Role of a User in a Team of Cubing italy
+ *
+ * @export
+ * @class RoleEntity
+ * @extends {BaseEntity}
+ */
 @Entity()
-export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
+export class RoleEntity extends BaseEntity {
 
     /**
      * Whether the user involved in the role is leader of the team or not.
@@ -38,19 +42,7 @@ export class RoleEntity extends BaseEntity implements ITransformable<RoleModel>{
     public team: TeamEntity;
 
     /**
-     * #WARNING: Do not use this method
-     * Convert a RoleModel into a role entity.
-     *
-     * @param {RoleModel} origin
-     * @returns {Promise<void>}
-     * @memberof RoleEntity
-     */
-    async _assimilate(origin: RoleModel): Promise<void> {
-        //# WARN: Do not use this method
-    }
-
-    /**
-     * Transforms the current entity an returns a Role Model.
+     * Transforms the current entity and returns a Role Model.
      *
      * @returns {RoleModel}
      * @memberof RoleEntity

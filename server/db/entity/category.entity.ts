@@ -1,5 +1,5 @@
 import { ITransformable } from "../transformable";
-import { Column, PrimaryGeneratedColumn, BaseEntity, ManyToMany, Entity } from "typeorm";
+import { Column, BaseEntity, ManyToMany, Entity, PrimaryColumn } from "typeorm";
 import { ArticleCategoryModel } from "../../models/classes/category.model";
 import { ArticleEntity } from "./article.entity";
 
@@ -15,13 +15,13 @@ import { ArticleEntity } from "./article.entity";
 export class ArticleCategoryEntity extends BaseEntity implements ITransformable<ArticleCategoryModel>{
 
     /**
-     * Automatically generated primary column
+     * Primary column, category id
      *
-     * @type {number}
+     * @type {string}
      * @memberof ArticleCategoryEntity
      */
-    @PrimaryGeneratedColumn()
-    public id: number;
+    @PrimaryColumn()
+    public id: string;
 
     /**
      * Category's name
@@ -57,7 +57,7 @@ export class ArticleCategoryEntity extends BaseEntity implements ITransformable<
      * @memberof ArticleCategoryEntity
      */
     _assimilate(origin: ArticleCategoryModel): void {
-        this.id = origin.id || null;
+        this.id = origin.id;
         this.name = origin.name;
         this.color = origin.color;
     }
@@ -70,7 +70,7 @@ export class ArticleCategoryEntity extends BaseEntity implements ITransformable<
      */
     _transform(): ArticleCategoryModel {
         let category: ArticleCategoryModel = new ArticleCategoryModel();
-        category.id = this.id || null;
+        category.id = this.id;
         category.name = this.name;
         category.color = this.color;
         return category;

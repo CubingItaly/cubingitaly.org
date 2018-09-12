@@ -114,10 +114,10 @@ export class SinglePageEntity extends BaseEntity implements ITransformable<Singl
         this.content = origin.content || "";
         this.publishDate = origin.publishDate || null;
         this.updateDate = origin.updateDate || null;
-        if (origin.author !== undefined && origin.author !== null) {
+        if (origin.author !== undefined) {
             this.author._assimilate(origin.author);
         }
-        if (origin.lastEditor !== undefined && origin.lastEditor !== null) {
+        if (origin.lastEditor !== undefined){
             this.lastEditor._assimilate(origin.lastEditor);
         }
     }

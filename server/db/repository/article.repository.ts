@@ -11,7 +11,6 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
     public _entityIdentifier: string = "ArticleEntity";
 
 
-
     public async InitDefaults(): Promise<void> {
         return;
     }
@@ -24,7 +23,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getPublicArticles(limit: number, page: number): Promise<ArticleEntity[]> {
-        return this.repository.find();
+        return this.repository.find({ where: { isPublic: true }, order: { publishDate: "DESC" }, take: limit, skip: page * limit });
     }
 
     /**
@@ -80,7 +79,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getArticleById(id: string): Promise<ArticleEntity> {
-        return await this.repository.findOne(id, { relations: ["categories"] });
+        return await this.repository.findOne(id);
     }
 
     /**
@@ -149,6 +148,8 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      */
     public async createArticle(title: string): Promise<ArticleEntity> {
         let id: string = await this.generateId(title);
+        if (id === "")
+            return;
         let article: ArticleEntity = new ArticleEntity();
         article.id = id;
         article.title = title;
@@ -170,7 +171,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
                 return id;
             } else {
                 let count: number = await this.countArticleIdsLike(id);
-                id += count;
+                id += count + 1;
             }
         } while (exists);
     }
@@ -184,6 +185,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         let id: string = title;
         //remove spaces at the start or at the end of the id
         id = id.trim();
+
         //replace spaces with -
         id = id.split(' ').join('-');
         id = id.toLowerCase();
@@ -196,6 +198,14 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
 
         //replace all chars that are not a-z, 0-9 or '-'
         id = id.replace(/([^a-z0-9-])/g, "");
+
+        //if the id starts or ends with one or more '-' remove them
+        while (id.startsWith("-")) {
+            id = id.substr(1);
+        }
+        while (id.endsWith("-")) {
+            id = id.substr(0, id.length - 1);
+        }
 
         return id;
     }

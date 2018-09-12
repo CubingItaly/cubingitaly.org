@@ -12,10 +12,10 @@ export class ArticleCategoryModel {
     /**
      * Category unique ID
      *
-     * @type {number}
+     * @type {string}
      * @memberof ArticleCategoryModel
      */
-    @autoserialize id: number;
+    @autoserialize id: string;
 
 
     /**

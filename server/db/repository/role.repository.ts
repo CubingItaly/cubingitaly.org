@@ -14,7 +14,7 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
     }
 
     private async getRole(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
-        return (await this.repository.find({ where: { team: team, user: user } }))[0];
+        return (await this.repository.find({ where: { team: team, user: user }, relations: ["user", "team"] }))[0];
     }
 
     private async checkIfRoleExist(user: UserEntity, team: TeamEntity): Promise<boolean> {
@@ -22,6 +22,16 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return role.length > 0;
     }
 
+    /**
+     * Create a role with a UserEntity and a TeamEntity
+     * If the role already exists return it.
+     * If it doesn't exist, create with isLeader false
+     *
+     * @param {UserEntity} user
+     * @param {TeamEntity} team
+     * @returns {Promise<RoleEntity>}
+     * @memberof RoleRepository
+     */
     public async addRole(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         let exist: boolean = await this.checkIfRoleExist(user, team);
         if (!exist) {
@@ -34,6 +44,15 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return await this.getRole(user, team);
     }
 
+    /**
+     * Remove a role.
+     * Either if the role exists or not return null.
+     *
+     * @param {UserEntity} user
+     * @param {TeamEntity} team
+     * @returns {Promise<void>}
+     * @memberof RoleRepository
+     */
     public async removeRole(user: UserEntity, team: TeamEntity): Promise<void> {
         let exist: boolean = await this.checkIfRoleExist(user, team);
         if (exist) {
@@ -43,7 +62,16 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return;
     }
 
-
+    /**
+     * Promote a user to leader of a group.
+     * If a role doesn't exist yet it is created.
+     * If a role already exist it is updated with isLeader true.
+     *
+     * @param {UserEntity} user
+     * @param {TeamEntity} team
+     * @returns {Promise<RoleEntity>}
+     * @memberof RoleRepository
+     */
     public async addLeader(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         let exist: boolean = await this.checkIfRoleExist(user, team);
         let tmp: RoleEntity = new RoleEntity();
@@ -57,6 +85,16 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         return await this.repository.save(tmp);
     }
 
+    /**
+     * Demote a leader to simple member of a team.
+     * If the role doesn't exist or if the user is just a member 
+     * return the null (in the first case) or the role (in the second one).
+     *
+     * @param {UserEntity} user
+     * @param {TeamEntity} team
+     * @returns {Promise<RoleEntity>}
+     * @memberof RoleRepository
+     */
     public async removeLeader(user: UserEntity, team: TeamEntity): Promise<RoleEntity> {
         let exist: boolean = await this.checkIfRoleExist(user, team);
         if (exist) {

@@ -1,6 +1,5 @@
 import 'mocha';
-import * as sinon from 'sinon';
-import { assert, expect } from 'chai';
+import { assert } from 'chai';
 import { Database } from '../database';
 import { MysqlTool } from './mysql.tool';
 import { UserRepository } from '../repository/user.repository';
@@ -89,5 +88,4 @@ describe('Test the user repository', () => {
         assert.equal(result.length, 0);
     });
 
-    it('Test the function to search users by team');
 });

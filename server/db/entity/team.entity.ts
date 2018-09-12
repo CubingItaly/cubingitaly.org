@@ -4,7 +4,7 @@ import { BaseEntity, PrimaryColumn, Column, Entity, OneToMany } from "typeorm";
 import { RoleEntity } from "./role.entity";
 
 /**
- * The database entity that represents the teams of Cubing Italy.
+ * The database entity that represents a team of Cubing Italy.
  *
  * @export
  * @class TeamEntity
