@@ -60,6 +60,23 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
     }
 
     /**
+     * Return a list of public articles belonging to the specified category.
+     * You can choose the number of articles and the offset by specifying the limit and the page number
+     * 
+     * @param limit 
+     * @param page 
+     * @param category 
+     */
+    public async getArticlesByCategory(limit: number, page: number, category: string): Promise<ArticleEntity[]> {
+        return this.repository.createQueryBuilder("article")
+            .innerJoinAndSelect("article.categories", "cat")
+            .where("cat.id = :category and article.isPublic = :public", { category: category, public: true })
+            .orderBy("article.publishDate", "DESC")
+            .take(limit).skip(limit * page).getMany();
+    }
+
+
+    /**
      * Returns true if an article exists with the id passed as a parameter
      *
      * @param {string} id
@@ -148,8 +165,6 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      */
     public async createArticle(title: string): Promise<ArticleEntity> {
         let id: string = await this.generateId(title);
-        if (id === "")
-            return;
         let article: ArticleEntity = new ArticleEntity();
         article.id = id;
         article.title = title;
@@ -183,21 +198,22 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      */
     private generateArticleId(title: string): string {
         let id: string = title;
-        //remove spaces at the start or at the end of the id
-        id = id.trim();
 
         //replace spaces with -
         id = id.split(' ').join('-');
         id = id.toLowerCase();
 
         id = id.replace(/([à])/g, "a");
-        id = id.replace(/([è])/g, "e");
+        id = id.replace(/([èé])/g, "e");
         id = id.replace(/([ì])/g, "i");
         id = id.replace(/([ò])/g, "o");
         id = id.replace(/([ù])/g, "u");
+        id = id.replace(/([ç])/g, "c");
 
         //replace all chars that are not a-z, 0-9 or '-'
         id = id.replace(/([^a-z0-9-])/g, "");
+
+        id = id.replace(/(-)+/g, "-");
 
         //if the id starts or ends with one or more '-' remove them
         while (id.startsWith("-")) {
@@ -207,6 +223,8 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
             id = id.substr(0, id.length - 1);
         }
 
+        // every article must have an id and "admin" is a forbidden article id
+        if (id === "" || id === "admin") id = "articolo";
         return id;
     }
 

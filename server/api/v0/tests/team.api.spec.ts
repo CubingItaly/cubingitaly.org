@@ -2,20 +2,6 @@
 import 'mocha';
 import * as sinon from 'sinon';
 import * as loginUtils from '../../../shared/login.utils';
-import * as errorUtils from '../../../shared/error.utils';
-
-/* These need to be here because verifyLogin must be stubbed before the server is initialied */
-let verifyLogin = function (req, res, next): void {
-    if (loginUtils.isLoggedIn(req)) {
-        next();
-    } else {
-        errorUtils.sendError(res, 403, "Login is required. Please, login and retry.")
-    }
-}
-
-let verifyStub = sinon.stub(loginUtils, 'verifyLogin').callsFake(verifyLogin);
-/* end of initialization part */
-
 import { app } from './fakeserver';
 import * as chai from 'chai';
 import chaiHttp = require('chai-http');
@@ -28,31 +14,38 @@ import { FakeRoleRepo } from './fake.role.repo';
 import { FakeTeamRepo } from './fake.team.repo';
 import { FakeUserRepo } from './fake.user.repo';
 import { TeamEntity } from '../../../db/entity/team.entity';
-import { UserModel } from '../../../models/classes/user.model';
-import { TeamModel } from '../../../models/classes/team.model';
 import { RoleModel } from '../../../models/classes/role.model';
 
 
 
 chai.use(chaiHttp);
 
-let statusStub = sinon.stub(loginUtils, 'isLoggedIn');
-let userStub = sinon.stub(loginUtils, 'getUser');
-let typeormStub = sinon.stub(typeorm, 'getCustomRepository');
-
-let fakeUserRepo: FakeUserRepo = new FakeUserRepo();
-let fakeTeamRepo: FakeTeamRepo = new FakeTeamRepo();
-let fakeRoleRepo: FakeRoleRepo = new FakeRoleRepo();
 
 describe('Test the team APIs', () => {
-    before(() => {
+
+    let statusStub;
+    let userStub;
+    let typeormStub;
+
+    let fakeUserRepo: FakeUserRepo;
+    let fakeTeamRepo: FakeTeamRepo;
+    let fakeRoleRepo: FakeRoleRepo;
+
+    before(async () => {
+
+        fakeUserRepo = new FakeUserRepo();
+        fakeTeamRepo = new FakeTeamRepo();
+        fakeRoleRepo = new FakeRoleRepo();
+
+        statusStub = sinon.stub(loginUtils, 'isLoggedIn');
+        userStub = sinon.stub(loginUtils, 'getUser');
+        typeormStub = sinon.stub(typeorm, 'getCustomRepository');
         typeormStub.withArgs(UserRepository).returns(fakeUserRepo);
         typeormStub.withArgs(TeamRepository).returns(fakeTeamRepo);
         typeormStub.withArgs(RoleRepository).returns(fakeRoleRepo);
     });
 
-    after(() => {
-        verifyStub.restore();
+    after(async () => {
         typeormStub.restore();
         statusStub.restore();
         userStub.restore();

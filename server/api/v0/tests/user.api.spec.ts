@@ -10,11 +10,14 @@ import { Deserialize } from 'cerialize';
 import * as loginUtils from '../../../shared/login.utils';
 import { UserRepository } from '../../../db/repository/user.repository';
 chai.use(chaiHttp);
-let mock;
-let fakeRepo: FakeUserRepo;
+
 
 
 describe('Test the user API', () => {
+
+    let mock;
+    let fakeRepo: FakeUserRepo;
+
     before(() => {
         fakeRepo = new FakeUserRepo();
         mock = sinon.stub(typeorm, 'getCustomRepository').returns(fakeRepo);

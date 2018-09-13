@@ -32,7 +32,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {string}
      * @memberof BasicPageEntity
      */
-    @Column({ nullable: false, length: 100 })
+    @Column({ nullable: false, length: 120 })
     public title: string;
 
     /**

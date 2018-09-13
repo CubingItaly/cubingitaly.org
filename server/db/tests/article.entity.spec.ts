@@ -114,7 +114,7 @@ describe('It test the transform method of the ArticleEntity', () => {
 
     });
 
-    it('', () => {
+    it('Test the method when nothing is set', () => {
         let article: ArticleEntity = new ArticleEntity();
         let model: ArticleModel = article._transform();
 

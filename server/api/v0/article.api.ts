@@ -1,5 +1,5 @@
 import { Router, Request, Response } from "express";
-import { verifyLogin, getUser } from '../../shared/login.utils';
+import { verifyLogin, getUser, isLoggedIn } from '../../shared/login.utils';
 import { Deserialize, Serialize } from "cerialize";
 import { ArticleEntity } from "../../db/entity/article.entity";
 import { ArticleRepository } from "../../db/repository/article.repository";
@@ -13,9 +13,9 @@ import { ArticleModel } from "../../models/classes/article.model";
 const router: Router = Router();
 
 /**
- * Instantiates a UserRepository and returns it
+ * Instantiate a ArticleRepository and return it
  *
- * @returns {UserRepository}
+ * @returns {ArticleRepository}
  */
 function getArticlerRepository(): ArticleRepository {
     const repository: ArticleRepository = getCustomRepository(ArticleRepository);
@@ -25,7 +25,7 @@ function getArticlerRepository(): ArticleRepository {
 /**
  * Return a list of public articles.
  * Parameters page and limit are used for paging.
- * Defaults: page = 0, limit = 12
+ * Defaults: page = 0, limit = 12.
  */
 router.get("/", [query('page').isNumeric().optional({ checkFalsy: true }), query('limit').isNumeric().optional({ checkFalsy: true })]
     , async (req: Request, res: Response) => {
@@ -33,11 +33,35 @@ router.get("/", [query('page').isNumeric().optional({ checkFalsy: true }), query
         if (!error.isEmpty()) {
             return sendError(res, 400, "Bad request. The request is malformed.");
         }
-        let limit: number = req.query.limit || 12;
-        let page: number = req.query.page || 0;
-        let dbArticle: ArticleEntity[] = await getArticlerRepository().getPublicArticles(limit, page);
+        let limit: number = Number(req.query.limit || 12);
+        let page: number = Number(req.query.page || 0);
+        let dbArticle: ArticleEntity[];
+
+        if (req.query.category !== undefined) {
+            dbArticle = await getArticlerRepository().getArticlesByCategory(limit, page, req.query.category);
+        } else {
+            dbArticle = await getArticlerRepository().getPublicArticles(limit, page);
+        }
+
         return res.status(200).json(dbArticle);
     });
+
+/**
+ * Check if the article sent to create a new one alreadys has an id.
+ * If there's an id respond with error 400.
+ * 
+ * @param req 
+ * @param res 
+ * @param next 
+ */
+async function idIsInTheRequest(req, res, next) {
+    let article: ArticleModel = Deserialize(req.body.article, ArticleModel);
+    if (article.id !== null && article.id !== undefined) {
+        return sendError(res, 400, "Bad request. The request is malformed. The article shouldn't have an ID.");
+    } else {
+        next();
+    }
+}
 
 /**
  * Check if an article exists for the id received in the request
@@ -68,9 +92,11 @@ async function checkIfArticleExist(req, res, next) {
 function canAccessArticle(req, article: ArticleEntity): boolean {
     if (article.isPublic) {
         return true;
-    } else {
+    } else if (isLoggedIn(req)) {
         //If the article is not public return true only if the user can edit it
-        return getUser(req).canEditArticles()
+        return getUser(req).canEditArticles();
+    } else {
+        return false;
     }
 }
 
@@ -134,9 +160,11 @@ function articleIsInTheBody(req, res, next) {
  * @param {*} next
  */
 function sanitizeContent(req, res, next) {
-    req.body.article.title = req.sanitize(req.body.article.title);
-    req.body.article.content = req.sanitize(req.body.article.content);
-    req.body.article.summary = req.sanitize(req.body.article.summary);
+    let tmp: string = req.sanitize(req.body.article.title);
+    req.body.article.title = tmp.substr(0, 120);
+    tmp = req.sanitize(req.body.article.summary) || "";
+    req.body.article.summary = tmp.substr(0, 250);
+    req.body.article.content = req.sanitize(req.body.article.content) || "";
     next();
 }
 
@@ -144,9 +172,9 @@ function sanitizeContent(req, res, next) {
  * Receive an article as a parameter in the body and use it to create a new one
  * Return the newly created article
  */
-router.post("/", verifyLogin, canAdminArticle, checkIfArticleExist, articleIsInTheBody, sanitizeContent, async (req, res: Response) => {
+router.post("/", verifyLogin, canAdminArticle, articleIsInTheBody, idIsInTheRequest, sanitizeContent, async (req, res: Response) => {
     const articleRepo: ArticleRepository = getArticlerRepository();
-    //Obatins the article passed by the client and convert it into a database entity
+    //Obtain the article passed by the client and convert it into a database entity
     const modelArticle: ArticleModel = Deserialize(req.body.article, ArticleModel);
     let dbArticle: ArticleEntity = new ArticleEntity();
     dbArticle._assimilate(modelArticle);
@@ -191,7 +219,7 @@ router.put("/:id", verifyLogin, canEditArticle, checkIfArticleExist, articleIsIn
 router.delete("/:id/admin", verifyLogin, canAdminArticle, checkIfArticleExist, async (req: Request, res: Response) => {
     const articleRepo: ArticleRepository = getArticlerRepository();
     await articleRepo.deleteArticle(req.params.id);
-    res.status(200);
+    res.status(200).send({});
 });
 
 /**
