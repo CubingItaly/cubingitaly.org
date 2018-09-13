@@ -1,4 +1,3 @@
-
 import 'mocha';
 import * as sinon from 'sinon';
 import * as loginUtils from '../../../shared/login.utils';

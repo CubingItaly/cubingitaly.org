@@ -12,6 +12,7 @@ import { router as authRoutes } from '../auth.api';
 import { router as articleRoutes } from '../article.api';
 import { router as teamRoutes } from '../team.api';
 import { router as userRoutes } from '../user.api';
+import { router as categoryRoutes } from '../category.api';
 
 const app: express.Application = express();
 
@@ -42,6 +43,7 @@ app.use("/api/v0/auth", authRoutes);
 app.use("/api/v0/teams", teamRoutes);
 app.use("/api/v0/users", userRoutes);
 app.use("/api/v0/articles", articleRoutes);
+app.use("/api/v0/categories", categoryRoutes);
 
 
 

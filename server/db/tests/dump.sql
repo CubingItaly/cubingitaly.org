@@ -78,9 +78,63 @@ CREATE TABLE IF NOT EXISTS `role_entity` (
 ) ENGINE = InnoDB DEFAULT CHARSET = latin1;
 
 # ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: single_page_entity
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `single_page_entity` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(100) NOT NULL,
+  `content` text,
+  `publishDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `updateDate` datetime(6) NOT NULL DEFAULT CURRENT_TIMESTAMP(6),
+  `inCollectionIndex` int(11) NOT NULL,
+  `authorId` int(11) DEFAULT NULL,
+  `lastEditorId` int(11) DEFAULT NULL,
+  `collectionId` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_f1081f02ee0012e02bb76868e12` (`authorId`),
+  KEY `FK_2347845ea6e253972e145f07a42` (`lastEditorId`),
+  KEY `FK_58b0781fb26ae0a761f6202f598` (`collectionId`),
+  CONSTRAINT `FK_2347845ea6e253972e145f07a42` FOREIGN KEY (`lastEditorId`) REFERENCES `user_entity` (`id`),
+  CONSTRAINT `FK_58b0781fb26ae0a761f6202f598` FOREIGN KEY (`collectionId`) REFERENCES `page_collection_entity` (`id`),
+  CONSTRAINT `FK_f1081f02ee0012e02bb76868e12` FOREIGN KEY (`authorId`) REFERENCES `user_entity` (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: team_entity
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `team_entity` (
+  `id` varchar(5) NOT NULL,
+  `name` varchar(35) NOT NULL,
+  `isPublic` tinyint(4) NOT NULL DEFAULT '1',
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
+# SCHEMA DUMP FOR TABLE: user_entity
+# ------------------------------------------------------------
+
+CREATE TABLE IF NOT EXISTS `user_entity` (
+  `id` int(11) NOT NULL,
+  `wcaId` varchar(10) DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `delegateStatus` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE = InnoDB DEFAULT CHARSET = latin1;
+
+# ------------------------------------------------------------
 # DATA DUMP FOR TABLE: article_category_entity
 # ------------------------------------------------------------
 
+INSERT INTO
+  `article_category_entity` (`id`, `name`, `color`)
+VALUES
+  ('news', 'News', '#ffffff');
+INSERT INTO
+  `article_category_entity` (`id`, `name`, `color`)
+VALUES
+  ('tutorial', 'Tutorial', '#ffffff');
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: article_entity
@@ -99,6 +153,41 @@ CREATE TABLE IF NOT EXISTS `role_entity` (
 
 # ------------------------------------------------------------
 # DATA DUMP FOR TABLE: role_entity
+# ------------------------------------------------------------
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: single_page_entity
+# ------------------------------------------------------------
+
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: team_entity
+# ------------------------------------------------------------
+
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('admin', 'Admin', 0);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('board', 'Cubing Italy Board', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citc', 'Cubing Italy Team Comunicazione', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citi', 'Cubing Italy Team Informatico', 1);
+INSERT INTO
+  `team_entity` (`id`, `name`, `isPublic`)
+VALUES
+  ('citq', 'Cubing Italy Team Qualità', 1);
+
+# ------------------------------------------------------------
+# DATA DUMP FOR TABLE: user_entity
 # ------------------------------------------------------------
 
 

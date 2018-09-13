@@ -14,6 +14,7 @@ import { router as authRoutes } from './api/v0/auth.api';
 import { router as articleRoutes } from './api/v0/article.api';
 import { router as teamRoutes } from './api/v0/team.api';
 import { router as userRoutes } from './api/v0/user.api';
+import { router as categoryRoutes } from './api/v0/category.api';
 
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
@@ -59,6 +60,7 @@ app.use("/api/v0/auth", authRoutes);
 app.use("/api/v0/teams", teamRoutes);
 app.use("/api/v0/users", userRoutes);
 app.use("/api/v0/articles", articleRoutes);
+app.use("/api/v0/categories", categoryRoutes);
 
 
 if (app.get("env") === "production") {
