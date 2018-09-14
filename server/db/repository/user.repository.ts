@@ -76,11 +76,12 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param team 
      */
     public async findUsersByTeam(team: TeamEntity): Promise<UserEntity[]> {
-        let result: UserEntity[] = await this.repository.createQueryBuilder("user")
-            .innerJoin("user.roles", "roles")
-            .where("roles.team = :tid", { tid: team.id })
+        return this.repository.createQueryBuilder("user")
+            .innerJoinAndSelect("user.roles", "roles")
+            .innerJoinAndSelect("roles.team", "team")
+            .innerJoinAndSelect("roles.user", "secondUser")
+            .where("team.id = :tid", { tid: team.id })
             .getMany();
-        return result;
     }
 
 }

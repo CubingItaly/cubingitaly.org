@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, ErrorHandler } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -48,6 +48,10 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { ShareButtonsOptions } from '@ngx-share/core';
 import { FooterComponent } from './components/footer/footer.component';
+import { UserService } from './services/user.service';
+import { NotFoundComponent } from './components/not-found/not-found.component';
+import { PermissionDeniedComponent } from './components/permission-denied/permission-denied.component';
+import { CubingItalyErrorHandler } from './services/error.handler';
 
 
 
@@ -61,7 +65,9 @@ import { FooterComponent } from './components/footer/footer.component';
     AppComponent,
     DashboardComponent,
     ToolbarComponent,
-    FooterComponent
+    FooterComponent,
+    NotFoundComponent,
+    PermissionDeniedComponent
   ],
   imports: [
     BrowserModule,
@@ -90,7 +96,9 @@ import { FooterComponent } from './components/footer/footer.component';
       provide: LOCALE_ID, useValue: "it-IT"
     },
     CookieService,
-    AuthService
+    AuthService,
+    UserService,
+    { provide: ErrorHandler, useClass: CubingItalyErrorHandler }
   ],
   bootstrap: [
     AppComponent

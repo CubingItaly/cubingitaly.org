@@ -1,0 +1,42 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+    <h2>Riguardo Cubing Italy</h2>
+
+    <h3>Cos’è Cubing Italy?</h3>
+    <p align="justify">
+      Cubing Italy è l’insieme di tutti i possessori di una WCA ID che partecipano regolarmente a competizioni sul
+      territorio italiano.
+      La WCA ID è una sigla personale che viene assegnata dopo aver partecipato alla prima competizione ufficiale WCA:
+      essa è utilizzata per identificare in modo rapido ed univoco i risultati di un partecipante all’interno del
+      database della WCA.
+      Dunque, ricapitolando, se hai partecipato ad una competizione ufficiale WCA in Italia, allora sei un membro di
+      Cubing Italy. Complimenti!
+    </p>
+    <h3>Qual è il nostro obiettivo?</h3>
+
+    <p align="justify">
+      Cubing Italy si colloca all’interno della WCA, la World Cube Association, e ne fa sua la missione:
+      diffondere lo speedcubing attraverso l’organizzazione di sempre più competizioni ufficiali e la partecipazione a
+      dimostrazioni, fiere ed eventi simili.
+    </p>
+    <h3>Chi sono i delegati italiani WCA?</h3>
+
+    <p align="justify">
+      I delegati italiani WCA sono quattro: Lorenzo Vigani Poli (dal 2009), Matteo Provasi (dal 2014), Gianluca
+      Placenti (dal 2015) e Simone Cantarelli (dal 2017). La figura del delegato è fondamentale per lo svolgimento di
+      una competizione ufficiale WCA, egli infatti, con la sua presenza, assicura che il regolamento WCA venga
+      applicato e che la competizione sia ufficiale.
+    </p>
+
+    <h3>Struttura di Cubing Italy</h3>
+    <mat-list fxLayout="row" fxLayout.xs="column">
+      <div *ngFor="let team of teams" fxFlex="25%">
+        <h4>{{team.name}}</h4>
+        <ul>
+          <li *ngFor="let user of mapTeamMembers[team.id]">{{user.name}}</li>
+        </ul>
+      </div>
+
+    </mat-list>
+  </div>
+</div>

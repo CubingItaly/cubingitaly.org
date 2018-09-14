@@ -1,10 +1,10 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
     <h2>Gestione Membri</h2>
-    <p *ngIf="team">{{team.name}}</p>
-    <span *ngIf="errorMessage !== undefined">{{errorMessage}}</span>
+    <h4 *ngIf="team"><a routerLink="/teams">Team</a> > {{team.name}}</h4>
 
-    <mat-table [dataSource]="users">
+    <!-- Members table-->
+    <mat-table [dataSource]="users" class="mat-elevation-z4">
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
@@ -19,22 +19,22 @@
       <ng-container matColumnDef="leader">
         <mat-header-cell *matHeaderCellDef>Leader</mat-header-cell>
         <mat-cell *matCellDef="let user">
-          <mat-icon>done</mat-icon>
+          <mat-icon *ngIf="user.isLeaderOf(teamId)">done</mat-icon>
         </mat-cell>
       </ng-container>
 
       <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
         <mat-cell *matCellDef="let user">
-          <ng-container>
-            <button mat-icon-button (click)="demoteLeader(user.id)">
+          <ng-container *ngIf="authSVC.authUser.canAdminTeams()">
+            <button mat-icon-button (click)="demoteLeader(user.id)" *ngIf="user.isLeaderOf(teamId)">
               <mat-icon aria-label="Promote to leader">arrow_downward</mat-icon>
             </button>
-            <button mat-icon-button (click)="promoteLeader(user.id)">
+            <button mat-icon-button (click)="promoteLeader(user.id)" *ngIf="!user.isLeaderOf(teamId)">
               <mat-icon aria-label="Demote leader">arrow_upward</mat-icon>
             </button>
           </ng-container>
-          <button mat-icon-button (click)="removeMember(user.id)">
+          <button mat-icon-button (click)="removeMember(user.id)" *ngIf="authSVC.authUser.canManageTeam(teamId)">
             <mat-icon aria-label="Remove member">clear</mat-icon>
           </button>
         </mat-cell>
@@ -43,5 +43,27 @@
       <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
       <mat-row fxFlexAlign="center" *matRowDef="let row; columns: displayedColumns"></mat-row>
     </mat-table>
+    <!-- End of members table-->
+
+    <!-- Add new member form -->
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
+      <mat-form-field ngStyle.gt-xs="min-width:300px">
+        <input type="text" placeholder="Aggiung nuovo membro" aria-label="Number" matInput [formControl]="formControl"
+          [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let user of foundUsers" [value]="user.name" (onSelectionChange)="newMember = user">
+            <mat-icon style="vertical-align:middle;" aria-hidden height="25">person</mat-icon>
+            <span>{{ user.name }}</span> |
+            <small>WCA ID: {{user.wca_id}}</small>
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+      <button mat-icon-button (click)="addMember()">
+        <mat-icon aria-label="Add new role">add_circle_outline</mat-icon>
+      </button>
+    </div>
+
+    <!-- End of new member form -->
+
   </div>
 </div>

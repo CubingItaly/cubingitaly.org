@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserModel } from '../../../server/models/classes/user.model';
+import { Deserialize } from 'cerialize';
 
 /**
  * Service use to manage the authentication of the user
@@ -26,7 +27,7 @@ export class AuthService {
         this.http.get<UserModel>(this.apiBase + "/users/me")
             .subscribe((user: UserModel) => {
                 if (user.id !== undefined) {
-                    this.authUser = user;
+                    this.authUser = Deserialize(user, UserModel);
                     this.isLoggedIn = true;
                 }
             }

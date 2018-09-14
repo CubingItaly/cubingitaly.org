@@ -15,6 +15,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { TeamManagementComponent } from './team-management/team-management.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { TeamRoleGuard } from './services/team.guard.service';
 
 @NgModule({
   imports: [
@@ -29,9 +31,10 @@ import { TeamManagementComponent } from './team-management/team-management.compo
     MatInputModule,
     MatListModule,
     ReactiveFormsModule,
-    MatDividerModule
+    MatDividerModule,
+    MatListModule
   ],
-  declarations: [TeamListComponent, TeamManagementComponent],
-  providers: [TeamService]
+  declarations: [TeamListComponent, TeamManagementComponent, AboutUsComponent],
+  providers: [TeamService, TeamRoleGuard]
 })
 export class TeamModule { }

@@ -11,13 +11,11 @@ export class TeamListComponent implements OnInit {
 
   teams: TeamModel[] = [];
   displayedColumns = ['name', 'options'];
-  errorMessage: string;
-
 
   constructor(private teamSVC: TeamService) { }
 
   ngOnInit() {
-    this.teamSVC.getTeamsList().subscribe((teams: TeamModel[]) => this.teams = teams, err => { this.errorMessage = err });
+    this.teamSVC.getTeamsList().subscribe((teams: TeamModel[]) => this.teams = teams);
   }
 
 }
