@@ -1,0 +1,11 @@
+.buttons button{
+    margin:5px;
+
+}
+
+.mat-raised-button{
+    margin-right:10px;
+}
+a{
+    text-decoration: none;
+}

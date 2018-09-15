@@ -28,12 +28,18 @@ export class AppComponent implements OnInit {
       id: "home",
       text: "home",
       url: "/",
-      isSelected: true
+      isSelected: false
     },
     {
       id: "about",
       text: "chi siamo",
       url: "/about",
+      isSelected: false
+    },
+    {
+      id: "articles",
+      text: "articoli",
+      url: "/articles",
       isSelected: false
     },
     {

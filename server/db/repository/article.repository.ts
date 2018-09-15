@@ -223,8 +223,8 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
             id = id.substr(0, id.length - 1);
         }
 
-        // every article must have an id and "admin" is a forbidden article id
-        if (id === "" || id === "admin") id = "articolo";
+        // every article must have an id and "admin","list" and "new" are forbidden article ids
+        if (id === "" || id === "admin" || id === "list" || id === "new") id = "articolo";
         return id;
     }
 

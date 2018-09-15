@@ -19,12 +19,10 @@ export class TeamRoleGuard implements CanActivate {
                 let teamId: string = route.params.id;
                 let team: TeamModel = new TeamModel();
                 team.id = teamId;
-                console.log("we");
                 if (user.canManageTeam(team))
                     return true;
             }
         }
-        console.log("we here");
         this.router.navigate(['permission-denied']);
     }
 }

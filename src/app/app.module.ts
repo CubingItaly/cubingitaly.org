@@ -30,6 +30,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -52,7 +53,8 @@ import { UserService } from './services/user.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { PermissionDeniedComponent } from './components/permission-denied/permission-denied.component';
 import { CubingItalyErrorHandler } from './services/error.handler';
-
+import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
+import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 
 
 
@@ -67,7 +69,9 @@ import { CubingItalyErrorHandler } from './services/error.handler';
     ToolbarComponent,
     FooterComponent,
     NotFoundComponent,
-    PermissionDeniedComponent
+    PermissionDeniedComponent,
+    ConfirmDialogComponent,
+    ErrorDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +86,7 @@ import { CubingItalyErrorHandler } from './services/error.handler';
     MatMenuModule,
     MatListModule,
     MatDividerModule,
+    MatDialogModule,
     AngularFontAwesomeModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
     RouterModule.forRoot(routes)
@@ -102,6 +107,7 @@ import { CubingItalyErrorHandler } from './services/error.handler';
   ],
   bootstrap: [
     AppComponent
-  ]
+  ],
+  entryComponents: [ConfirmDialogComponent, ErrorDialogComponent]
 })
 export class AppModule { }

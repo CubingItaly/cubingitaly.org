@@ -8,14 +8,22 @@
     flex: 1 0 150px;
 }
 
-.mat-column-options {
+.mat-column-options, .mat-column-leader, .mat-column-id {
     flex: 0 0 100px !important;
     white-space: unset !important;
     justify-content: center;
 }
 
+.mat-form-field{
+    width: 250px;
+}
+
 .mat-table{
     overflow: auto;
+}
+
+h4{
+    margin: 10px 0 10px 0;
 }
 
 a{
@@ -23,6 +31,6 @@ a{
     text-decoration: none;
 }
 
-h2{
+h1{
     margin-bottom:0px !important;
 }

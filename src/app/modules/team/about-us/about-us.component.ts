@@ -28,5 +28,23 @@ export class AboutUsComponent implements OnInit {
 
   }
 
+  public getUsers(id: string): string {
+    let users: UserModel[] = this.mapTeamMembers[id];
+    let result = "";
+    if (users) {
+      for (let i = 0; i < users.length; i++) {
+        if (users[i].isLeaderOf(id)) {
+          result = users[i].name + " (Leader), " + result;
+        } else {
+          result += users[i].name + ", ";
+        }
+      }
+      if (result.endsWith(", "))
+        result = result.substr(0, result.length - 2);
+    }
+
+    return result;
+  }
+
 
 }

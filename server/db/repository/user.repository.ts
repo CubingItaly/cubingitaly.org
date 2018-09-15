@@ -81,6 +81,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
             .innerJoinAndSelect("roles.team", "team")
             .innerJoinAndSelect("roles.user", "secondUser")
             .where("team.id = :tid", { tid: team.id })
+            .orderBy("user.name","ASC")
             .getMany();
     }
 

@@ -4,7 +4,7 @@ declare var $: any;
 declare var jQuery: any;
 
 @Component({
-  selector: 'summernote',
+  selector: 'summernote-editor',
   templateUrl: './summernote.component.html',
   styleUrls: ['./summernote.component.css']
 })

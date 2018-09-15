@@ -1,6 +1,8 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
-    <h2>Riguardo Cubing Italy</h2>
+    <h1>Riguardo Cubing Italy</h1>
+    <h4><a routerLink="/">Home</a> > Chi siamo</h4>
+
 
     <h3>Cos’è Cubing Italy?</h3>
     <p align="justify">
@@ -29,14 +31,11 @@
     </p>
 
     <h3>Struttura di Cubing Italy</h3>
-    <mat-list fxLayout="row" fxLayout.xs="column">
-      <div *ngFor="let team of teams" fxFlex="25%">
+    <div>
+      <div fxLayout="column" *ngFor="let team of teams">
         <h4>{{team.name}}</h4>
-        <ul>
-          <li *ngFor="let user of mapTeamMembers[team.id]">{{user.name}}</li>
-        </ul>
+        <p>{{getUsers(team.id)}}</p>
       </div>
-
-    </mat-list>
+    </div>
   </div>
 </div>

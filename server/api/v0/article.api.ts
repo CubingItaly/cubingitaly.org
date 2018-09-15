@@ -181,7 +181,7 @@ router.post("/", verifyLogin, canAdminArticle, articleIsInTheBody, idIsInTheRequ
     //Use the database entity to create a clean new article with only title and id
     let newArticle: ArticleEntity = await articleRepo.createArticle(dbArticle.title);
     //Copy the ID of the article into the database entity
-    dbArticle.id = newArticle.title;
+    dbArticle.id = newArticle.id;
 
     //Get the user who is creating the article and create a new database entity
     let user: UserEntity = new UserEntity();

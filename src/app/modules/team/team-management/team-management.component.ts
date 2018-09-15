@@ -9,6 +9,9 @@ import { FormControl } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
 import { debounceTime } from 'rxjs/operators';
+import { MatDialog, MatDialogRef } from '@angular/material';
+import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-team-management',
@@ -38,7 +41,7 @@ export class TeamManagementComponent implements OnInit {
 
 
 
-  constructor(private userSVC: UserService, public authSVC: AuthService, private teamSVC: TeamService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private userSVC: UserService, public authSVC: AuthService, private teamSVC: TeamService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('id');
@@ -51,22 +54,42 @@ export class TeamManagementComponent implements OnInit {
   }
 
 
-  public promoteLeader(user: number) {
-    this.teamSVC.addTeamLeader(this.teamId, user).subscribe(() => this.manageTeamUpdate());
+  public promoteLeader(id: number) {
+    let user = this.users.find(u => u.id === id);
+    let obs = this.createDialog("Sei sicuro di voler promuovere " + user.name + " a Leader del team?");
+    obs.subscribe((result: boolean) => {
+      if (result)
+        this.teamSVC.addTeamLeader(this.teamId, id).subscribe(() => this.manageTeamUpdate());
+    });
   }
 
-  public demoteLeader(user: number) {
-    this.teamSVC.demoteTeamLeader(this.teamId, user).subscribe(() => this.manageTeamUpdate());
+  public demoteLeader(id: number) {
+    let user = this.users.find(u => u.id === id);
+    let obs = this.createDialog("Sei sicuro di voler rimuovere " + user.name + " da Leader del team?");
+    obs.subscribe((result: boolean) => {
+      if (result)
+        this.teamSVC.demoteTeamLeader(this.teamId, id).subscribe(() => this.manageTeamUpdate());
+    });
   }
 
   public addMember() {
-    this.teamSVC.addTeamMember(this.teamId, this.newMember.id).subscribe(() => this.manageTeamUpdate());
-    this.formControl.setValue("");
-    this.newMember = undefined;
+    if (this.newMember !== undefined) {
+      let obs = this.createDialog("Sei sicuro di voler aggiungere " + this.newMember.name + " ai membri del team?");
+      obs.subscribe((result: boolean) => {
+        this.teamSVC.addTeamMember(this.teamId, this.newMember.id).subscribe(() => this.manageTeamUpdate());
+        this.formControl.setValue("");
+        this.newMember = undefined;
+      });
+    }
   }
 
-  public removeMember(user: number) {
-    this.teamSVC.removeTeamMember(this.teamId, user).subscribe(() => this.manageTeamUpdate());
+  public removeMember(id: number) {
+    let user = this.users.find(u => u.id === id);
+    let obs = this.createDialog("Sei sicuro di voler rimuovere " + user.name + " dal team?");
+    obs.subscribe((result: boolean) => {
+      if (result)
+        this.teamSVC.removeTeamMember(this.teamId, id).subscribe(() => this.manageTeamUpdate());
+    });
   }
 
   private manageTeamUpdate() {
@@ -77,4 +100,14 @@ export class TeamManagementComponent implements OnInit {
     this.teamSVC.getTeamMembers(this.teamId).subscribe((users: UserModel[]) => this.users = users);
   }
 
+
+
+  private createDialog(message: string): Observable<any> {
+    const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+      minWidth: '200px',
+      data: message
+    });
+
+    return dialogRef.afterClosed();
+  }
 }

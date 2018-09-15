@@ -1,10 +1,10 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
-    <h2>Gestione Membri</h2>
+    <h1>Gestione Membri</h1>
     <h4 *ngIf="team"><a routerLink="/teams">Team</a> > {{team.name}}</h4>
 
     <!-- Members table-->
-    <mat-table [dataSource]="users" class="mat-elevation-z4">
+    <mat-table [dataSource]="users" class="mat-elevation-z4" fxHide.xs>
 
       <ng-container matColumnDef="name">
         <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
@@ -45,9 +45,45 @@
     </mat-table>
     <!-- End of members table-->
 
+    <!-- Start of members expansion panel list-->
+    <mat-accordion *ngFor="let user of users" class="mat-elevation-z4" fxHide.gt-xs>
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            {{user.name}}
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+        <div fxLayout fxLayoutAlign="start center">
+          ID:
+          <span fxFlex="grow"></span>
+          {{user.id}}
+        </div>
+        <div fxLayout fxLayoutAlign="start center">
+          Leader:
+          <span fxFlex="grow"></span>
+          <mat-icon *ngIf="user.isLeaderOf(teamId)">done</mat-icon>
+        </div>
+        <div fxLayout fxLayoutAlign="start center">
+          Opzioni:
+          <span fxFlex="grow"></span>
+          <button mat-icon-button (click)="demoteLeader(user.id)" *ngIf="authSVC.authUser.canAdminTeams() && user.isLeaderOf(teamId)">
+            <mat-icon aria-label="Promote to leader">arrow_downward</mat-icon>
+          </button>
+          <button mat-icon-button (click)="promoteLeader(user.id)" *ngIf="authSVC.authUser.canAdminTeams() && !user.isLeaderOf(teamId)">
+            <mat-icon aria-label="Demote leader">arrow_upward</mat-icon>
+          </button>
+          <button mat-icon-button (click)="removeMember(user.id)" style="margin-right: -8px;" *ngIf="authSVC.authUser.canManageTeam(teamId)">
+            <mat-icon aria-label="Remove member">clear</mat-icon>
+          </button>
+        </div>
+
+      </mat-expansion-panel>
+    </mat-accordion>
+    <!-- End of members expansion panel list -->
+
     <!-- Add new member form -->
     <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="20px">
-      <mat-form-field ngStyle.gt-xs="min-width:300px">
+      <mat-form-field ngStyle.gt-xs="min-width:500px">
         <input type="text" placeholder="Aggiung nuovo membro" aria-label="Number" matInput [formControl]="formControl"
           [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">

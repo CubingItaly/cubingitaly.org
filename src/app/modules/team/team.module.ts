@@ -17,6 +17,7 @@ import { MatInputModule } from '@angular/material/input';
 import { TeamManagementComponent } from './team-management/team-management.component';
 import { AboutUsComponent } from './about-us/about-us.component';
 import { TeamRoleGuard } from './services/team.guard.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
   imports: [
@@ -32,7 +33,8 @@ import { TeamRoleGuard } from './services/team.guard.service';
     MatListModule,
     ReactiveFormsModule,
     MatDividerModule,
-    MatListModule
+    MatListModule,
+    MatExpansionModule
   ],
   declarations: [TeamListComponent, TeamManagementComponent, AboutUsComponent],
   providers: [TeamService, TeamRoleGuard]
