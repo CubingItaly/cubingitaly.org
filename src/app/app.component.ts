@@ -14,19 +14,19 @@ import { MatButton } from '@angular/material/button';
 })
 export class AppComponent implements OnInit {
 
-  menuUrls: { id: string, text: string, url: string, isSelected: boolean }[] = [
+  menuUrls: { id: string, text: string, url: string, isSelected: boolean, icon: string }[] = [
 
     {
-      id: "home", text: "home", url: "/", isSelected: false
+      id: "home", text: "home", url: "/", isSelected: false, icon: "home"
     },
     {
-      id: "about", text: "chi siamo", url: "/about", isSelected: false
+      id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle"
     },
     {
-      id: "articles", text: "articoli", url: "/articles", isSelected: false
+      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "book"
     },
     {
-      id: "teams", text: "team", url: "/teams", isSelected: false
+      id: "teams", text: "team", url: "/teams", isSelected: false, icon: "users"
     }
   ];
 

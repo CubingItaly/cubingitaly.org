@@ -39,3 +39,8 @@ mat-sidenav button{
 .main-container{
     min-height: 90vh;
 }
+
+.menu-icon{
+    font-size: 18px;
+    margin-right:5px;
+}
