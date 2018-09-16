@@ -50,10 +50,7 @@ export class ArticleEditorComponent implements OnInit {
     } else {
       this.articleId = this.route.snapshot.paramMap.get("id");
       this.articleSVC.getArticle(this.articleId).subscribe(article => {
-        console.log("here");
-        console.log(article);
         this.article = article;
-        console.log(this.article);
         this.isNew = false;
         this.isPublic = article.isPublic;
         this.articleLoaded = true;
@@ -68,6 +65,7 @@ export class ArticleEditorComponent implements OnInit {
   createArticle() {
     if (this.article.title) {
       this.articleSVC.createArticle(this.article).subscribe((result: ArticleModel) => {
+        window.scrollTo(0, 0);
         let redirecUrl = "/articles/" + result.id + "/edit";
         this.router.navigate([redirecUrl]);
       });
@@ -77,10 +75,24 @@ export class ArticleEditorComponent implements OnInit {
   }
 
   updateArticle() {
-    this.articleSVC.updateArticle(this.article).subscribe((result: ArticleModel) => {
-      this.article = result;
-      this.actionAfterUpdate();
-    });
+    if (this.isPublic) {
+      let obs = this.createDialog("L'articolo che stai modifcando è pubblico e le modifiche saranno visibili da chiunque. Sei sicuro di voler procedere?");
+      obs.subscribe((result: boolean) => {
+        if (result) {
+          this.articleSVC.updateArticle(this.article).subscribe((result: ArticleModel) => {
+            this.article = result;
+            this.actionAfterUpdate();
+          });
+        }
+      });
+    } else {
+      this.articleSVC.updateArticle(this.article).subscribe((result: ArticleModel) => {
+        this.article = result;
+        this.actionAfterUpdate();
+      });
+    }
+
+
   }
 
   deleteArticle() {

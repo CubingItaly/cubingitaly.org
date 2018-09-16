@@ -5,7 +5,9 @@
         <h1>{{article.title | titlecase}}</h1>
         <p style="color: grey">
           <i>
-            Pubblicato da {{article.author.name}}, ultimo aggiornamento il {{article.updateDate | date:'shortDate' }}
+            <ng-container *ngIf="article.isPublic">Pubblicato da {{article.author.name}},</ng-container>
+            <ng-container *ngIf="!article.isPublic">Modificato da {{article.lastEditor.name}},</ng-container> ultimo
+            aggiornamento il {{article.updateDate | date:'shortDate' }}
             alle {{article.updateDate | date:'shortTime'}}
           </i>
         </p>

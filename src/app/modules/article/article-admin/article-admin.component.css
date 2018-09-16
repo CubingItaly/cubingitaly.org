@@ -1,0 +1,51 @@
+.mat-header-cell{
+    font-size: 18px;
+    font-weight: 600;
+    color: #000;
+}
+
+.mat-column-title{
+    flex: 1 0 150px;
+}
+
+.mat-column-options, .mat-column-status {
+    flex: 0 0 100px !important;
+    white-space: unset !important;
+    justify-content: center;
+}
+
+.mat-column-editor, .mat-column-update {
+    flex: 0 0 150px !important;
+    white-space: unset !important;
+    justify-content: center;
+}
+
+.hidden-article{
+    color: #d37843;
+}
+
+.public-article{
+    color: #488732;
+}
+
+
+.mat-table{
+    overflow: auto;
+}
+
+h4{
+    margin: 10px 0 10px 0;
+}
+
+a{
+    color: #000;
+    text-decoration: none;
+}
+
+h1{
+    margin-bottom:0px !important;
+}
+
+.accordion-container{
+    margin-bottom: 20px;
+}

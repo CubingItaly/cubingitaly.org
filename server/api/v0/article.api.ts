@@ -43,8 +43,33 @@ router.get("/", [query('page').isNumeric().optional({ checkFalsy: true }), query
             dbArticle = await getArticlerRepository().getPublicArticles(limit, page);
         }
 
-        return res.status(200).json(dbArticle);
+        let model: ArticleModel[] = dbArticle.map(a => a._transform());
+
+        return res.status(200).json(model);
     });
+
+
+/**
+ * Return a list of all the articles.
+ * Parameters page and limit are used for paging.
+ * Defaults: page = 0, limit = 12.
+ */
+router.get("/admin", [query('page').isNumeric().optional({ checkFalsy: true }), query('limit').isNumeric().optional({ checkFalsy: true })]
+    , verifyLogin, canAdminArticle, async (req: Request, res: Response) => {
+        let error: Result = validationResult(req);
+        if (!error.isEmpty()) {
+            return sendError(res, 400, "Bad request. The request is malformed.");
+        }
+        let limit: number = Number(req.query.limit || 12);
+        let page: number = Number(req.query.page || 0);
+        let dbArticle: ArticleEntity[];
+
+        dbArticle = await getArticlerRepository().getAllArticles(limit, page);
+        let model: ArticleModel[] = dbArticle.map(a => a._transform());
+
+        return res.status(200).json(model);
+    });
+
 
 /**
  * Check if the article sent to create a new one alreadys has an id.
@@ -164,7 +189,6 @@ function sanitizeContent(req, res, next) {
     req.body.article.title = tmp.substr(0, 120);
     tmp = req.sanitize(req.body.article.summary) || "";
     req.body.article.summary = tmp.substr(0, 250);
-    req.body.article.content = req.sanitize(req.body.article.content) || "";
     next();
 }
 

@@ -43,7 +43,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   private getArticles() {
-    this.articleSVC.getArticles(this.articlesPerPage, this.page - 1, null).subscribe(result => this.articles = result);
+    this.articleSVC.getPublicArticles(this.articlesPerPage, this.page - 1, null).subscribe(result => this.articles = result);
   }
 }
 

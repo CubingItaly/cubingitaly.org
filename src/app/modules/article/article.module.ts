@@ -6,12 +6,13 @@ import { RouterModule } from '@angular/router';
 import { ArticleService } from './services/article.service';
 import { ArticleGuardService } from './services/article.guard.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatCardModule, MatPaginator, MatPaginatorModule, MatIconModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule } from '@angular/material';
+import { MatCardModule, MatPaginator, MatPaginatorModule, MatIconModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatTableModule, MatExpansionModule } from '@angular/material';
 import { ArticleComponent } from './article/article.component';
 import { SummernoteModule } from '../summernote/summernote.module';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { ArticleAdminComponent } from './article-admin/article-admin.component';
 
 @NgModule({
   imports: [
@@ -29,9 +30,11 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     MatAutocompleteModule,
     FormsModule,
     ReactiveFormsModule,
+    MatTableModule,
+    MatExpansionModule,
     RouterModule.forChild(routes)
   ],
-  declarations: [ArticleListComponent, ArticleComponent, ArticleEditorComponent],
+  declarations: [ArticleListComponent, ArticleComponent, ArticleEditorComponent, ArticleAdminComponent],
   providers: [ArticleService, ArticleGuardService]
 })
 export class ArticleModule { }

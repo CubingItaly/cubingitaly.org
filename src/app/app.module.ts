@@ -55,6 +55,7 @@ import { PermissionDeniedComponent } from './components/permission-denied/permis
 import { CubingItalyErrorHandler } from './services/error.handler';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
+import { MenuService } from './services/menu.service';
 
 
 
@@ -103,6 +104,7 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
     CookieService,
     AuthService,
     UserService,
+    MenuService,
     { provide: ErrorHandler, useClass: CubingItalyErrorHandler }
   ],
   bootstrap: [

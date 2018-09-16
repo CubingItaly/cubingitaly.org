@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { ArticleListComponent } from './article-list/article-list.component';
 import { ArticleComponent } from './article/article.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
+import { ArticleAdminComponent } from './article-admin/article-admin.component';
 
 export const routes: Routes = [
     {
@@ -17,7 +18,7 @@ export const routes: Routes = [
         path: 'admin', redirectTo: 'admin/1', pathMatch: 'full'
     },
     {
-        path: 'admin/:page'
+        path: 'admin/:page', component: ArticleAdminComponent
     },
     {
         path: 'new', component: ArticleEditorComponent, data: { intent: "new" }

@@ -97,7 +97,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {UserEntity}
      * @memberof ArticleEntity
      */
-    @ManyToOne(type => UserEntity, user => user.createdArticles, { eager: true, nullable: true })
+    @ManyToOne(type => UserEntity, user => user.createdArticles, { nullable: true })
     @JoinTable()
     public author: UserEntity;
 
@@ -107,7 +107,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {UserEntity}
      * @memberof ArticleEntity
      */
-    @ManyToOne(type => UserEntity, user => user.editedArticles, { eager: true, nullable: true })
+    @ManyToOne(type => UserEntity, user => user.editedArticles, { nullable: true })
     @JoinTable()
     public lastEditor: UserEntity;
 

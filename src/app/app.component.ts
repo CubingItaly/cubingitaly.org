@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { MatButton } from '@angular/material/button';
@@ -14,41 +14,45 @@ import { MatButton } from '@angular/material/button';
 })
 export class AppComponent implements OnInit {
 
-  constructor(public authSVC: AuthService, private router: Router) { }
+  menuUrls: { id: string, text: string, url: string, isSelected: boolean }[] = [
 
-  @ViewChild("sidenav") sidenav: MatSidenav;
+    {
+      id: "home", text: "home", url: "/", isSelected: false
+    },
+    {
+      id: "about", text: "chi siamo", url: "/about", isSelected: false
+    },
+    {
+      id: "articles", text: "articoli", url: "/articles", isSelected: false
+    },
+    {
+      id: "teams", text: "team", url: "/teams", isSelected: false
+    }
+  ];
+
   isSidebarOpened: boolean = false;
+  @ViewChild("sidenav") sidenav: MatSidenav;
 
+  constructor(public authSVC: AuthService, private router: Router) { }
   ngOnInit() {
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let slashIndex = event.url.indexOf("/", 1);
+        let length = event.url.length;
+        if (slashIndex > 0) {
+          length = slashIndex;
+        }
+        let section = event.url.substr(0, length);
+        this.menuUrls.forEach((url) => url.isSelected = url.url === section);
+      }
+    })
 
   }
 
-  menuUrls = [
-    {
-      id: "home",
-      text: "home",
-      url: "/",
-      isSelected: false
-    },
-    {
-      id: "about",
-      text: "chi siamo",
-      url: "/about",
-      isSelected: false
-    },
-    {
-      id: "articles",
-      text: "articoli",
-      url: "/articles",
-      isSelected: false
-    },
-    {
-      id: "teams",
-      text: "team",
-      url: "/teams",
-      isSelected: false
-    }
-  ]
+  private setMenu() {
+
+  }
+
 
   urlClicked(url) {
     this.router.navigate([url]);

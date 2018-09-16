@@ -23,7 +23,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getPublicArticles(limit: number, page: number): Promise<ArticleEntity[]> {
-        return this.repository.find({ where: { isPublic: true }, order: { publishDate: "DESC" }, take: limit, skip: page * limit });
+        return this.repository.find({ select: ["id", "title", "summary", "publishDate", "updateDate"], relations: ["author", "lastEditor"], where: { isPublic: true }, order: { publishDate: "DESC" }, take: limit, skip: page * limit });
     }
 
     /**
@@ -46,7 +46,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getAllArticles(limit: number, page: number): Promise<ArticleEntity[]> {
-        return this.repository.find({ order: { updateDate: "DESC" }, take: limit, skip: limit * page });
+        return this.repository.find({ select: ["id", "title", "isPublic", "summary", "publishDate", "updateDate"], relations: ["author", "lastEditor"], order: { updateDate: "DESC" }, take: limit, skip: limit * page });
     }
 
     /**
@@ -96,7 +96,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getArticleById(id: string): Promise<ArticleEntity> {
-        return await this.repository.findOne(id);
+        return await this.repository.findOne(id, { relations: ["lastEditor", "author"] });
     }
 
     /**
