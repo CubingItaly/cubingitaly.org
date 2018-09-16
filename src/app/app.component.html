@@ -3,10 +3,13 @@
 <mat-sidenav-container>
 
     <mat-sidenav #sidenav class="example-sidenav" mode="over" [(opened)]="isSidebarOpened" fxHide.gt-xs>
+        <button mat-button style="height: 0; position: absolute;"></button>
         <mat-list>
             <mat-list-item *ngFor="let url of menuUrls">
-                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow" style="background-color:#d4d4d4" *ngIf="url.isSelected"><i class="fa fa-{{url.icon}} menu-icon" aria-hidden="true"> </i>{{url.text | uppercase}}</button>
-                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow" *ngIf="!url.isSelected"><i class="fa fa-{{url.icon}} menu-icon" aria-hidden="true"> </i>{{url.text | uppercase}}</button>
+                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow" style="background-color:#d4d4d4" *ngIf="url.isSelected"><i
+                        class="fa fa-{{url.icon}} menu-icon" aria-hidden="true"> </i>{{url.text | uppercase}}</button>
+                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow" *ngIf="!url.isSelected"><i class="fa fa-{{url.icon}} menu-icon"
+                        aria-hidden="true"> </i>{{url.text | uppercase}}</button>
             </mat-list-item>
         </mat-list>
     </mat-sidenav>
