@@ -28,9 +28,9 @@
           </div>
         </div>
       </div>
-      <div fxLayout="column">
+      <div fxLayout="column" *ngIf="article && article.categories.length > 0">
         <h2>Categorie</h2>
-
+        <button mat-button style="text-align: left" *ngFor="let category of article.categories">{{category.name}}</button>
       </div>
 
       <div fxLayout="column" *ngIf="user && user.canEditArticles()">

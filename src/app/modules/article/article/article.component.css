@@ -2,3 +2,7 @@ mat-chip {
     max-width: 100px;
     text-align: center;
 }
+
+.mat-button{
+    font-size: 18px;
+}

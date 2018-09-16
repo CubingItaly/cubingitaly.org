@@ -16,19 +16,20 @@
         <summernote-editor *ngIf="articleLoaded" [(ngModel)]="article.content" ngDefaultControl></summernote-editor>
 
         <h2 *ngIf="article">Categorie</h2>
-        <mat-form-field *ngIf="article">
+        <mat-form-field>
           <mat-chip-list #chipList>
-            <mat-chip *ngFor="let category of article.categories" [selectable]="false" [removable]="true" (remove)="remove(category.id)">
+            <mat-chip *ngFor="let category of article.categories" [selectable]="selectable" [removable]="removable"
+              (removed)="remove(category.id)">
               {{category.name}}
               <mat-icon matChipRemove>cancel</mat-icon>
             </mat-chip>
-            <input placeholder="Aggiungi categoria..." #categoryInput [formControl]="categoryControl" [matAutocomplete]="auto"
-              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="false"
-              (matChipInputTokenEnd)="add($event)" />
+            <input placeholder="Nuova categoria" #categoryInput [formControl]="categoryControl" [matAutocomplete]="auto"
+              [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
+              (matChipInputTokenEnd)="add($event)">
           </mat-chip-list>
           <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
-            <mat-option *ngFor="let category of categories" [value]="category.id">
-              {{ category.name }}
+            <mat-option *ngFor="let cat of filteredCategories" [value]="cat.id">
+              {{cat.name}}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>

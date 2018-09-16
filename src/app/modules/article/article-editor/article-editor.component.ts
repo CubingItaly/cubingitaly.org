@@ -10,7 +10,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes';
 import { BadRequestError } from '../../../services/errors/bad.request.error';
 import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 
 @Component({
   selector: 'app-article-editor',
@@ -24,22 +24,22 @@ export class ArticleEditorComponent implements OnInit {
   isNew: boolean;
   isPublic: boolean;
   articleLoaded: boolean = false;
-
   updated: boolean;
 
-  categories: ArticleCategoryModel[] = [];
+  categories: ArticleCategoryModel[];
   filteredCategories: ArticleCategoryModel[];
-  categoryControl = new FormControl();
-  separatorKeysCodes = [ENTER, COMMA];
-
-  @ViewChild('categoryInput') catInput: ElementRef;
+  categoryControl: FormControl = new FormControl();
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  selectable = true;
+  removable = true;
+  addOnBlur = false;
 
 
   constructor(private dialog: MatDialog, private authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.user = this.authSVC.authUser;
-    this.articleSVC.getCategories().subscribe(result => this.categories = result);
+    this.articleSVC.getCategories().subscribe(result => { this.categories = result; this.filteredCategories = this.categories });
 
     let intent: string = this.route.snapshot.data.intent;
     if (intent === "new") {
@@ -55,7 +55,7 @@ export class ArticleEditorComponent implements OnInit {
         this.isPublic = article.isPublic;
         this.articleLoaded = true;
         if (this.article.categories.length > 0) {
-          this.categories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
+          this.filteredCategories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
         }
       })
     }
@@ -157,5 +157,21 @@ export class ArticleEditorComponent implements OnInit {
     });
 
     return dialogRef.afterClosed();
+  }
+
+  add(event: MatChipInputEvent): void {
+    event.input.value = "";
+  }
+
+  remove(id: string): void {
+    let category: ArticleCategoryModel = this.categories.find(c => c.id === id);
+    this.article.categories = this.article.categories.filter(c => c.id !== id);
+    this.filteredCategories.push(category);
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    let category: ArticleCategoryModel = this.categories.find(c => c.id === event.option.value);
+    this.article.categories.push(category);
+    this.filteredCategories = this.filteredCategories.filter(c => c.id !== category.id);
   }
 }
