@@ -41,7 +41,7 @@ export class ArticleEntity extends BaseEntity implements ITransformable<ArticleM
      * @type {string}
      * @memberof BasicPageEntity
      */
-    @Column({ type: "text", nullable: true })
+    @Column({ type: "mediumtext", nullable: true })
     public content: string;
 
     /**

@@ -38,9 +38,9 @@ const urlWhitelist: string[] = [
 
 
 app.disable("x-powered-by");
-app.use(json());
+app.use(json({ limit: '4mb' }));
 app.use(compression());
-app.use(urlencoded({ extended: true }));
+app.use(urlencoded({ limit: '4mb', extended: true }));
 app.use(expressSanitizer());
 
 app.use(session(
