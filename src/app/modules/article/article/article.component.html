@@ -4,12 +4,9 @@
       <div fxLayout="column">
         <h1>{{article.title | titlecase}}</h1>
         <p style="color: grey">
-          <i>
-            <ng-container *ngIf="article.isPublic">Pubblicato da {{article.author.name}},</ng-container>
-            <ng-container *ngIf="!article.isPublic">Modificato da {{article.lastEditor.name}},</ng-container> ultimo
-            aggiornamento il {{article.updateDate | date:'shortDate' }}
-            alle {{article.updateDate | date:'shortTime'}}
-          </i>
+          <ng-container *ngIf="article.isPublic">{{article.author.name}}, {{article.publishDate | date:"short"}}</ng-container>
+          <ng-container *ngIf="!article.isPublic">{{article.lastEditor.name}}</ng-container> - ultimo
+          aggiornamento il {{article.updateDate | date:'shortDate' }}
         </p>
         <summernote-viewer [content]="article.content"></summernote-viewer>
       </div>

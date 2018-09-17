@@ -56,7 +56,7 @@ import { CubingItalyErrorHandler } from './services/error.handler';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MenuService } from './services/menu.service';
-
+import '../icons';
 
 
 

@@ -7,8 +7,8 @@
           <mat-card-title class="card-title z-depth-1">
             <a routerLink="../../{{article.id}}">{{article.title | titlecase}}</a>
           </mat-card-title>
-          <mat-card-subtitle class="card-subtitle">pubblicato da {{article.author.name}}, ultimo aggiornamento il
-            {{article.updateDate | date:"shortDate"}}</mat-card-subtitle>
+          <mat-card-subtitle class="card-subtitle">{{article.author.name}}, {{article.publishDate | date:"shortDate"}}
+            - {{article.publishDate | date:"shortTime"}}</mat-card-subtitle>
           <mat-card-content class="card-content">
             <p>{{article.summary}}</p>
           </mat-card-content>
