@@ -13,7 +13,7 @@ import { ShareButtonsModule } from '@ngx-share/buttons';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ArticleAdminComponent } from './article-admin/article-admin.component';
-import { ItalianMatPaginator } from './utils/article.paginator.it';
+import { ItalianMatPaginator } from './services/article.paginator.it';
 
 @NgModule({
   imports: [
