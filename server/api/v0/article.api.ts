@@ -13,39 +13,6 @@ const sanitizeHtml = require('sanitize-html');
 
 const router: Router = Router();
 
-const allowedContent = {
-    allowedTags: ['h3', 'h4', 'h5', 'h6', 'blockquote', 'p', 'a', 'ul', 'ol',
-        'nl', 'li', 'b', 'i', 'strong', 'em', 'strike', 'code', 'hr', 'br', 'div',
-        'table', 'thead', 'caption', 'tbody', 'tr', 'th', 'td', 'pre', 'iframe'],
-    allowedAttributes: {
-        a: ['href', 'name', 'target'],
-        h2: ['style'],
-        // We don't currently allow img itself by default, but this
-        // would make sense if we did
-        img: ['src']
-    },
-    // Lots of these won't come up by default because we don't allow them
-    selfClosing: ['img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta'],
-    // URL schemes we permit
-    allowedSchemes: ['http', 'https', 'ftp', 'mailto'],
-    allowedSchemesByTag: {},
-    allowedSchemesAppliedToAttributes: ['href', 'src', 'cite'],
-    allowProtocolRelative: true,
-    allowedIframeHostnames: ['www.youtube.com', 'player.vimeo.com'],
-    allowedStyles: {
-        '*': {
-            // Match HEX and RGB
-            'color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-            'text-align': [/^left$/, /^right$/, /^center$/],
-            // Match any number with px, em, or %
-            'font-size': [/^\d+(?:px|em|%)$/]
-        },
-        'p': {
-            'font-size': [/^\d+rem$/]
-        }
-    }
-};
-
 /**
  * Instantiate a ArticleRepository and return it
  *
@@ -226,9 +193,10 @@ function sanitizeContent(req, res, next) {
     try {
         req.body.article.content = sanitizeHtml(req.body.article.content, {
             allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'strong',
-                'i', 'em', 'code','span', 'hr', 'br', 'table', 'thead', 'tbody', 'tr', 'td', 'div', 'frame', 'img'],
+                'i', 'em', 'code', 'span', 'hr', 'br', 'table', 'thead', 'tbody', 'tr', 'td', 'div', 'frame', 'img',
+                'blockquote', 'mark', 'figure', 'figcaption'],
             allowedAttributes: {
-                '*': ['style'],
+                '*': ['style',"class"],
                 a: ['href', 'name', 'target'],
                 img: ['src'],
                 table: ['class']
@@ -244,26 +212,14 @@ function sanitizeContent(req, res, next) {
             },
             allowedSchemes: ['http', 'https'],
             allowedSchemesByTag: {
-                img: ['data','http','https']
+                img: ['data', 'http', 'https']
             },
             selfClosing: ['img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta'],
             allowedIframeHostnames: ['www.youtube.com']
         }
 
 
-            /*{
-            allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'br', 'b', 'strong', 'u', 'span', 'table', 'tr', 'td', 'tbody'],
-            allowedStyles: {
-                '*': {
-                    // Match HEX and RGB
-                    'color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-                    'background-color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-                    'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
-                    // Match any number with px, em, or %
-                    'font-size': [/^\d+(?:px|em|%)$/]
-                }
-            }
-        }*/);
+        );
     } catch (e) {
         console.log(e);
     }
