@@ -19,7 +19,7 @@ function getCategoryRepository(): ArticleCategoryRepository {
 router.get("/", async (req, res) => {
     let dbCategories: ArticleCategoryEntity[] = await getCategoryRepository().getCategories();
     let categories: ArticleCategoryModel[] = dbCategories.map(c => c._transform());
-    res.status(200).send(categories);
+    res.status(200).json(categories);
 });
 
 /**
@@ -30,7 +30,7 @@ router.get("/:id", async (req, res) => {
     let dbCategory: ArticleCategoryEntity = await getCategoryRepository().getCategory(req.params.id);
     if (dbCategory !== undefined && dbCategory !== null) {
         let category: ArticleCategoryModel = dbCategory._transform();
-        res.status(200).send(category);
+        res.status(200).json(category);
     } else {
         sendError(res, 404, "The requested resource doesn't exist");
     }

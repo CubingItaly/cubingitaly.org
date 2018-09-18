@@ -204,7 +204,7 @@ router.delete("/:team/members/:member", verifyLogin, checkIfTeamExist, checkIfCa
     let team: TeamEntity = await getTeam(req.params.team);
     let user: UserEntity = await getMember(req.params.member);
     await getRoleRepository().removeRole(user, team);
-    return res.status(200).send();
+    return res.status(200).send({});
 });
 
 

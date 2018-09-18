@@ -3,7 +3,6 @@ import { ITransformable } from "../transformable";
 import { UserModel } from "../../models/classes/user.model";
 import { RoleEntity } from "./role.entity";
 import { ArticleEntity } from "./article.entity";
-import { SinglePageEntity } from "./singlepage.entity";
 
 
 /**
@@ -82,24 +81,6 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
      */
     @OneToMany(type => ArticleEntity, article => article.lastEditor, { nullable: true })
     public editedArticles: ArticleEntity[];
-
-    /**
-     * Pages whose creator is the user.
-     *
-     * @type {SinglePageEntity[]}
-     * @memberof UserEntity
-     */
-    @OneToMany(type => SinglePageEntity, page => page.author, { nullable: true })
-    public createdPages: SinglePageEntity[];
-
-    /**
-     * Pages whose last editor is the user.
-     *
-     * @type {SinglePageEntity[]}
-     * @memberof UserEntity
-     */
-    @OneToMany(type => SinglePageEntity, page => page.lastEditor, { nullable: true })
-    public editedPages: SinglePageEntity[];
 
 
     /**

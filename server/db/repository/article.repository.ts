@@ -33,7 +33,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async countPublicArticles(): Promise<number> {
-        return await this.repository.count({ where: { isPublic: true } });
+        return this.repository.count({ where: { isPublic: true } });
     }
 
     /**
@@ -56,7 +56,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async countAllArticles(): Promise<number> {
-        return await this.repository.count();
+        return this.repository.count();
     }
 
     /**
@@ -96,7 +96,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async getArticleById(id: string): Promise<ArticleEntity> {
-        return await this.repository.findOne(id, { relations: ["lastEditor", "author"] });
+        return this.repository.findOne(id, { relations: ["lastEditor", "author"] });
     }
 
     /**
@@ -128,7 +128,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         oldArticle.content = article.content;
         oldArticle.lastEditor = user;
         oldArticle.categories = article.categories;
-        return await this.repository.save(oldArticle);
+        return this.repository.save(oldArticle);
     }
 
     /**
@@ -155,7 +155,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
                 oldArticle.author = null;
             }
         }
-        return await this.repository.save(oldArticle);
+        return this.repository.save(oldArticle);
     }
 
     /**
@@ -168,7 +168,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         let article: ArticleEntity = new ArticleEntity();
         article.id = id;
         article.title = title;
-        return await this.repository.save(article);
+        return this.repository.save(article);
     }
 
     /**
@@ -224,7 +224,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         }
 
         // every article must have an id and "admin","list" and "new" are forbidden article ids
-        if (id === "" || id === "admin" || id === "list" || id === "new") id = "articolo";
+        if (id === "" || id === "admin" || id === "list" || id === "new" || id==="categories") id = "articolo";
         return id;
     }
 
@@ -234,8 +234,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @param id 
      */
     private async countArticleIdsLike(id: string): Promise<number> {
-        let count: number = await this.repository.count({ id: Like(id + "%") });
-        return count;
+        return this.repository.count({ id: Like(id + "%") });
     }
 
 }

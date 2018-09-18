@@ -61,7 +61,7 @@ async function sendUserFromRepository(req, res, id: number, short: boolean): Pro
     if (exist) {
         let dbUser: UserEntity = short ? await userRepo.getShortUserById(id) : await userRepo.getUserById(id);
         let modelUser: UserModel = dbUser._transform();
-        return res.status(200).send(modelUser);
+        return res.status(200).json(modelUser);
     } else {
         return sendError(res, 404, "The requested user does not exist.");
     }
@@ -74,7 +74,7 @@ router.get("/", async (req, res) => {
     let userRepo: UserRepository = getUserRepository();
     let dbUsers: UserEntity[] = await userRepo.findUsersByName(req.query.name || "");
     let modelUsers: UserModel[] = dbUsers.map((user: UserEntity) => user._transform());
-    return res.status(200).send(modelUsers);
+    return res.status(200).json(modelUsers);
 });
 
 

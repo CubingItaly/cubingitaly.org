@@ -32,7 +32,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param id  
      */
     public async getUserById(id: number): Promise<UserEntity> {
-        return await this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
+        return this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
     }
 
     /**
@@ -42,7 +42,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param id  
      */
     public async getShortUserById(id: number): Promise<UserEntity> {
-        return await this.repository.findOne(id);
+        return this.repository.findOne(id);
     }
 
     /**
@@ -52,7 +52,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      */
     public async updateUser(user: UserEntity): Promise<UserEntity> {
         await this.repository.save(user);
-        return await this.getUserById(user.id);
+        return this.getUserById(user.id);
     }
 
 
@@ -62,13 +62,13 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param name 
      */
     public async findUsersByName(name: string): Promise<UserEntity[]> {
-        let result: UserEntity[] = await this.repository.find({
+        return this.repository.find({
             select: ["id", "wcaId", "name", "delegateStatus"],
             where: { name: Like(name + "%") },
             take: 10,
             order: { name: "ASC" }
         })
-        return result;
+
     }
 
     /**
@@ -81,7 +81,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
             .innerJoinAndSelect("roles.team", "team")
             .innerJoinAndSelect("roles.user", "secondUser")
             .where("team.id = :tid", { tid: team.id })
-            .orderBy("user.name","ASC")
+            .orderBy("user.name", "ASC")
             .getMany();
     }
 

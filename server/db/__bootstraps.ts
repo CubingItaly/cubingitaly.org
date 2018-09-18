@@ -6,8 +6,6 @@ import { ArticleCategoryRepository } from "./repository/category.repository";
 import { UserRepository } from "./repository/user.repository";
 import { RoleRepository } from "./repository/role.repository";
 import { ArticleRepository } from "./repository/article.repository";
-import { SinglePageRepository } from "./repository/singlepage.repository";
-import { PageCollectionRepository } from "./repository/pagecollection.repository";
 
 /**
  * Holds all the custom repository that needs to run a custom function check when the database connection is available (init).
@@ -21,8 +19,6 @@ export function _BOOTSTRAPS(): BaseCommonRepository<BaseEntity>[] {
     getCustomRepository(TeamRepository),
     getCustomRepository(ArticleCategoryRepository),
     getCustomRepository(RoleRepository),
-    getCustomRepository(ArticleRepository),
-    getCustomRepository(SinglePageRepository),
-    getCustomRepository(PageCollectionRepository)
+    getCustomRepository(ArticleRepository)
   ];
 }

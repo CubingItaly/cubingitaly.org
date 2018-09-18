@@ -95,7 +95,7 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
      * @memberof TeamRepository
      */
     public async getTeamById(id: string): Promise<TeamEntity> {
-        return await this.repository.findOne(id);
+        return this.repository.findOne(id);
     }
 
     /**
@@ -105,8 +105,7 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
      * @memberof TeamRepository
      */
     public async getTeams(): Promise<TeamEntity[]> {
-        let teams: TeamEntity[] = await this.repository.find();
-        return teams;
+        return this.repository.find();
     }
 
 }

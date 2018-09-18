@@ -29,11 +29,11 @@ describe('Test the Category Repository', async () => {
 
     it('Test the method to get the categories', async () => {
         let categories: ArticleCategoryEntity[] = await catRepo.getCategories();
-        assert.equal(categories.length, 2);
+        assert.equal(categories.length, 3);
 
         await catRepo.InitDefaults();
         categories = await catRepo.getCategories();
-        assert.equal(categories.length, 2);
+        assert.equal(categories.length, 3);
     });
 
     it('Test the method to get a category', async () => {

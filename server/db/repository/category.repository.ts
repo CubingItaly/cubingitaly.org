@@ -16,6 +16,11 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
             id: "tutorial",
             name: "Tutorial",
             color: "#ffffff"
+        },
+        {
+            id: "interviste",
+            name: "Interviste",
+            color: "#ffffff"
         }
     ];
 
@@ -64,7 +69,7 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
      * @memberof ArticleCategoryRepository
      */
     public async getCategories(): Promise<ArticleCategoryEntity[]> {
-        return await this.repository.find();
+        return this.repository.find();
     }
 
     /**
@@ -75,7 +80,7 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
      * @memberof ArticleCategoryRepository
      */
     public async getCategory(id: string): Promise<ArticleCategoryEntity> {
-        return await this.repository.findOne(id);
+        return this.repository.findOne(id);
     }
 
 }

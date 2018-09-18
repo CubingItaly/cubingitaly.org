@@ -39,9 +39,9 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
             tmp.isLeader = false;
             tmp.user = user;
             tmp.team = team;
-            return await this.repository.save(tmp);
+            return this.repository.save(tmp);
         }
-        return await this.getRole(user, team);
+        return this.getRole(user, team);
     }
 
     /**
@@ -82,7 +82,7 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
             tmp = await this.getRole(user, team);
         }
         tmp.isLeader = true;
-        return await this.repository.save(tmp);
+        return this.repository.save(tmp);
     }
 
     /**
@@ -100,8 +100,7 @@ export class RoleRepository extends BaseCommonRepository<RoleEntity>{
         if (exist) {
             let tmp: RoleEntity = await this.getRole(user, team);
             tmp.isLeader = false;
-            this.repository.save(tmp);
-            return tmp;
+            return await this.repository.save(tmp);
         }
         return;
     }

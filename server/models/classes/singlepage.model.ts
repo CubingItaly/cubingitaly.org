@@ -23,6 +23,7 @@ export class SinglePageModel extends BasicPageModel {
 
     /**
      * Unique page index used in the collection to sort the pages
+     * -1 if it's not in a collection
      *
      * @type {number}
      * @memberof SinglePageModel
