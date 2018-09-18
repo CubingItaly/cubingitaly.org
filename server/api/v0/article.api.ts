@@ -294,14 +294,12 @@ router.put("/:id/admin", verifyLogin, canAdminArticle, checkIfArticleExist, arti
  */
 async function updateArticle(req, res, admin: boolean) {
     const articleRepo: ArticleRepository = getArticlerRepository();
-    let user: UserEntity = new UserEntity();
-    //user._assimilate(getUser(req));
+    const user: UserEntity = new UserEntity();
+    user._assimilate(getUser(req));
     const modelArticle: ArticleModel = Deserialize(req.body.article, ArticleModel);
     let dbArticle: ArticleEntity = new ArticleEntity();
     dbArticle._assimilate(modelArticle);
-    //
-    user = await getCustomRepository(UserRepository).getShortUserById(397);
-    //
+
     dbArticle = admin ? await articleRepo.adminUpdateArticle(dbArticle, user) : await articleRepo.editorUpdateArticle(dbArticle, user);
     return res.status(200).json(dbArticle._transform());
 }
