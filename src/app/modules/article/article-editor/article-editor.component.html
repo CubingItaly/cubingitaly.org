@@ -13,7 +13,7 @@
         </mat-form-field>
 
         <h2>Contenuto</h2>
-        <summernote-editor *ngIf="articleLoaded" [(ngModel)]="article.content" ngDefaultControl></summernote-editor>
+        <ckeditor [editor]="editor" [(ngModel)]="article.content"></ckeditor>
 
         <h2 *ngIf="article">Categorie</h2>
         <mat-form-field>

@@ -8,7 +8,7 @@
           <ng-container *ngIf="!article.isPublic">{{article.lastEditor.name}}</ng-container> - ultimo
           aggiornamento il {{article.updateDate | date:'shortDate' }}
         </p>
-        <summernote-viewer [content]="article.content"></summernote-viewer>
+        <html-viewer [content]="article.content"></html-viewer>
       </div>
 
     </div>

@@ -190,39 +190,36 @@ function sanitizeContent(req, res, next) {
     req.body.article.title = tmp.substr(0, 120);
     tmp = req.sanitize(req.body.article.summary) || "";
     req.body.article.summary = tmp.substr(0, 250);
-    try {
-        req.body.article.content = sanitizeHtml(req.body.article.content, {
-            allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'strong',
-                'i', 'em', 'code', 'span', 'hr', 'br', 'table', 'thead', 'tbody', 'tr', 'td', 'div', 'frame', 'img',
-                'blockquote', 'mark', 'figure', 'figcaption'],
-            allowedAttributes: {
-                '*': ['style',"class"],
-                a: ['href', 'name', 'target'],
-                img: ['src'],
-                table: ['class']
-            },
-            allowedStyle: {
-                '*': {
-                    'color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-                    'background-color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
-                    'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
-                    // Match any number with px, em, or %
-                    'font-size': [/^\d+(?:px|em|%)$/]
-                }
-            },
-            allowedSchemes: ['http', 'https'],
-            allowedSchemesByTag: {
-                img: ['data', 'http', 'https']
-            },
-            selfClosing: ['img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta'],
-            allowedIframeHostnames: ['www.youtube.com']
-        }
-
-
-        );
-    } catch (e) {
-        console.log(e);
+    req.body.article.content = sanitizeHtml(req.body.article.content, {
+        allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'strong',
+            'i', 'em', 'code', 'span', 'hr', 'br', 'table', 'thead', 'tbody', 'th', 'tr', 'td', 'div', 'frame', 'img',
+            'blockquote', 'mark', 'figure', 'figcaption'],
+        allowedAttributes: {
+            '*': ['style', "class"],
+            a: ['href', 'name', 'target'],
+            img: ['src'],
+            table: ['class']
+        },
+        allowedStyle: {
+            '*': {
+                'color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
+                'background-color': [/^\#(0x)?[0-9a-f]+$/i, /^rgb\(\s*(\d{1,3})\s*,\s*(\d{1,3})\s*,\s*(\d{1,3})\s*\)$/],
+                'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
+                // Match any number with px, em, or %
+                'font-size': [/^\d+(?:px|em|%)$/]
+            }
+        },
+        allowedSchemes: ['http', 'https'],
+        allowedSchemesByTag: {
+            img: ['data', 'http', 'https']
+        },
+        selfClosing: ['img', 'br', 'hr', 'area', 'base', 'basefont', 'input', 'link', 'meta'],
+        allowedIframeHostnames: ['www.youtube.com']
     }
+
+
+    );
+
     next();
 }
 
