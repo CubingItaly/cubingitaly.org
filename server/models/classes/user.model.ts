@@ -85,7 +85,7 @@ export class UserModel {
      * @memberof UserModel
      */
     public isMemberOf(team: string): boolean {
-        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team ));
+        let index: number = this.roles.findIndex((r: RoleModel) => (r.team === team));
         return (index >= 0);
     }
 
@@ -173,11 +173,34 @@ export class UserModel {
         return this.isLeaderOf(team.id) || this.canAdminTeams();
     }
 
+
+
     public canAdminArticles(): boolean {
-        return this.isAdmin() || this.isBoard() || this.isCITC();
+        return this.isAdmin() || this.isBoard() || this.isCITC() || this.isLeaderOf("citi");
     }
 
     public canEditArticles(): boolean {
         return this.canAdminArticles() || this.isCITQ() || this.isCITI();
+    }
+
+
+    public canAdminPages(): boolean {
+        return this.isAdmin() || this.isBoard() || this.isLeaderOf("citi");
+    }
+
+    public canCreatePages(): boolean {
+        return this.canAdminPages() || this.isCITI() || this.isLeaderOf("citc");
+    }
+
+    public canEditPages(): boolean {
+        return this.canCreatePages() || this.isCITI() || this.isCITQ();
+    }
+
+    public canPublishPages(): boolean {
+        return this.canAdminPages() || this.isCITC() || this.isLeaderOf("citq");
+    }
+
+    public canViewPrivatePages(): boolean {
+        return this.canAdminPages() || this.isCITC() || this.isCITI() || this.isCITQ();
     }
 }

@@ -9,6 +9,7 @@ export const routes: Route[] = [
     { path: '', component: DashboardComponent },
     { loadChildren: 'app/modules/team/team.module#TeamModule', path: 'teams' },
     { loadChildren: 'app/modules/article/article.module#ArticleModule', path: 'articles' },
+    { loadChildren: 'app/modules/tutorial/tutorial.module#TutorialModule', path:'tutorial'},
     { path: 'about', component: AboutUsComponent },
     { path: 'permission-denied', component: PermissionDeniedComponent },
     { path: 'not-found', component: NotFoundComponent },

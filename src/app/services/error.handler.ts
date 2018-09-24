@@ -18,11 +18,11 @@ export class CubingItalyErrorHandler extends ErrorHandler {
                 zone.run(() => router.navigate(['not-found']));
             } else if (error.status === 403) {
                 zone.run(() => router.navigate(['permission-denied']));
-            } else if (error.status === 400){
+            } else if (error.status === 400) {
                 const dialog = this.injector.get(MatDialog);
                 dialog.open(ErrorDialogComponent, {
                     minWidth: '200px',
-                    data: error.message
+                    data: error.error.message
                 });
             } else {
                 console.log(error);

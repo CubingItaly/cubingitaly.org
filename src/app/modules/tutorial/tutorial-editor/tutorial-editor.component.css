@@ -1,0 +1,18 @@
+.mat-raised-button{
+    margin: 10px 5px 10px 0;
+}
+
+.mat-column-title{
+    flex: 1 0 90px;
+}
+
+.mat-column-edit, .mat-column-down, .mat-column-up, .mat-column-delete {
+    flex: 0 0 40px;
+    text-align: center;
+}
+
+.page{
+    margin-top: 20px;
+    margin-right: 10px;
+    min-width: 60%;
+}

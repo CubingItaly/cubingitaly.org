@@ -4,7 +4,7 @@
       <h1>Ultimi articoli</h1>
       <div fxLayout="column" fxLayoutGap="20px">
         <mat-card class="card" *ngFor="let article of articles">
-          <mat-card-title class="card-title z-depth-1">
+          <mat-card-title class="card-title">
             <a routerLink="../../{{article.id}}">{{article.title | titlecase}}</a>
           </mat-card-title>
           <mat-card-subtitle class="card-subtitle">{{article.author.name}}, {{article.publishDate | date:"shortDate"}}

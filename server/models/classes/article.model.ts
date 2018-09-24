@@ -1,16 +1,14 @@
 import { autoserialize, autoserializeAs, inheritSerialization } from 'cerialize';
-import { BasicPageModel } from './basicpage.model';
 import { ArticleCategoryModel } from './category.model';
+import { UserModel } from './user.model';
 
 /**
  *
  *
  * @export
  * @class ArticleModel
- * @extends {BasicPageModel}
  */
-@inheritSerialization(BasicPageModel)
-export class ArticleModel extends BasicPageModel {
+export class ArticleModel {
 
     /**
      * Unique article id, it is 
@@ -20,7 +18,6 @@ export class ArticleModel extends BasicPageModel {
      */
     @autoserialize
     public id: string;
-
 
 
     /**
@@ -49,5 +46,67 @@ export class ArticleModel extends BasicPageModel {
      */
     @autoserializeAs(ArticleCategoryModel)
     public categories: ArticleCategoryModel[] = [];
+
+
+    /**
+     * Article title
+     *
+     * @type {string}
+     * @memberof ArticleModel
+     */
+    @autoserialize
+    public title: string;
+
+
+    /**
+     * Article content, the main content of the article
+     *
+     * @type {string}
+     * @memberof ArticleModel
+     */
+    @autoserialize
+    public content: string;
+
+
+    /**
+     * Article publishing date
+     *
+     * @type {Date}
+     * @memberof ArticleModel
+     */
+    @autoserialize
+    public publishDate: Date;
+
+
+    /**
+     * Last article update date
+     *
+     * @type {Date}
+     * @memberof ArticleModel
+     */
+    @autoserialize
+    public updateDate: Date;
+
+
+    /**
+     * Creator of the article
+     *
+     * @type {UserModel}
+     * @memberof ArticleModel
+     */
+    @autoserializeAs(UserModel)
+    public author: UserModel;
+
+
+    /**
+     * Last editor of the article
+     *
+     * @type {UserModel}
+     * @memberof ArticleModel
+     */
+    @autoserializeAs(UserModel)
+    public lastEditor: UserModel;
+
+
 
 }

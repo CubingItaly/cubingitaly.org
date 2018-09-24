@@ -10,6 +10,8 @@ import { UserModel } from '../../../../../server/models/classes/user.model';
 })
 export class AboutUsComponent implements OnInit {
 
+  pageId: number = 1;
+
   teams: TeamModel[];
   mapTeamMembers: Map<string, UserModel[]> = new Map<string, UserModel[]>();
 

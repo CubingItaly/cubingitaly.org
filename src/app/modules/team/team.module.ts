@@ -18,6 +18,7 @@ import { TeamManagementComponent } from './team-management/team-management.compo
 import { AboutUsComponent } from './about-us/about-us.component';
 import { TeamRoleGuard } from './services/team.guard.service';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { PageModule } from '../page/page.module';
 
 @NgModule({
   imports: [
@@ -34,7 +35,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
     ReactiveFormsModule,
     MatDividerModule,
     MatListModule,
-    MatExpansionModule
+    MatExpansionModule,
+    PageModule
   ],
   declarations: [TeamListComponent, TeamManagementComponent, AboutUsComponent],
   providers: [TeamService, TeamRoleGuard]

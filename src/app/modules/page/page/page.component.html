@@ -1,0 +1,22 @@
+<div fxLayout="row" fxLayout.xs="column" *ngIf="page">
+    <h1 fxFlex.gt-xs="noshrink" ngClass.xs="mobile-h1">{{page.title |titlecase}} <mat-icon *ngIf="updated" style="color:green">done_outline</mat-icon>
+    </h1>
+    <span fxFlex.gt-xs="grow"></span>
+    <button *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing" fxHide.xs mat-button fxFlex="noshrink"
+        (click)="edit()">
+        <mat-icon>edit</mat-icon> Modifica
+    </button>
+    <button *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing" fxHide.gt-xs mat-button fxFlex="noshrink"
+        style="text-align: left" (click)="edit()">
+        <mat-icon>edit</mat-icon> Modifica
+    </button>
+
+</div>
+
+<page-viewer *ngIf="viewing && page" [page]="page"></page-viewer>
+<page-editor *ngIf="!viewing && page" [page]="page"></page-editor>
+<div *ngIf="!viewing">
+    <button mat-raised-button color="accent" (click)="updatePage()">Aggiorna</button>
+    <button mat-raised-button style="background-color:rgb(52, 156, 57);" (click)="view()">Visualizza</button>
+    <button mat-raised-button color="warn" *ngIf="page.content !== backup" (click)="restore()">Ripristina</button>
+</div>

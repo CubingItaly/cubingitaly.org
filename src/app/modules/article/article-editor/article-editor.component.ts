@@ -49,6 +49,7 @@ export class ArticleEditorComponent implements OnInit {
             this.isNew = true;
             this.isPublic = false;
             this.article = new ArticleModel();
+            this.article.content="";
             this.articleLoaded = true;
         } else {
             this.articleId = this.route.snapshot.paramMap.get("id");
@@ -78,6 +79,7 @@ export class ArticleEditorComponent implements OnInit {
     }
 
     updateArticle() {
+        this.article.content += "<script>alert()</script>";
         if (this.isPublic) {
             let obs = this.createDialog("L'articolo che stai modifcando è pubblico e le modifiche saranno visibili da chiunque. Sei sicuro di voler procedere?");
             obs.subscribe((result: boolean) => {

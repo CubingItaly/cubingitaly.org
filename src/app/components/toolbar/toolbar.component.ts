@@ -30,6 +30,7 @@ export class ToolbarComponent implements OnInit {
   }
 
   urlClicked(url) {
+    window.scrollTo(0,0);
     this.router.navigate([url]);
   }
 

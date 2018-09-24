@@ -1,10 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatButton } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -23,10 +20,13 @@ export class AppComponent implements OnInit {
       id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle"
     },
     {
-      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "book"
+      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o"
     },
     {
       id: "teams", text: "team", url: "/teams", isSelected: false, icon: "users"
+    },
+    {
+      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book"
     }
   ];
 
@@ -49,12 +49,9 @@ export class AppComponent implements OnInit {
 
   }
 
-  private setMenu() {
-
-  }
-
 
   urlClicked(url) {
+    window.scrollTo(0, 0);
     this.router.navigate([url]);
     this.sidenav.close();
   }

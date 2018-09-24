@@ -3,6 +3,7 @@ import { ITransformable } from "../transformable";
 import { UserModel } from "../../models/classes/user.model";
 import { RoleEntity } from "./role.entity";
 import { ArticleEntity } from "./article.entity";
+import { PageEntity } from "./page.entity";
 
 
 /**
@@ -81,6 +82,14 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
      */
     @OneToMany(type => ArticleEntity, article => article.lastEditor, { nullable: true })
     public editedArticles: ArticleEntity[];
+
+
+    @OneToMany(type => PageEntity, page => page.author, { nullable: true })
+    public createdPages: PageEntity[];
+
+
+    @OneToMany(type => PageEntity, page => page.lastEditor, { nullable: true })
+    public editedPages: PageEntity[];
 
 
     /**

@@ -12,6 +12,13 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
 
 
     public async InitDefaults(): Promise<void> {
+        let exist: boolean = await this.checkIfUserExists(0);
+        if (!exist) {
+            let user: UserEntity = new UserEntity();
+            user.id = 0;
+            user.name = "Cubing Italy";
+            await this.repository.save(user);
+        }
         return;
     }
 
