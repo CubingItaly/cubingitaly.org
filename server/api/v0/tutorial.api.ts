@@ -5,8 +5,8 @@ import { Router } from "express";
 import * as passport from "passport";
 import { getUser, isLoggedIn, verifyLogin } from "../../shared/login.utils";
 import { TutorialRepository } from "../../db/repository/tutorial.repository";
-import { canAdminPages, canCreatePages, canEditPages, canPublishPages } from '../../shared/tutorial.permissions.utils';
-import { query, validationResult, Result, param, body } from "express-validator/check";
+import { canAdminTutorials, canEditPages, canViewPrivatePages, canCreateTutorials, canPublishTutorials } from '../../shared/tutorial.permissions.utils';
+import { validationResult, Result, param, body } from "express-validator/check";
 import { TutorialEntity } from "../../db/entity/tutorial.entity";
 import { TutorialModel } from "../../models/classes/tutorial.model";
 import { UserEntity } from "../../db/entity/user.entity";
@@ -25,6 +25,12 @@ function getPageRepository(): PageRepository {
     return getCustomRepository(PageRepository);
 }
 
+function getUserEntity(req): UserEntity {
+    let user: UserEntity = new UserEntity();
+    user._assimilate(getUser(req));
+    return user;
+}
+
 function titleIsInTheBody(req, res, next) {
     let title: string = req.body.title;
     if (title !== undefined && title !== null) {
@@ -32,7 +38,6 @@ function titleIsInTheBody(req, res, next) {
     } else {
         return sendError(res, 400, "Bad request. The title of the new tutorial is not in the request");
     }
-
 }
 
 function tutorialIsInTheBody(req, res, next) {
@@ -75,51 +80,30 @@ function pageIsInTheBody(req, res, next) {
     }
 }
 
-function pageIdEqualsId(req, res, next) {
-    if (req.params.page === req.body.page.id) {
-        next();
-    } else {
-        return sendError(res, 400, "Bad request. The request is malformed. Page is missing");
-    }
-}
-
-router.get("/", [query('page').isNumeric().optional({ checkFalsy: true }), query('limit').isNumeric().optional({ checkFalsy: true })], async (req, res) => {
-    let error: Result = validationResult(req);
-    if (!error.isEmpty()) {
-        return sendError(res, 400, "Bad request. The request is malformed.");
-    }
-    let limit: number = Number(req.query.limit || 12);
-    let page: number = Number(req.query.page || 0);
+router.get("/", async (req, res) => {
     let repo: TutorialRepository = getTutorialRepository();
-    let dbTutorial: TutorialEntity[] = await repo.getTutorials(limit, page);
+    let dbTutorial: TutorialEntity[] = await repo.getTutorials();
     let model: TutorialModel[] = dbTutorial.map(c => c._transform());
     res.status(200).json(model);
 });
 
-router.get("/admin", verifyLogin, canAdminPages, [query('page').isNumeric().optional({ checkFalsy: true }), query('limit').isNumeric().optional({ checkFalsy: true })], async (req, res) => {
-    let error: Result = validationResult(req);
-    if (!error.isEmpty()) {
-        return sendError(res, 400, "Bad request. The request is malformed.");
-    }
-    let limit: number = Number(req.query.limit || 12);
-    let page: number = Number(req.query.page || 0);
+router.get("/admin", verifyLogin, canViewPrivatePages, async (req, res) => {
     let repo: TutorialRepository = getTutorialRepository();
-    let dbTutorial: TutorialEntity[] = await repo.adminGetTutorials(limit, page);
+    let dbTutorial: TutorialEntity[] = await repo.adminGetTutorials();
     let model: TutorialModel[] = dbTutorial.map(c => c._transform());
     res.status(200).json(model);
 });
 
 
-router.post("/", verifyLogin, canCreatePages, titleIsInTheBody, async (req, res) => {
+router.post("/", verifyLogin, canCreateTutorials, titleIsInTheBody, async (req, res) => {
     let title: string = req.body.title;
-    let user: UserEntity = new UserEntity();
-    user._assimilate(getUser(req));
+    let user: UserEntity = getUserEntity(req);
     let dbTutorial: TutorialEntity = await getTutorialRepository().createTutorial(title, user);
     return res.status(200).json(dbTutorial._transform());
 
 });
 
-router.delete("/:id", verifyLogin, canAdminPages, async (req, res) => {
+router.delete("/:id", verifyLogin, canAdminTutorials, async (req, res) => {
     let id: string = req.params.id;
     await getTutorialRepository().deleteTutorial(id);
     return res.status(200).send({});
@@ -135,22 +119,30 @@ router.get("/:id", async (req, res) => {
     }
 });
 
+router.get("/:id/admin", verifyLogin, canViewPrivatePages, async (req, res) => {
+    let id: string = req.params.id;
+    let dbTutorial: TutorialEntity = await getTutorialRepository().adminGetTutorial(id);
+    if (dbTutorial !== undefined && dbTutorial !== null) {
+        return res.status(200).send(dbTutorial._transform());
+    } else {
+        sendError(res, 404, "The requested resource does not exist.");
+    }
+});
+
 router.put("/:id", verifyLogin, canEditPages, tutorialIsInTheBody, tutorialExists, async (req, res) => {
     let tutorial: TutorialModel = Deserialize(req.body.tutorial, TutorialModel);
     let repo: TutorialRepository = getTutorialRepository();
-    let user: UserEntity = new UserEntity();
-    user._assimilate(getUser(req));
+    let user: UserEntity = getUserEntity(req);
     let dbTutorial: TutorialEntity = new TutorialEntity();
     dbTutorial._assimilate(tutorial);
     dbTutorial = await repo.updateTutorial(dbTutorial, user);
     res.status(200).json(dbTutorial._transform());
 });
 
-router.put("/:id/admin", verifyLogin, canPublishPages, tutorialIsInTheBody, tutorialExists, async (req, res) => {
+router.put("/:id/admin", verifyLogin, canPublishTutorials, tutorialIsInTheBody, tutorialExists, async (req, res) => {
     let tutorial: TutorialModel = Deserialize(req.body.tutorial, TutorialModel);
+    let user: UserEntity = getUserEntity(req);
     let repo: TutorialRepository = getTutorialRepository();
-    let user: UserEntity = new UserEntity();
-    user._assimilate(getUser(req));
     let dbTutorial: TutorialEntity = new TutorialEntity();
     dbTutorial._assimilate(tutorial);
     dbTutorial = await repo.adminUpdateTutorial(dbTutorial, user);
@@ -158,15 +150,13 @@ router.put("/:id/admin", verifyLogin, canPublishPages, tutorialIsInTheBody, tuto
 });
 
 router.post("/:id/pages", verifyLogin, canEditPages, tutorialExists, pageIsInTheBody, async (req, res) => {
-    console.log("adding page");
     let page: PageModel = Deserialize(req.body.page, PageModel);
-    console.log(page);
     let tutorialId: string = req.params.id;
     let repo: TutorialRepository = getTutorialRepository();
     let dbPage: PageEntity = new PageEntity();
     dbPage._assimilate(page);
-    let tutorial: TutorialEntity = await repo.addPage(tutorialId, dbPage);
-    console.log(tutorial)
+    let user: UserEntity = getUserEntity(req);
+    let tutorial: TutorialEntity = await repo.addPage(tutorialId, dbPage, user);
     res.status(200).json(tutorial._transform());
 });
 
@@ -178,7 +168,8 @@ router.delete("/:id/pages/:page", verifyLogin, canEditPages, tutorialExists, [pa
     let page: number = Number(req.params.page);
     let tutorial: string = req.params.id;
     let repo: TutorialRepository = getTutorialRepository();
-    let dbTutorial: TutorialEntity = await repo.removePage(tutorial, page);
+    let user: UserEntity = getUserEntity(req);
+    let dbTutorial: TutorialEntity = await repo.removePage(tutorial, page, user);
     res.status(200).json(dbTutorial._transform());
 });
 
@@ -194,7 +185,8 @@ router.put("/:id/pages/:page", verifyLogin, canEditPages, tutorialExists, [param
         sendError(res, 405, "Action not allowed.");
     } else {
         let repo: TutorialRepository = getTutorialRepository();
-        let tutorial: TutorialEntity = await repo.movePage(req.params.id, page.id, delta);
+        let user: UserEntity = getUserEntity(req);
+        let tutorial: TutorialEntity = await repo.movePage(req.params.id, page.id, delta, user);
         res.status(200).json(tutorial._transform());
     }
 });

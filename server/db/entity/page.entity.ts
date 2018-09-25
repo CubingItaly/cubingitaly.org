@@ -35,7 +35,7 @@ export class PageEntity extends BaseEntity implements ITransformable<PageModel> 
     @ManyToOne(type => UserEntity, user => user.editedPages, { nullable: true })
     public lastEditor: UserEntity;
 
-    @Column({ nullable: false })
+    @Column({ type: "int", nullable: false })
     public indexInTutorial: number;
 
     @Column({ nullable: false })

@@ -27,6 +27,10 @@ export class TutorialService {
     return this.http.get<TutorialModel>(this.baseAPI + "/" + id).pipe(map(res => Deserialize(res, TutorialModel)));
   }
 
+  public adminGetTutorial(id: string): Observable<TutorialModel> {
+    return this.http.get<TutorialModel>(this.baseAPI + "/" + id + "/admin").pipe(map(res => Deserialize(res, TutorialModel)));
+  }
+
   public createTutorial(title: string): Observable<TutorialModel> {
     return this.http.post<TutorialModel>(this.baseAPI, { "title": title }).pipe(map(res => Deserialize(res, TutorialModel)));
   }

@@ -11,7 +11,13 @@ export const pages: {
     isPublic: true,
     indexInTutorial: -1
 },
-{ id: 2, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
+{
+    id: 2,
+    title: "Tutorial",
+    content: "<p>In questa pagina trovi un elenco di tutorial redatti dal Team Qualità di Cubing Italy.</p><p>In caso volessi segnalare un errore o richiedere un nuovo tutorial puoi <a href=\"mailto:cubingitaly@gmail.com\">inviarci un'e-mail</a>.</p>",
+    isPublic: true,
+    indexInTutorial: -1
+},
 { id: 3, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
 { id: 4, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
 { id: 5, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },

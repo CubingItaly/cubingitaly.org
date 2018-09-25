@@ -184,23 +184,23 @@ export class UserModel {
     }
 
 
-    public canAdminPages(): boolean {
+    public canAdminTutorials(): boolean {
         return this.isAdmin() || this.isBoard() || this.isLeaderOf("citi");
     }
 
-    public canCreatePages(): boolean {
-        return this.canAdminPages() || this.isCITI() || this.isLeaderOf("citc");
+    public canCreateTutorials(): boolean {
+        return this.canAdminTutorials() || this.isCITI() || this.isLeaderOf("citc");
     }
 
     public canEditPages(): boolean {
-        return this.canCreatePages() || this.isCITI() || this.isCITQ();
+        return this.canCreateTutorials() || this.isCITI() || this.isCITQ();
     }
 
-    public canPublishPages(): boolean {
-        return this.canAdminPages() || this.isCITC() || this.isLeaderOf("citq");
+    public canPublishTutorials(): boolean {
+        return this.canAdminTutorials() || this.isCITC() || this.isLeaderOf("citq");
     }
 
     public canViewPrivatePages(): boolean {
-        return this.canAdminPages() || this.isCITC() || this.isCITI() || this.isCITQ();
+        return this.canAdminTutorials() || this.isCITC() || this.isCITI() || this.isCITQ();
     }
 }

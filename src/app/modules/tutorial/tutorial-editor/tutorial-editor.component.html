@@ -67,11 +67,15 @@
 
       <h2>Azioni</h2>
       <div>
-        <button mat-raised-button *ngIf="isNew" (click)="createTutorial()" style="background-color:rgb(52, 156, 57);">Crea</button>
-        <button mat-raised-button *ngIf="!isNew" (click)="updateTutorial()" color="accent">Aggiorna</button>
-        <button mat-raised-button color="warn" (click)="deleteTutorial()">Elimina</button>
-        <button mat-raised-button *ngIf="!isNew && !isPublic" (click)="publishTutorial()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
-        <button mat-raised-button *ngIf="isPublic" (click)="unpublishTutorial()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+        <button mat-raised-button *ngIf="isNew && authSVC.authUser && authSVC.authUser.canCreateTutorials()" (click)="createTutorial()"
+          style="background-color:rgb(52, 156, 57);">Crea</button>
+        <button mat-raised-button *ngIf="!isNew && authSVC.authUser && authSVC.authUser.canEditPages()" (click)="updateTutorial()"
+          color="accent">Aggiorna</button>
+        <button mat-raised-button *ngIf="authSVC.authUser && authSVC.authUser.canAdminTutorials()" color="warn" (click)="deleteTutorial()">Elimina</button>
+        <button mat-raised-button *ngIf="!isNew && !isPublic && authSVC.authUser && authSVC.authUser.canPublishTutorials()"
+          (click)="publishTutorial()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+        <button mat-raised-button *ngIf="isPublic && authSVC.authUser && authSVC.authUser.canPublishTutorials()"
+          (click)="unpublishTutorial()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
       </div>
 
     </div>
@@ -81,17 +85,17 @@
         <span *ngIf="isNew">Nuovo</span>
         <span *ngIf="!isNew && isPublic">Tutorial pubblicato</span>
         <span *ngIf="!isNew && !isPublic">Tutorial nascosto</span>
-        <span *ngIf="isPublic ">Creato da:</span>
-        <span *ngIf="isPublic ">Creazione tutorial: </span>
-        <span *ngIf="isPublic "></span>
+        <span *ngIf="!isNew">Creato da: {{ tutorial.author.name}}</span>
+        <span *ngIf="!isNew">Creazione tutorial: {{ tutorial.createDate | date:"short" }}</span>
+        <span *ngIf="!isNew">Modificato da: {{tutorial.lastEditor.name }} </span>
         <span *ngIf="!isNew ">Ultima modifica: {{ tutorial.updateDate }}</span>
       </div>
-      <div fxLayout="column" *ngIf="authSVC.authUser && authSVC.authUser.canEditArticles()">
+      <div fxLayout="column" *ngIf="authSVC.authUser && authSVC.authUser.canViewPrivatePages()">
         <h2>Gestione Tutorial</h2>
         <button mat-button style="text-align: left" routerLink="../" *ngIf="!isNew">
           <mat-icon>open_in_browser</mat-icon> Visualizza tutorial
         </button>
-        <button mat-button style="text-align: left" routerLink="/tutorial/new">
+        <button mat-button style="text-align: left" routerLink="/tutorial/new" *ngIf="authSVC.authUser.canCreateTutorials()">
           <mat-icon>add_box</mat-icon> Nuovo tutorial
         </button>
         <button mat-button style="text-align: left" routerLink="/tutorial/admin">

@@ -29,8 +29,4 @@ export class UserService {
         return this.http.get<UserModel>(this.apiBase + "/" + id + "/short").pipe(map(res => Deserialize(res, UserModel)));
     }
 
-    private handleError(error: HttpErrorResponse) {
-        console.log("an error occurred");
-    }
-
 }

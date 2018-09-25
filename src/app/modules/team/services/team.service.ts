@@ -45,9 +45,4 @@ export class TeamService {
     return this.http.delete<RoleModel>(this.apiBase + "/" + team + "/leaders/" + user).pipe(map((res => Deserialize(res, RoleModel))));;
   }
 
-
-  private handleError() {
-    console.log("an error occurred");
-  }
-
 }

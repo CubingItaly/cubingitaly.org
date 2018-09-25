@@ -91,7 +91,7 @@ export class TutorialEditorComponent implements OnInit {
     this.createDialog("Sei sicuro di voler annullare la pubblicazione del tutorial? Dopo che lo avrai nascosto sarà visibile solamente a chi ha il permesso.")
       .subscribe((res: boolean) => {
         if (res) {
-          this.tutorialSVC.publishTutorial(this.tutorial).subscribe(res => {
+          this.tutorialSVC.unpublishTutorial(this.tutorial).subscribe(res => {
             this.tutorial = res;
             this.isPublic = false;
             this.actionAfterUpdate();
@@ -103,21 +103,29 @@ export class TutorialEditorComponent implements OnInit {
 
   deleteTutorial() {
     if (!this.isNew) {
-      this.tutorialSVC.deleteTutorial(this.tutorial.id).subscribe(res => {
-        this.router.navigate(["/tutorial"]);
-      });
+      this.createDialog("Sei sicuro di eliminare il tutorial? Dopo che lo avrai eliminato non sarà più recuperabile.")
+        .subscribe((res: boolean) => {
+          if (res) {
+            this.tutorialSVC.deleteTutorial(this.tutorial.id).subscribe(res => {
+              this.router.navigate(["/tutorial/admin"]);
+            });
+          }
+        });
     } else {
       this.router.navigate(["/tutorial"]);
     }
-
   }
 
 
 
   addPage() {
-    let page: PageModel = new PageModel();
-    page.title = this.newPageTitle;
-    this.tutorialSVC.addPage(this.tutorial, page).subscribe(res => { this.tutorial = res; this.newPageTitle = ""; });
+    if (this.newPageTitle) {
+      let page: PageModel = new PageModel();
+      page.title = this.newPageTitle;
+      this.tutorialSVC.addPage(this.tutorial, page).subscribe(res => { this.tutorial = res; this.newPageTitle = ""; });
+    } else {
+      throw new BadRequestError("Per aggiungere una nuova pagina è necessario inserire un titolo.");
+    }
   }
 
   movePage(id: number, delta: number) {
@@ -127,14 +135,17 @@ export class TutorialEditorComponent implements OnInit {
   }
 
   removePage(id: number) {
-    let page: PageModel = new PageModel();
-    page.id = id;
-    this.tutorialSVC.removePage(this.tutorial, page).subscribe(res => this.tutorial = res);
+    if (!this.isPublic || (this.isPublic && this.tutorial.pages.length > 1)) {
+      let page: PageModel = new PageModel();
+      page.id = id;
+      this.tutorialSVC.removePage(this.tutorial, page).subscribe(res => this.tutorial = res);
+    } else {
+      throw new BadRequestError("Il tutorial è pubblico e quindi deve avere almeno una pagina.");
+    }
   }
 
   private getTutorial() {
-    this.tutorialSVC.getTutorial(this.tutorialId).subscribe(res => {
-      console.log(res);
+    this.tutorialSVC.adminGetTutorial(this.tutorialId).subscribe(res => {
       this.tutorial = res;
       this.isNew = false;
       this.isPublic = this.tutorial.isPublic;

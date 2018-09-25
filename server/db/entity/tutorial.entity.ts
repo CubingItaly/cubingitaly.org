@@ -1,4 +1,4 @@
-import { Entity, BaseEntity, Column, ManyToOne, CreateDateColumn, UpdateDateColumn, PrimaryColumn, OneToMany } from "typeorm";
+import { Entity, BaseEntity, Column, ManyToOne, CreateDateColumn, PrimaryColumn, OneToMany } from "typeorm";
 import { ITransformable } from "../transformable";
 import { UserEntity } from "./user.entity";
 import { TutorialModel } from "../../models/classes/tutorial.model";
@@ -26,7 +26,7 @@ export class TutorialEntity extends BaseEntity implements ITransformable<Tutoria
     @CreateDateColumn()
     public createDate: Date;
 
-    @UpdateDateColumn({ nullable: true })
+    @Column({ nullable: true })
     public updateDate: Date;
 
     @ManyToOne(type => UserEntity, user => user.createdPages, { nullable: true })

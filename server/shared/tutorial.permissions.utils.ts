@@ -1,8 +1,16 @@
 import { getUser } from "./login.utils";
 import { sendError } from './error.utils';
 
-export function canAdminPages(req, res, next) {
-    if (getUser(req).canAdminPages()) {
+export function canViewPrivatePages(req, res, next) {
+    if (getUser(req).canViewPrivatePages()) {
+        next();
+    } else {
+        sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");
+    }
+}
+
+export function canAdminTutorials(req, res, next) {
+    if (getUser(req).canAdminTutorials()) {
         next();
     } else {
         sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");
@@ -19,8 +27,8 @@ export function canEditPages(req, res, next) {
 }
 
 
-export function canPublishPages(req, res, next) {
-    if (getUser(req).canPublishPages()) {
+export function canPublishTutorials(req, res, next) {
+    if (getUser(req).canPublishTutorials()) {
         next();
     } else {
         return sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");
@@ -28,8 +36,8 @@ export function canPublishPages(req, res, next) {
 }
 
 
-export function canCreatePages(req, res, next) {
-    if (getUser(req).canCreatePages()) {
+export function canCreateTutorials(req, res, next) {
+    if (getUser(req).canCreateTutorials()) {
         next();
     } else {
         return sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");

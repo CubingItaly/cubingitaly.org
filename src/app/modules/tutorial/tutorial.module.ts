@@ -6,9 +6,10 @@ import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
 import { routes } from './tutorial.router';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule, MatButtonModule, MatInputModule, MatTableModule, MatDialogModule } from '@angular/material';
+import { MatIconModule, MatButtonModule, MatInputModule, MatTableModule, MatDialogModule, MatListModule } from '@angular/material';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule } from '@angular/forms';
+import { PageModule } from '../page/page.module';
 
 @NgModule({
   imports: [
@@ -21,7 +22,9 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     FormsModule,
     MatTableModule,
-    MatDialogModule
+    MatDialogModule,
+    MatListModule,
+    PageModule
   ],
   declarations: [TutorialComponent, TutorialEditorComponent, TutorialListComponent]
 })
