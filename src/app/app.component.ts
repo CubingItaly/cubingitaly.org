@@ -23,10 +23,10 @@ export class AppComponent implements OnInit {
       id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o"
     },
     {
-      id: "teams", text: "team", url: "/teams", isSelected: false, icon: "users"
+      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book"
     },
     {
-      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book"
+      id: "teams", text: "team", url: "/teams", isSelected: false, icon: "users"
     }
   ];
 
@@ -52,7 +52,6 @@ export class AppComponent implements OnInit {
 
   urlClicked(url) {
     window.scrollTo(0, 0);
-    this.router.navigate([url]);
     this.sidenav.close();
   }
 

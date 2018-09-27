@@ -36,13 +36,13 @@
 
 
         <h2>Azioni</h2>
-        <div *ngIf="user">
-          <button mat-raised-button *ngIf="isNew && user.canAdminArticles()" (click)="createArticle()" style="background-color:rgb(52, 156, 57);">Crea</button>
-          <button mat-raised-button *ngIf="!isNew && user.canEditArticles()" (click)="updateArticle()" color="accent">Aggiorna</button>
-          <button mat-raised-button *ngIf="user.canAdminArticles()" (click)="deleteArticle()" color="warn">Elimina</button>
-          <button mat-raised-button *ngIf="!isNew && !isPublic && user.canAdminArticles()" (click)="publishArticle()"
+        <div *ngIf="authSVC.isLoggedIn">
+          <button mat-raised-button *ngIf="isNew && authSVC.authUser.canAdminArticles()" (click)="createArticle()" style="background-color:rgb(52, 156, 57);">Crea</button>
+          <button mat-raised-button *ngIf="!isNew && authSVC.authUser.canEditArticles()" (click)="updateArticle()" color="accent">Aggiorna</button>
+          <button mat-raised-button *ngIf="authSVC.authUser.canAdminArticles()" (click)="deleteArticle()" color="warn">Elimina</button>
+          <button mat-raised-button *ngIf="!isNew && !isPublic && authSVC.authUser.canAdminArticles()" (click)="publishArticle()"
             style="background-color:rgb(52, 156, 57);">Pubblica</button>
-          <button mat-raised-button *ngIf="isPublic && user.canAdminArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+          <button mat-raised-button *ngIf="isPublic && authSVC.authUser.canAdminArticles()" (click)="unpublishArticle()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
         </div>
       </div>
 

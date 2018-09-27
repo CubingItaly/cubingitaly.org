@@ -29,9 +29,8 @@ export class ToolbarComponent implements OnInit {
     this.ngModelChange.emit(this.ngModel);
   }
 
-  urlClicked(url) {
+  urlClicked() {
     window.scrollTo(0,0);
-    this.router.navigate([url]);
   }
 
 }

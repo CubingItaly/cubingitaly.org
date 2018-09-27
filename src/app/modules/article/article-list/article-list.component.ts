@@ -16,7 +16,6 @@ export class ArticleListComponent implements OnInit {
   articlesPerPage: number = 5;
   articlesNumber: number = 0;
   page: number;
-  user: UserModel;
 
 
   articles: ArticleModel[];
@@ -24,7 +23,6 @@ export class ArticleListComponent implements OnInit {
   constructor(public authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.user = this.authSVC.authUser;
     this.articleSVC.countPublicArticles().subscribe((result: { "number": number }) => {
       this.articlesNumber = result.number;
       this.page = Number(this.route.snapshot.paramMap.get("page")) || 1;

@@ -14,6 +14,7 @@ import { Deserialize } from "cerialize";
 import { PageModel } from "../../models/classes/page.model";
 import { PageEntity } from "../../db/entity/page.entity";
 import { PageRepository } from "../../db/repository/page.repository";
+import { sanitize } from "./sanitizer";
 
 const router: Router = Router();
 
@@ -80,6 +81,18 @@ function pageIsInTheBody(req, res, next) {
     }
 }
 
+function sanitizePage(req, res, next) {
+    let tmp: string = req.sanitize(req.body.page.title) || "";
+    req.body.page.title = tmp.substr(0, 120);
+    req.body.page.content = sanitize(req.body.page.content);
+    next();
+}
+
+function sanitizeTutorial(req, res, next) {
+    req.body.tutorial.title = req.sanitize(req.body.tutorial.title);
+    next();
+}
+
 router.get("/", async (req, res) => {
     let repo: TutorialRepository = getTutorialRepository();
     let dbTutorial: TutorialEntity[] = await repo.getTutorials();
@@ -129,7 +142,7 @@ router.get("/:id/admin", verifyLogin, canViewPrivatePages, async (req, res) => {
     }
 });
 
-router.put("/:id", verifyLogin, canEditPages, tutorialIsInTheBody, tutorialExists, async (req, res) => {
+router.put("/:id", verifyLogin, canEditPages, tutorialIsInTheBody, tutorialExists, sanitizeTutorial, async (req, res) => {
     let tutorial: TutorialModel = Deserialize(req.body.tutorial, TutorialModel);
     let repo: TutorialRepository = getTutorialRepository();
     let user: UserEntity = getUserEntity(req);
@@ -139,7 +152,7 @@ router.put("/:id", verifyLogin, canEditPages, tutorialIsInTheBody, tutorialExist
     res.status(200).json(dbTutorial._transform());
 });
 
-router.put("/:id/admin", verifyLogin, canPublishTutorials, tutorialIsInTheBody, tutorialExists, async (req, res) => {
+router.put("/:id/admin", verifyLogin, canPublishTutorials, tutorialIsInTheBody, tutorialExists, sanitizeTutorial, async (req, res) => {
     let tutorial: TutorialModel = Deserialize(req.body.tutorial, TutorialModel);
     let user: UserEntity = getUserEntity(req);
     let repo: TutorialRepository = getTutorialRepository();
@@ -149,7 +162,7 @@ router.put("/:id/admin", verifyLogin, canPublishTutorials, tutorialIsInTheBody, 
     res.status(200).json(dbTutorial._transform());
 });
 
-router.post("/:id/pages", verifyLogin, canEditPages, tutorialExists, pageIsInTheBody, async (req, res) => {
+router.post("/:id/pages", verifyLogin, canEditPages, tutorialExists, pageIsInTheBody, sanitizePage, async (req, res) => {
     let page: PageModel = Deserialize(req.body.page, PageModel);
     let tutorialId: string = req.params.id;
     let repo: TutorialRepository = getTutorialRepository();

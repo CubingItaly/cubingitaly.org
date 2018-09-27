@@ -24,7 +24,7 @@ export class PageComponent implements OnInit, OnChanges {
     contentBackup: string;
     updated: boolean = false;
 
-    constructor(private dialog: MatDialog, private pageSVC: PageService, private authSVC: AuthService) { }
+    constructor(private dialog: MatDialog, private pageSVC: PageService, public authSVC: AuthService) { }
 
     ngOnInit() {
         this.getPage();

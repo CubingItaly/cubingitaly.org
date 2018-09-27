@@ -19,7 +19,6 @@ import * as Editor from '../../../../assets/ckeditor/ckeditor';
     styleUrls: ['./article-editor.component.css']
 })
 export class ArticleEditorComponent implements OnInit {
-    user: UserModel;
     article: ArticleModel = new ArticleModel();
     articleId: string;
     isNew: boolean;
@@ -38,10 +37,9 @@ export class ArticleEditorComponent implements OnInit {
     editor = Editor;
 
 
-    constructor(private dialog: MatDialog, private authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
+    constructor(private dialog: MatDialog, public authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
     ngOnInit() {
-        this.user = this.authSVC.authUser;
         this.articleSVC.getCategories().subscribe(result => { this.categories = result; this.filteredCategories = this.categories });
 
         let intent: string = this.route.snapshot.data.intent;

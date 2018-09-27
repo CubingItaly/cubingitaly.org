@@ -3,7 +3,7 @@
         <button #menuButton mat-icon-button fxHide.gt-xs (click)="sideMenuButtonClicked()">
             <mat-icon>menu</mat-icon>
         </button>
-        <img src="../../../assets/images/logo.png" (click)="urlClicked('/')" />
+        <img src="../../../assets/images/logo.png" (click)="urlClicked()" routerLink="/" />
         <span fxFlex="grow"></span>
         <div fxFlex="noshrink" fxHide.xs>
             <button mat-button *ngIf="!authSVC.isLoggedIn" (click)="authSVC.login()">
@@ -37,14 +37,10 @@
         </div>
     </mat-toolbar-row>
 
-    <mat-toolbar-row fxHide.xs style="background-color: #073C65">
+    <mat-toolbar-row fxHide.xs class="menu-bar" style="background-color: #073C65">
         <ng-container *ngFor="let url of menuUrls">
-            <button mat-button class="menu-url" *ngIf="url.isSelected" style="background-color:#002044" (click)="urlClicked(url.url)"><i
-                    class="fa fa-{{url.icon}} menu-icon" aria-hidden="true"> </i>{{url.text
-                | uppercase}}</button>
-            <button mat-button class="menu-url" *ngIf="!url.isSelected" (click)="urlClicked(url.url)"><i class="fa fa-{{url.icon}} menu-icon"
-                    aria-hidden="true"> </i>{{url.text |
-                uppercase}}</button>
+            <a routerLink="{{url.url}}" (click)="urlClicked()" [ngClass]="{'a-selected': url.isSelected}"><i class="fa fa-{{url.icon}} menu-icon"></i>{{url.text
+                | uppercase}}</a>
         </ng-container>
 
     </mat-toolbar-row>
