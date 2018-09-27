@@ -1,15 +1,11 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;" *ngIf="articles">
 
-    <div fxLayout="row" fxLayout.xs="column">
+    <div fxLayout="row" fxLayoutAlign="start center">
       <h1 fxFlex="grow">Gestione Articoli</h1>
-      <button fxHide.xs mat-button fxFlex="noshrink" routerLink="../../new">
-        <mat-icon>add_box</mat-icon>Nuovo articolo
-      </button>
-      <button fxHide.gt-xs mat-button fxFlex="noshrink" style="text-align: left" routerLink="../../new">
-        <mat-icon>add_box</mat-icon>Nuovo articolo
-      </button>
-
+      <a routerLink="/articles/new" fxFlex="noshrink">
+        <i class="fa fa-plus-square"></i><span fxHide.xs> Nuovo articolo</span>
+      </a>
     </div>
 
     <!-- Articles table -->
@@ -19,7 +15,7 @@
       <ng-container matColumnDef="title">
         <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
         <mat-cell *matCellDef="let article">
-          <a routerLink="../../{{article.id}}">{{article.title}}</a>
+          <a routerLink="/articles/{{article.id}}">{{article.title}}</a>
         </mat-cell>
       </ng-container>
 
@@ -44,12 +40,12 @@
       <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
         <mat-cell *matCellDef="let article">
-          <button mat-icon-button routerLink="../../{{article.id}}/edit" aria-label="Modifica articolo">
-            <mat-icon>edit</mat-icon>
-          </button>
-          <button mat-icon-button routerLink="../../{{article.id}}" aria-label="Visualizza articolo">
-            <mat-icon>open_in_browser</mat-icon>
-          </button>
+          <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+            <i class="fa fa-edit"></i>
+          </a>
+          <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+            <i class="fa fa-eye"></i>
+          </a>
         </mat-cell>
       </ng-container>
 
@@ -65,7 +61,7 @@
         <mat-expansion-panel>
           <mat-expansion-panel-header>
             <mat-panel-title>
-              {{article.title}}
+              <a routerLink="/articles/{{article.id}}">{{article.title}}</a>
             </mat-panel-title>
           </mat-expansion-panel-header>
           <div fxLayout fxLayoutAlign="start center">
@@ -87,12 +83,12 @@
           <div fxLayout fxLayoutAlign="start center">
             Opzioni:
             <span fxFlex="grow"></span>
-            <button mat-icon-button routerLink="../../{{article.id}}/edit" aria-label="Modifica articolo">
-              <mat-icon>edit</mat-icon>
-            </button>
-            <button mat-icon-button routerLink="../../{{article.id}}" style="margin-right: -8px;" aria-label="Visualizza articolo">
-              <mat-icon>open_in_browser</mat-icon>
-            </button>
+            <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+              <i class="fa fa-eye"></i>
+            </a>
           </div>
 
         </mat-expansion-panel>
@@ -104,8 +100,6 @@
     <mat-paginator [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlesPerPage" [pageSizeOptions]="[articlesPerPage]"
       (page)="pageChange($event)">
     </mat-paginator>
-
-
 
   </div>
 </div>

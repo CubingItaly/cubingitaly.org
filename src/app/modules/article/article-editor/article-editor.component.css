@@ -9,3 +9,8 @@
 a{
     text-decoration: none;
 }
+
+.mat-chip i{
+    vertical-align: bottom;
+    text-align: center;
+}

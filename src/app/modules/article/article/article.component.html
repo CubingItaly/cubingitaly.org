@@ -1,6 +1,7 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
-    <div fxFlex.gt-xs="75%" *ngIf="article">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px" *ngIf="article">
+    <div fxFlex.gt-xs="75%">
+
       <div fxLayout="column">
         <h1>{{article.title | titlecase}}</h1>
         <p style="color: grey">
@@ -13,35 +14,13 @@
 
     </div>
     <div fxFlex.gt-xs="25%">
+
       <div fxLayout="column">
-        <h2>Condividi Articolo</h2>
-        <div>
-          <share-buttons fxHide.gt-xs [show]="3" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
-          <share-buttons fxHide.xs fxHide.gt-sm [show]="4" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
-          <share-buttons fxHide.lt-md fxHide.gt-md [show]="6" [include]="['facebook','telegram','whatsapp','twitter','email','copy']"></share-buttons>
-          <div fxHide.lt-lg fxLayout="column">
-            <share-buttons [include]="['facebook','twitter','copy']"></share-buttons>
-            <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
-          </div>
-        </div>
-      </div>
-      <div fxLayout="column" *ngIf="article && article.categories.length > 0">
-        <h2>Categorie</h2>
-        <button mat-button style="text-align: left" *ngFor="let category of article.categories">{{category.name}}</button>
+        <share-page-widget pageName="Articolo"></share-page-widget>
+        <article-category-viewer [article]="article"></article-category-viewer>
+        <article-editor-quick-actions [articleId]="article.id"></article-editor-quick-actions>
       </div>
 
-      <div fxLayout="column" *ngIf="user && user.canEditArticles()">
-        <h2>Gestione Articoli</h2>
-        <button mat-button style="text-align: left" routerLink="./edit" *ngIf="user.canEditArticles()">
-          <mat-icon>edit</mat-icon> Modifica articolo
-        </button>
-        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
-          <mat-icon>add_box</mat-icon> Nuovo articolo
-        </button>
-        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()">
-          <mat-icon>format_list_bulleted</mat-icon> Gestisci articoli
-        </button>
-      </div>
     </div>
   </div>
 </div>

@@ -11,8 +11,10 @@
 .mat-column-options {
     flex: 0 0 100px !important;
     white-space: unset !important;
+    text-align: center;
     justify-content: center;
 }
+
 
 .mat-table{
     overflow: auto;
@@ -25,8 +27,9 @@ h4{
 a{
     color: #000;
     text-decoration: none;
+    width: 100%;
 }
 
-h1{
-    margin-bottom:0px !important;
+.mat-row:hover{
+    background-color: #e4e4e4;
 }

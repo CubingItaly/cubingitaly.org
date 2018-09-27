@@ -24,16 +24,7 @@
     </div>
     <div fxFlex.gt-xs="30%">
       <div fxLayout="column">
-        <h2 fxHide>Filtra articoli</h2>
-      </div>
-      <div fxLayout="column" *ngIf="user && user.canAdminArticles()">
-        <h2>Gestione Articoli</h2>
-        <button mat-button style="text-align: left" routerLink="/articles/new" *ngIf="user.canAdminArticles()">
-          <mat-icon>add_box</mat-icon> Nuovo articolo
-        </button>
-        <button mat-button style="text-align: left" routerLink="/articles/admin" *ngIf="user.canAdminArticles()">
-          <mat-icon>format_list_bulleted</mat-icon> Gestisci articoli
-        </button>
+        <article-editor-quick-actions></article-editor-quick-actions>
       </div>
     </div>
   </div>

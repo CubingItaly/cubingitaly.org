@@ -1,8 +1,8 @@
 <div fxLayout fxLayoutAlign="center" *ngIf="tutorial">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px" >
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
     <div fxFlex.gt-xs="75%">
       <h1 *ngIf="isNew">Nuovo Tutorial</h1>
-      <h1 *ngIf="!isNew">Modifica Tutorial <mat-icon *ngIf="updated" style="color:green">done_outline</mat-icon>
+      <h1 *ngIf="!isNew">Modifica Tutorial <i class="fa fa-check" *ngIf="updated" style="color:green"></i>
       </h1>
       <div fxLayout="column" fxLayoutGap="20px">
         <mat-form-field>

@@ -1,10 +1,10 @@
 <div fxLayout fxLayoutAlign="center" *ngIf="tutorials">
   <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
 
-    <div fxLayout="row" fxLayoutAlign="start center" fxLayout.xs="column">
+    <div fxLayout="row" fxLayoutAlign="start center">
       <h1 fxFlex="grow">Gestione Tutorial</h1>
-      <a fxHide.xs fxFlex="noshrink" routerLink="/tutorial/new">
-        <i class="fa fa-plus-square"></i> Nuovo Tutorial
+      <a fxFlex="noshrink" routerLink="/tutorial/new" *ngIf="authSVC.isLoggedIn && authSVC.authUser.canCreateTutorials()">
+        <i class="fa fa-plus-square"></i><span fxHide.xs>Nuovo Tutorial</span>
       </a>
     </div>
 
@@ -40,7 +40,7 @@
       <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
         <mat-cell *matCellDef="let tutorial">
-          <a routerLink="/tutorial/{{tutorial.id}}/edit">
+          <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser.canEditPages()">
             <i class="fa fa-edit"> </i>
           </a>
           <a routerLink="/tutorial/{{tutorial.id}}">
@@ -83,7 +83,12 @@
           <div fxLayout fxLayoutAlign="start center">
             Opzioni:
             <span fxFlex="grow"></span>
-
+            <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser.canEditPages()">
+              <i class="fa fa-edit"> </i>
+            </a>
+            <a routerLink="/tutorial/{{tutorial.id}}">
+              <i class="fa fa-eye"> </i>
+            </a>
           </div>
 
         </mat-expansion-panel>

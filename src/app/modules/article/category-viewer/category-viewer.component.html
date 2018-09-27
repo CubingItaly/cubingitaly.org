@@ -1,0 +1,4 @@
+<div fxLayout="column" *ngIf="article.categories.length > 0">
+  <h2>Categorie</h2>
+  <button mat-button style="text-align: left" *ngFor="let category of article.categories">{{category.name}}</button>
+</div>

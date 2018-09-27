@@ -12,12 +12,14 @@
     flex: 0 0 100px !important;
     white-space: unset !important;
     justify-content: center;
+    text-align: center;
 }
 
 .mat-column-editor, .mat-column-update {
     flex: 0 0 150px !important;
     white-space: unset !important;
     justify-content: center;
+    text-align: center;
 }
 
 .hidden-article{
@@ -27,7 +29,6 @@
 .public-article{
     color: #488732;
 }
-
 
 .mat-table{
     overflow: auto;
@@ -42,10 +43,19 @@ a{
     text-decoration: none;
 }
 
-h1{
-    margin-bottom:0px !important;
-}
-
 .accordion-container{
     margin-bottom: 20px;
+}
+
+.mat-row:hover{
+    background-color: #e4e4e4;
+}
+
+.mat-column-title a{
+    width: 100%;
+}
+
+i{
+    margin-right: 5px;
+    margin-left: 5px;
 }

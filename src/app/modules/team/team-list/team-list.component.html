@@ -1,8 +1,6 @@
 <div fxLayout fxLayoutAlign="center">
     <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
         <h1>Gestione dei team</h1>
-        <h4><a routerLink="/">Home</a> > Team</h4>
-
 
         <mat-table [dataSource]="teams" class="mat-elevation-z4">
             <!-- Position Column -->
@@ -21,7 +19,7 @@
                 <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
                 <mat-cell *matCellDef="let element">
                     <a routerLink="/teams/{{element.id}}/admin">
-                        <mat-icon>person</mat-icon>
+                        <i class="fa fa-users"></i>
                     </a>
                 </mat-cell>
             </ng-container>

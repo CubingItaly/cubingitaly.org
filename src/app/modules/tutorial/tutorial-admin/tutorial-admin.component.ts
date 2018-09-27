@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { TutorialModel } from '../../../../../server/models/classes/tutorial.model';
 import { TutorialService } from '../services/tutorial.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-tutorial-admin',
@@ -12,7 +13,7 @@ export class TutorialAdminComponent implements OnInit {
   tutorials: TutorialModel[];
   displayedColumns: string[] = ["title", "editor", "update", "status", "options"];
 
-  constructor(private tutorialSVC: TutorialService) { }
+  constructor(private tutorialSVC: TutorialService, public authSVC: AuthService) { }
 
   ngOnInit() {
     this.tutorialSVC.getAllTutorials().subscribe(res => this.tutorials = res);

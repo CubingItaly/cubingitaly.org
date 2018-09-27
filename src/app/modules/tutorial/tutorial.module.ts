@@ -6,7 +6,7 @@ import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
 import { routes } from './tutorial.router';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule, MatButtonModule, MatInputModule, MatTableModule, MatDialogModule, MatListModule, MatPaginatorModule, MatPaginatorIntl, MatExpansionModule } from '@angular/material';
+import { MatButtonModule, MatInputModule, MatTableModule, MatDialogModule, MatListModule, MatPaginatorModule, MatPaginatorIntl, MatExpansionModule } from '@angular/material';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule } from '@angular/forms';
 import { PageModule } from '../page/page.module';
@@ -21,7 +21,6 @@ import { SharedComponentsModule } from '../shared-components/shared-components.m
     CommonModule,
     RouterModule.forChild(routes),
     FlexLayoutModule,
-    MatIconModule,
     MatButtonModule,
     CKEditorModule,
     MatInputModule,

@@ -5,7 +5,6 @@ import { TeamService } from './services/team.service';
 import { routes } from './team.router';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { ReactiveFormsModule } from '@angular/forms';
@@ -26,7 +25,6 @@ import { PageModule } from '../page/page.module';
     RouterModule.forChild(routes),
     MatTableModule,
     FlexLayoutModule,
-    MatIconModule,
     MatButtonModule,
     MatAutocompleteModule,
     MatFormFieldModule,

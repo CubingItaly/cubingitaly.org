@@ -183,9 +183,8 @@ export class UserModel {
         return this.canAdminArticles() || this.isCITQ() || this.isCITI();
     }
 
-
     public canAdminTutorials(): boolean {
-        return this.isAdmin() || this.isBoard() || this.isLeaderOf("citi");
+        return this.isAdmin() || this.isBoard() || this.isLeaderOf("citi") || this.isLeaderOf("citc");
     }
 
     public canCreateTutorials(): boolean {
@@ -193,7 +192,7 @@ export class UserModel {
     }
 
     public canEditPages(): boolean {
-        return this.canCreateTutorials() || this.isCITI() || this.isCITQ();
+        return this.canCreateTutorials() || this.isCITI() || this.isCITQ() || this.isCITC();
     }
 
     public canPublishTutorials(): boolean {

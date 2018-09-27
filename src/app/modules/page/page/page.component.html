@@ -2,7 +2,7 @@
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="viewing || !titleEditor">
         <h1 class="page-title" fxFlex="grow">
             {{page.title |titlecase}}
-            <mat-icon *ngIf="updated" style="color:green"> done_outline</mat-icon>
+            <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
         </h1>
         <button mat-icon-button (click)="edit()" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing">
             <i class="fa fa-edit"></i>
@@ -11,7 +11,7 @@
     <div *ngIf="!viewing && titleEditor">
         <h2 class="page-title">
             Modifica pagina
-            <mat-icon style="color:green" *ngIf="updated"> done_outline</mat-icon>
+            <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
         </h2>
         <mat-form-field>
             <input matInput placeholder="Titolo della pagina" length="120" [(ngModel)]="page.title" />
