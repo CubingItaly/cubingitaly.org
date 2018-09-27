@@ -43,7 +43,7 @@ async function pageExists(req, res, next) {
 function sanitizeContent(req, res, next) {
     let tmp: string = req.sanitize(req.body.page.title) || "";
     req.body.page.title = tmp.substr(0, 120);
-    req.body.article.content = sanitize(req.body.article.content);
+    req.body.page.content = sanitize(req.body.page.content);
     next();
 }
 

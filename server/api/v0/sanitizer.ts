@@ -20,7 +20,7 @@ export function sanitize(source: string) {
                 'font-size': [/^\d+(?:px|em|%)$/]
             }
         },
-        allowedSchemes: ['http', 'https'],
+        allowedSchemes: ['http', 'https','mailto'],
         allowedSchemesByTag: {
             img: ['data', 'http', 'https']
         },

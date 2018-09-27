@@ -19,7 +19,7 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
     }
 
     public async adminGetTutorials(): Promise<TutorialEntity[]> {
-        return this.repository.find({ order: { "updateDate": "DESC" } });
+        return this.repository.find({ relations: ["author", "lastEditor"], order: { "updateDate": "DESC" } });
     }
 
     public async checkIfTutorialExists(id: string): Promise<boolean> {
@@ -70,6 +70,7 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
         let tutorial: TutorialEntity = await this.adminGetTutorial(id);
         page.author = user;
         page.lastEditor = user;
+        page.isPublic = tutorial.isPublic;
         tutorial.lastEditor = user;
         tutorial.updateDate = new Date();
         if (!tutorial.pages) tutorial.pages = [];
@@ -125,6 +126,12 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
 
 
 
+    public async updateTutorialDateAndEditor(id: string, editor: UserEntity) {
+        let tutorial: TutorialEntity = await this.adminGetTutorial(id);
+        tutorial.lastEditor = editor;
+        tutorial.updateDate = new Date();
+        return this.repository.save(tutorial);
+    }
 
     private async updatePagesStatus(id: string, status: boolean): Promise<TutorialEntity> {
         let tutorial: TutorialEntity = await this.adminGetTutorial(id);

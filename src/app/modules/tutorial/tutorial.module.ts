@@ -6,10 +6,15 @@ import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
 import { routes } from './tutorial.router';
 import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatIconModule, MatButtonModule, MatInputModule, MatTableModule, MatDialogModule, MatListModule } from '@angular/material';
+import { MatIconModule, MatButtonModule, MatInputModule, MatTableModule, MatDialogModule, MatListModule, MatPaginatorModule, MatPaginatorIntl, MatExpansionModule } from '@angular/material';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule } from '@angular/forms';
 import { PageModule } from '../page/page.module';
+import { TutorialItalianMatPaginator } from './services/tutorial.paginator.it';
+import { EditorQuickActionsComponent } from './editor-quick-actions/editor-quick-actions.component';
+import { TutorialAdminComponent } from './tutorial-admin/tutorial-admin.component';
+import { TutorialSummaryComponent } from './tutorial-summary/tutorial-summary.component';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   imports: [
@@ -24,8 +29,12 @@ import { PageModule } from '../page/page.module';
     MatTableModule,
     MatDialogModule,
     MatListModule,
-    PageModule
+    PageModule,
+    MatPaginatorModule,
+    SharedComponentsModule,
+    MatExpansionModule
   ],
-  declarations: [TutorialComponent, TutorialEditorComponent, TutorialListComponent]
+  declarations: [TutorialComponent, TutorialEditorComponent, TutorialListComponent, EditorQuickActionsComponent, TutorialAdminComponent, TutorialSummaryComponent],
+  providers: [{ provide: MatPaginatorIntl, useClass: TutorialItalianMatPaginator }]
 })
 export class TutorialModule { }

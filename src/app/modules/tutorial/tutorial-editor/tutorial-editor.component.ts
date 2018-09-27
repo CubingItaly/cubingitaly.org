@@ -24,6 +24,9 @@ export class TutorialEditorComponent implements OnInit {
   newPageTitle: string = "";
   displayedColumns = ['title', 'edit', 'delete', 'up', 'down'];
 
+  editingPage: boolean = false;
+  currentEditingPageId: number;
+
   constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, public authSVC: AuthService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
@@ -57,7 +60,7 @@ export class TutorialEditorComponent implements OnInit {
         this.actionAfterUpdate();
       });
     } else {
-      this.createDialog("Il tutorial che stai modifcando è pubblico e le modifiche saranno visibili da chiunque. Sei sicuro di voler procedere?")
+      this.createDialog("Il tutorial che stai modificando è pubblico e le modifiche saranno visibili da chiunque. Sei sicuro di voler procedere?")
         .subscribe((res: boolean) => {
           if (res) {
             this.tutorialSVC.updateTutorial(this.tutorial).subscribe(res => {
@@ -136,9 +139,14 @@ export class TutorialEditorComponent implements OnInit {
 
   removePage(id: number) {
     if (!this.isPublic || (this.isPublic && this.tutorial.pages.length > 1)) {
-      let page: PageModel = new PageModel();
-      page.id = id;
-      this.tutorialSVC.removePage(this.tutorial, page).subscribe(res => this.tutorial = res);
+      this.createDialog("Sei sicuro di voler rimuovere la pagina? Una volta cancellata non sarà più recuperabile.")
+        .subscribe((res: boolean) => {
+          if (res) {
+            let page: PageModel = new PageModel();
+            page.id = id;
+            this.tutorialSVC.removePage(this.tutorial, page).subscribe(res => this.tutorial = res);
+          }
+        })
     } else {
       throw new BadRequestError("Il tutorial è pubblico e quindi deve avere almeno una pagina.");
     }
@@ -167,6 +175,15 @@ export class TutorialEditorComponent implements OnInit {
     });
 
     return dialogRef.afterClosed();
+  }
+
+  editPage(id: number) {
+    if (this.currentEditingPageId === id) {
+      this.editingPage = !this.editingPage;
+    } else {
+      this.editingPage = true;
+      this.currentEditingPageId = id;
+    }
   }
 
 }

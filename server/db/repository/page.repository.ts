@@ -4,6 +4,8 @@ import { PageEntity } from "../entity/page.entity";
 import { UserEntity } from "../entity/user.entity";
 import { pages } from './initfiles/pages';
 import { UserRepository } from "./user.repository";
+import { TutorialRepository } from "./tutorial.repository";
+import { TutorialEntity } from "../entity/tutorial.entity";
 
 @EntityRepository(PageEntity)
 export class PageRepository extends BaseCommonRepository<PageEntity>{
@@ -21,7 +23,7 @@ export class PageRepository extends BaseCommonRepository<PageEntity>{
         for (let p of pages) {
             exist = await this.checkIfPageExists(p.id);
             if (!exist) {
-                newPage.id=p.id;
+                newPage.id = p.id;
                 newPage.title = p.title;
                 newPage.content = p.content;
                 await this.repository.save(newPage);
@@ -50,6 +52,11 @@ export class PageRepository extends BaseCommonRepository<PageEntity>{
             oldPage.lastEditor = editor;
             if (oldPage.indexInTutorial >= 0 && page.indexInTutorial >= 0) {
                 oldPage.indexInTutorial = page.indexInTutorial;
+            }
+            if (oldPage.indexInTutorial >= 0) {
+                let tutorial: TutorialEntity = (await this.repository.findOne(page.id, { relations: ["tutorial"] })).tutorial;
+                let repo: TutorialRepository = getCustomRepository(TutorialRepository);
+                await repo.updateTutorialDateAndEditor(tutorial.id, editor);
             }
             return this.repository.save(oldPage);
         }

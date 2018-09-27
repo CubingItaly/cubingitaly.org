@@ -11,9 +11,18 @@
 
 .mat-column-options{
     flex: 0 0 30px;
-    justify-content: right;
+    text-align: center;
 }
 
 .mat-table{
     width: 100%;
+}
+
+.mat-table a{
+    width: 100%;
+    height: 100%;
+}
+
+.mat-row:hover{
+    background-color: #e4e4e4;
 }

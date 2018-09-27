@@ -2,15 +2,17 @@ import { Routes } from '@angular/router';
 import { TutorialComponent } from './tutorial/tutorial.component';
 import { TutorialEditorComponent } from './tutorial-editor/tutorial-editor.component';
 import { TutorialListComponent } from './tutorial-list/tutorial-list.component';
+import { TutorialAdminComponent } from './tutorial-admin/tutorial-admin.component';
 
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'list/1', pathMatch: 'full'
-    }, {
-        path: 'list', redirectTo: 'list/1', pathMatch: 'full'
+        path: '', redirectTo: 'list', pathMatch: 'full'
     },
     {
-        path: 'list/:page', component: TutorialListComponent
+        path: 'list', component: TutorialListComponent
+    },
+    {
+        path: 'admin', component: TutorialAdminComponent
     },
     {
         path: ':id/edit', component: TutorialEditorComponent, data: { intent: "edit" }
@@ -19,6 +21,9 @@ export const routes: Routes = [
         path: 'new', component: TutorialEditorComponent, data: { intent: "new" }
     },
     {
-        path: ':id', component: TutorialComponent
+        path: ':id', redirectTo: ':id/1', pathMatch: 'full'
+    },
+    {
+        path: ':id/:page', component: TutorialComponent
     },
 ];

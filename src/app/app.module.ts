@@ -47,7 +47,6 @@ registerLocaleData(localeIt, 'it');
 //components
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component';
-import { ShareButtonsOptions } from '@ngx-share/core';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserService } from './services/user.service';
 import { NotFoundComponent } from './components/not-found/not-found.component';
@@ -57,7 +56,6 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MenuService } from './services/menu.service';
 import '../icons';
-
 
 
 

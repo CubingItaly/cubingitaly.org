@@ -6,7 +6,7 @@ import { HtmlViewerModule } from '../html-viewer/html-viewer.module';
 import { PageComponent } from './page/page.component';
 import { CKEditorModule } from '@ckeditor/ckeditor5-angular';
 import { FormsModule } from '@angular/forms';
-import { MatButtonModule, MatIconModule } from '@angular/material';
+import { MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule } from '@angular/material';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
@@ -17,7 +17,9 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     CKEditorModule,
     MatButtonModule,
     FlexLayoutModule,
-    MatIconModule
+    MatIconModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   declarations: [PageEditorComponent, PageViewerComponent, PageComponent],
   exports: [PageViewerComponent, PageComponent]

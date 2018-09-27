@@ -1,22 +1,50 @@
-<div fxLayout="row" fxLayout.xs="column" *ngIf="page">
-    <h1 fxFlex.gt-xs="noshrink" ngClass.xs="mobile-h1">{{page.title |titlecase}} <mat-icon *ngIf="updated" style="color:green">done_outline</mat-icon>
-    </h1>
-    <span fxFlex.gt-xs="grow"></span>
-    <button *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing" fxHide.xs mat-button fxFlex="noshrink"
-        (click)="edit()">
-        <mat-icon>edit</mat-icon> Modifica
-    </button>
-    <button *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing" fxHide.gt-xs mat-button fxFlex="noshrink"
-        style="text-align: left" (click)="edit()">
-        <mat-icon>edit</mat-icon> Modifica
-    </button>
+<div fxLayout="column" *ngIf="page">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="viewing || !titleEditor">
+        <h1 class="page-title" fxFlex="grow">
+            {{page.title |titlecase}}
+            <mat-icon *ngIf="updated" style="color:green"> done_outline</mat-icon>
+        </h1>
+        <button mat-icon-button (click)="edit()" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing">
+            <i class="fa fa-edit"></i>
+        </button>
+    </div>
+    <div *ngIf="!viewing && titleEditor">
+        <h2 class="page-title">
+            Modifica pagina
+            <mat-icon style="color:green" *ngIf="updated"> done_outline</mat-icon>
+        </h2>
+        <mat-form-field>
+            <input matInput placeholder="Titolo della pagina" length="120" [(ngModel)]="page.title" />
+        </mat-form-field>
+    </div>
+
+
+
+    <page-viewer *ngIf="viewing" [page]="page"></page-viewer>
+    <page-editor *ngIf="!viewing" [page]="page"></page-editor>
+    <div *ngIf="!viewing">
+        <button mat-raised-button color="accent" (click)="updatePage()">Salva</button>
+        <button mat-raised-button style="background-color:rgb(52, 156, 57);" (click)="view()">Visualizza</button>
+        <button mat-raised-button color="warn" *ngIf="page.content !== contentBackup || page.title !== titleBackup"
+            (click)="restore()">Ripristina</button>
+    </div>
 
 </div>
 
-<page-viewer *ngIf="viewing && page" [page]="page"></page-viewer>
-<page-editor *ngIf="!viewing && page" [page]="page"></page-editor>
-<div *ngIf="!viewing">
-    <button mat-raised-button color="accent" (click)="updatePage()">Aggiorna</button>
-    <button mat-raised-button style="background-color:rgb(52, 156, 57);" (click)="view()">Visualizza</button>
-    <button mat-raised-button color="warn" *ngIf="page.content !== backup" (click)="restore()">Ripristina</button>
+<!--
+<h2 class="page-title" *ngIf="page && !viewing && titleEditor">
+</h2>
+<div fxLayout fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="page && >
+   
 </div>
+
+
+
+</div>
+-->
+
+
+<!--<span fxFlex="grow"></span>
+<button  mat-button fxFlex="noshrink" (click)="edit()">
+  
+</button>-->

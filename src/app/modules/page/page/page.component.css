@@ -5,3 +5,7 @@
 .mobile-h1{
     font-size: 24px;
 }
+
+.mat-form-field{
+    width: 100%;
+}

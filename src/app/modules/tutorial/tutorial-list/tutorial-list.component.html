@@ -6,17 +6,17 @@
 
                 <ng-container matColumnDef="title">
                     <mat-cell *matCellDef="let tutorial">
-                        <a routerLink="../../{{tutorial.id}}">{{tutorial.title | titlecase}}</a>
+                        <a routerLink="/tutorial/{{tutorial.id}}">{{tutorial.title | titlecase}}</a>
                     </mat-cell>
                 </ng-container>
 
                 <ng-container matColumnDef="options">
                     <mat-cell *matCellDef="let tutorial">
-                        <a routerLink="../../{{tutorial.id}}" *ngIf="!authSVC.authUser || !authSVC.authUser.canEditPages()">
-                            <mat-icon>open_in_browser</mat-icon>
+                        <a routerLink="/tutorial/{{tutorial.id}}" *ngIf="!authSVC.authUser || !authSVC.authUser.canEditPages()">
+                            <i class="fa fa-eye"></i>
                         </a>
-                        <a routerLink="../../{{tutorial.id}}/edit" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages()">
-                            <mat-icon>edit</mat-icon>
+                        <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages()">
+                            <i class="fa fa-edit"></i>
                         </a>
                     </mat-cell>
                 </ng-container>
@@ -28,14 +28,8 @@
             </mat-table>
         </div>
         <div fxFlex.gt-xs="25%">
-            <div fxLayout="column" *ngIf="authSVC.authUser && authSVC.authUser.canViewPrivatePages()">
-                <h2>Gestione Tutorial</h2>
-                <button mat-button style="text-align: left" routerLink="/tutorial/new" *ngIf="authSVC.authUser.canCreateTutorials()">
-                    <mat-icon>add_box</mat-icon> Nuovo tutorial
-                </button>
-                <button mat-button style="text-align: left" routerLink="/tutorial/admin">
-                    <mat-icon>format_list_bulleted</mat-icon> Gestisci tutorial
-                </button>
+            <div fxLayout="column">
+                <tutorial-editor-quick-actions></tutorial-editor-quick-actions>
             </div>
         </div>
     </div>
