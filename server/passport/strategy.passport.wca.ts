@@ -7,9 +7,9 @@ import { UserRepository } from '../db/repository/user.repository';
 import { getCustomRepository } from 'typeorm';
 import { UserEntity } from '../db/entity/user.entity';
 
-const authURL = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/authorize" : "https://staging.worldcubeassociation.org/oauth/authorize";
-const tokenURL = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/oauth/token" : "https://staging.worldcubeassociation.org/oauth/token";
-const profileURL = (process.env.NODE_ENV == "production") ? "https://www.worldcubeassociation.org/api/v0/me" : "https://staging.worldcubeassociation.org/api/v0/me";
+const authURL = "https://staging.worldcubeassociation.org/oauth/authorize";
+const tokenURL = "https://staging.worldcubeassociation.org/oauth/token";
+const profileURL = "https://staging.worldcubeassociation.org/api/v0/me";
 
 passport.use(new WCAStrategy({
     clientID: keys.wca.client_id,

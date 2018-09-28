@@ -15,7 +15,6 @@ export class CustomInterceptor implements HttpInterceptor {
         request = request.clone({
             withCredentials: true
         });
-        console.log('cloned using withCredentials!');
         return next.handle(request);
     }
 }

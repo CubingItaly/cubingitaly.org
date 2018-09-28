@@ -1,4 +1,3 @@
-import { Database } from './db/database';
 import { json, urlencoded } from "body-parser";
 import * as compression from 'compression';
 import * as express from 'express';
@@ -20,74 +19,78 @@ import { router as tutorialRoutes } from './api/v0/tutorial.api';
 
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
+import { getConnection, Repository, getRepository } from 'typeorm';
+import { Session } from './db/entity/session.entity';
+import { TypeormStore } from 'typeorm-store';
+
+export function getApp() {
+  let app: express.Application = express();
+
+  /**
+   * Handles the urls allowed to do cross-origin calls.
+   */
+  const urlWhitelist: string[] = [
+    production_url,
+    development_url
+  ];
 
 
-const db: Database = new Database();
-db.createConnection()
-  .then(() => db.initDatabase())
-  .then(() => console.log('DB successfully initialized'));
+  app.disable("x-powered-by");
+  app.use(json({ limit: '4mb' }));
+  app.use(compression());
+  app.use(urlencoded({ limit: '4mb', extended: true }));
+  app.use(expressSanitizer());
+
+  let repo = getConnection().getRepository(Session);
+  app.use(session(
+    {
+      secret: keys.session.secret,
+      resave: false,
+      saveUninitialized: false,
+      cookie: keys.session.cookie,
+      store: new TypeormStore({ repository: repo })
+    }
+  ));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
+
+  // api routes
+  app.use("/api/v0/auth", authRoutes);
+  app.use("/api/v0/teams", teamRoutes);
+  app.use("/api/v0/users", userRoutes);
+  app.use("/api/v0/articles", articleRoutes);
+  app.use("/api/v0/categories", categoryRoutes);
+  app.use("/api/v0/pages", pageRoutes);
+  app.use("/api/v0/tutorial", tutorialRoutes);
 
 
-const app: express.Application = express();
 
-/**
- * Handles the urls allowed to do cross-origin calls.
- */
-const urlWhitelist: string[] = [
-  production_url,
-  development_url
-];
-
-
-app.disable("x-powered-by");
-app.use(json({ limit: '4mb' }));
-app.use(compression());
-app.use(urlencoded({ limit: '4mb', extended: true }));
-app.use(expressSanitizer());
-
-app.use(session(
-  {
-    secret: keys.session.secret,
-    resave: false,
-    saveUninitialized: true,
-    cookie: keys.session.cookie
+  if (app.get("env") === "production") {
+    // in production mode run application from dist folder
+    app.use(express.static(path.join(__dirname, "/../client")));
+    app.use("/*", function (req, res) {
+      res.sendFile(path.join(__dirname, "/../client/index.html"));
+    });
   }
-));
-
-app.use(passport.initialize());
-app.use(passport.session());
-
-// api routes
-app.use("/api/v0/auth", authRoutes);
-app.use("/api/v0/teams", teamRoutes);
-app.use("/api/v0/users", userRoutes);
-app.use("/api/v0/articles", articleRoutes);
-app.use("/api/v0/categories", categoryRoutes);
-app.use("/api/v0/pages", pageRoutes);
-app.use("/api/v0/tutorial", tutorialRoutes);
 
 
-if (app.get("env") === "production") {
-  // in production mode run application from dist folder
-  app.use(express.static(path.join(__dirname, "/../client")));
-}
-
-
-// catch 404 and forward to error handler
-app.use((req: express.Request, res: express.Response, next) => {
-  const err = new Error("Not Found");
-  next(err);
-});
-
-// production error handler
-// no stacktrace leaked to user
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-
-  res.status(err.status || 500);
-  res.json({
-    error: {},
-    message: err.message,
+  // catch 404 and forward to error handler
+  app.use((req: express.Request, res: express.Response, next) => {
+    const err = new Error("Not Found");
+    next(err);
   });
-});
 
-export { app, db };
+  // production error handler
+  // no stacktrace leaked to user
+  app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+
+    res.status(err.status || 500);
+    res.json({
+      error: {},
+      message: err.message,
+    });
+  });
+
+  return app;
+}
