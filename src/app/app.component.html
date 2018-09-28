@@ -6,7 +6,7 @@
         <button mat-button style="height: 0; position: absolute;"></button>
         <mat-list>
             <mat-list-item *ngFor="let url of menuUrls">
-                <a routerLink="{{url.url}}" (click)="urlClicked()" [ngClass]="{'a-selected': url.isSelected}"><i class="fa fa-{{url.icon}} menu-icon"></i>{{url.text
+                <a routerLink="{{url.url}}" (click)="urlClicked()" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || authSVC.isLoggedIn"><i class="fa fa-{{url.icon}} menu-icon"></i>{{url.text
                     | uppercase}}</a>
             </mat-list-item>
         </mat-list>

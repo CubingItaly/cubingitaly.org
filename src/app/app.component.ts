@@ -11,22 +11,22 @@ import { MatSidenav } from '@angular/material/sidenav';
 })
 export class AppComponent implements OnInit {
 
-  menuUrls: { id: string, text: string, url: string, isSelected: boolean, icon: string }[] = [
+  menuUrls: { id: string, text: string, url: string, isSelected: boolean, icon: string, login:boolean }[] = [
 
     {
-      id: "home", text: "home", url: "/", isSelected: false, icon: "home"
+      id: "home", text: "home", url: "/", isSelected: false, icon: "home", login:false
     },
     {
-      id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle"
+      id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle", login:false
     },
     {
-      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o"
+      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o", login:false
     },
     {
-      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book"
+      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book", login:false
     },
     {
-      id: "teams", text: "team", url: "/teams", isSelected: false, icon: "users"
+      id: "panel", text: "pannello", url: "/panel", isSelected: false, icon: "lock", login: true
     }
   ];
 

@@ -63,3 +63,8 @@ mat-sidenav{
 .a-selected{
     background-color: #002044;
 }
+
+.logo{
+    display: flex;
+    justify-content: center;
+}
