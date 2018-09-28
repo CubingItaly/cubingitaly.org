@@ -77,7 +77,6 @@ export class ArticleEditorComponent implements OnInit {
     }
 
     updateArticle() {
-        this.article.content += "<script>alert()</script>";
         if (this.isPublic) {
             let obs = this.createDialog("L'articolo che stai modifcando è pubblico e le modifiche saranno visibili da chiunque. Sei sicuro di voler procedere?");
             obs.subscribe((result: boolean) => {
