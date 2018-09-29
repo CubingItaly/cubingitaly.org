@@ -4,9 +4,11 @@
             {{page.title |titlecase}}
             <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
         </h1>
-        <button mat-icon-button (click)="edit()" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages() && viewing">
-            <i class="fa fa-edit"></i>
-        </button>
+        <ng-container *ifRole="'ePages'">
+            <button mat-icon-button (click)="edit()" *ngIf="viewing">
+                <i class="fa fa-edit"></i>
+            </button>
+        </ng-container>
     </div>
     <div *ngIf="!viewing && titleEditor">
         <h2 class="page-title">
@@ -30,21 +32,3 @@
     </div>
 
 </div>
-
-<!--
-<h2 class="page-title" *ngIf="page && !viewing && titleEditor">
-</h2>
-<div fxLayout fxLayoutAlign="start center" fxLayoutGap="10px" *ngIf="page && >
-   
-</div>
-
-
-
-</div>
--->
-
-
-<!--<span fxFlex="grow"></span>
-<button  mat-button fxFlex="noshrink" (click)="edit()">
-  
-</button>-->

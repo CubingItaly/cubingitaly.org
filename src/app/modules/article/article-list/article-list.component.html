@@ -3,7 +3,7 @@
     <div fxFlex.gt-xs="70%">
       <h1>Ultimi articoli</h1>
       <div fxLayout="column" fxLayoutGap="20px">
-        <mat-card class="card" *ngFor="let article of articles">
+        <mat-card class="card" *ngFor="let article of articles$ | async">
           <mat-card-title class="card-title">
             <a routerLink="../../{{article.id}}">{{article.title | titlecase}}</a>
           </mat-card-title>
@@ -24,7 +24,7 @@
     </div>
     <div fxFlex.gt-xs="30%">
       <div fxLayout="column">
-        <article-editor-quick-actions></article-editor-quick-actions>
+        <article-editor-quick-actions *ifRole="'eArticles'"></article-editor-quick-actions>
       </div>
     </div>
   </div>

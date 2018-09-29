@@ -14,6 +14,14 @@ export class PanelService {
   constructor(private http: HttpClient) { }
 
   public getTeams(): Observable<TeamModel[]> {
-    return this.http.get<TeamModel[]>(this.baseAPI + "teams").pipe(map(res => res.map(t => Deserialize(t, TeamModel))));
+    return this.http.get<TeamModel[]>(this.baseAPI + "teams").pipe(map(res => res.map(t => Deserialize(t, TeamModel))), map(res => res.sort(
+      (a, b) => {
+        if (a.name < b.name)
+          return -1;
+        if (a.name > b.name)
+          return 1;
+        return 0;
+      }
+    )));
   }
 }

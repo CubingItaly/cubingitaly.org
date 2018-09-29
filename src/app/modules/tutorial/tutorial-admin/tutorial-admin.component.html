@@ -1,100 +1,101 @@
-<div fxLayout fxLayoutAlign="center" *ngIf="tutorials">
+<div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
 
     <div fxLayout="row" fxLayoutAlign="start center">
       <h1 fxFlex="grow">Gestione Tutorial</h1>
-      <a fxFlex="noshrink" routerLink="/tutorial/new" *ngIf="authSVC.isLoggedIn && authSVC.authUser.canCreateTutorials()">
+      <a fxFlex="noshrink" routerLink="/tutorial/new" *ifRole="'cTutorials'">
         <i class="fa fa-plus-square"></i><span fxHide.xs>Nuovo Tutorial</span>
       </a>
     </div>
 
     <!-- Tutorials table -->
+    <ng-container *ngIf="tutorials$ | async as tutorials">
+      <mat-table [dataSource]="tutorials" fxHide.xs class="mat-elevation-z4">
 
-    <mat-table [dataSource]="tutorials" fxHide.xs class="mat-elevation-z4">
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
+          <mat-cell *matCellDef="let tutorial">
+            <a routerLink="/tutorial/{{tutorial.id}}">{{tutorial.title}}</a>
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="title">
-        <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
-        <mat-cell *matCellDef="let tutorial">
-          <a routerLink="/tutorial/{{tutorial.id}}">{{tutorial.title}}</a>
-        </mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="editor">
+          <mat-header-cell *matHeaderCellDef>Modificato da</mat-header-cell>
+          <mat-cell *matCellDef="let tutorial">{{tutorial.lastEditor.name}}</mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="editor">
-        <mat-header-cell *matHeaderCellDef>Modificato da</mat-header-cell>
-        <mat-cell *matCellDef="let tutorial">{{tutorial.lastEditor.name}}</mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="update">
+          <mat-header-cell *matHeaderCellDef>Aggiornamento</mat-header-cell>
+          <mat-cell *matCellDef="let tutorial">{{tutorial.updateDate | date:"short"}}</mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="update">
-        <mat-header-cell *matHeaderCellDef>Aggiornamento</mat-header-cell>
-        <mat-cell *matCellDef="let tutorial">{{tutorial.updateDate | date:"short"}}</mat-cell>
-      </ng-container>
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Stato</mat-header-cell>
+          <mat-cell *matCellDef="let tutorial">
+            <span *ngIf="tutorial.isPublic" class="public-tutorial">Pubblicato</span>
+            <span *ngIf="!tutorial.isPublic" class="hidden-tutorial">Nascosto</span>
+          </mat-cell>
+        </ng-container>
 
-      <ng-container matColumnDef="status">
-        <mat-header-cell *matHeaderCellDef>Stato</mat-header-cell>
-        <mat-cell *matCellDef="let tutorial">
-          <span *ngIf="tutorial.isPublic" class="public-tutorial">Pubblicato</span>
-          <span *ngIf="!tutorial.isPublic" class="hidden-tutorial">Nascosto</span>
-        </mat-cell>
-      </ng-container>
-
-      <ng-container matColumnDef="options">
-        <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
-        <mat-cell *matCellDef="let tutorial">
-          <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser.canEditPages()">
-            <i class="fa fa-edit"> </i>
-          </a>
-          <a routerLink="/tutorial/{{tutorial.id}}">
-            <i class="fa fa-eye"> </i>
-          </a>
-        </mat-cell>
-      </ng-container>
-
-      <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-      <mat-row fxFlexAlign="center" *matRowDef="let row; columns: displayedColumns"></mat-row>
-    </mat-table>
-
-    <!-- End of the table -->
-
-    <!-- Start of tutorials expansion panel list-->
-    <div class="accordion-container">
-      <mat-accordion *ngFor="let tutorial of tutorials" class="mat-elevation-z4" fxHide.gt-xs>
-        <mat-expansion-panel>
-          <mat-expansion-panel-header>
-            <mat-panel-title>
-              {{tutorial.title}}
-            </mat-panel-title>
-          </mat-expansion-panel-header>
-          <div fxLayout fxLayoutAlign="start center">
-            <span fxFLex="noshrink">Editor:</span>
-            <span fxFlex="grow"></span>
-            <span fxFlex="noshrink">{{tutorial.lastEditor.name}}</span>
-          </div>
-          <div fxLayout fxLayoutAlign="start center">
-            <span fxFLex="noshrink">Aggiornamento:</span>
-            <span fxFlex="grow"></span>
-            <span fxFlex="noshrink">{{tutorial.updateDate | date:"short"}}</span>
-          </div>
-          <div fxLayout fxLayoutAlign="start center">
-            <span fxFlex="noshrink">Stato:</span>
-            <span fxFlex="grow"></span>
-            <span *ngIf="tutorial.isPublic" class="public-tutorial" fxFlex="noshrink">Pubblicato</span>
-            <span *ngIf="!tutorial.isPublic" class="hidden-tutorial" fxFlex="noshrink">Nascosto</span>
-          </div>
-          <div fxLayout fxLayoutAlign="start center">
-            Opzioni:
-            <span fxFlex="grow"></span>
-            <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser.canEditPages()">
+        <ng-container matColumnDef="options">
+          <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
+          <mat-cell *matCellDef="let tutorial">
+            <a routerLink="/tutorial/{{tutorial.id}}/edit">
               <i class="fa fa-edit"> </i>
             </a>
             <a routerLink="/tutorial/{{tutorial.id}}">
               <i class="fa fa-eye"> </i>
             </a>
-          </div>
+          </mat-cell>
+        </ng-container>
 
-        </mat-expansion-panel>
-      </mat-accordion>
-    </div>
-    <!-- End of tutorials expansion panel list -->
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row fxFlexAlign="center" *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <!-- End of the table -->
+
+      <!-- Start of tutorials expansion panel list-->
+      <div class="accordion-container">
+        <mat-accordion *ngFor="let tutorial of tutorials" class="mat-elevation-z4" fxHide.gt-xs>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{tutorial.title}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFLex="noshrink">Editor:</span>
+              <span fxFlex="grow"></span>
+              <span fxFlex="noshrink">{{tutorial.lastEditor.name}}</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFLex="noshrink">Aggiornamento:</span>
+              <span fxFlex="grow"></span>
+              <span fxFlex="noshrink">{{tutorial.updateDate | date:"short"}}</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFlex="noshrink">Stato:</span>
+              <span fxFlex="grow"></span>
+              <span *ngIf="tutorial.isPublic" class="public-tutorial" fxFlex="noshrink">Pubblicato</span>
+              <span *ngIf="!tutorial.isPublic" class="hidden-tutorial" fxFlex="noshrink">Nascosto</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              Opzioni:
+              <span fxFlex="grow"></span>
+              <a routerLink="/tutorial/{{tutorial.id}}/edit">
+                <i class=" fa fa-edit"> </i>
+              </a>
+              <a routerLink="/tutorial/{{tutorial.id}}">
+                <i class="fa fa-eye"> </i>
+              </a>
+            </div>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!-- End of tutorials expansion panel list -->
+    </ng-container>
 
   </div>
 </div>

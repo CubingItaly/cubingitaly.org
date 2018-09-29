@@ -56,6 +56,7 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import { MenuService } from './services/menu.service';
 import '../icons';
+import { SharedComponentsModule } from './modules/shared-components/shared-components.module';
 
 
 
@@ -87,6 +88,7 @@ import '../icons';
     MatDividerModule,
     MatDialogModule,
     AngularFontAwesomeModule,
+    SharedComponentsModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
     RouterModule.forRoot(routes)
   ],

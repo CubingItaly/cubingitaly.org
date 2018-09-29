@@ -37,7 +37,7 @@ export class ArticleEditorComponent implements OnInit {
     editor = Editor;
 
 
-    constructor(private dialog: MatDialog, public authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
+    constructor(private dialog: MatDialog, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
     ngOnInit() {
         this.articleSVC.getCategories().subscribe(result => { this.categories = result; this.filteredCategories = this.categories });
@@ -47,7 +47,7 @@ export class ArticleEditorComponent implements OnInit {
             this.isNew = true;
             this.isPublic = false;
             this.article = new ArticleModel();
-            this.article.content="";
+            this.article.content = "";
             this.articleLoaded = true;
         } else {
             this.articleId = this.route.snapshot.paramMap.get("id");

@@ -14,7 +14,7 @@ export class ArticleComponent implements OnInit {
 
   article: ArticleModel;
 
-  constructor(private authSVC: AuthService, private articleSVC: ArticleService, private route: ActivatedRoute) { }
+  constructor(private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     let articleId: string = this.route.snapshot.paramMap.get("id");

@@ -4,21 +4,22 @@
 
       <div fxLayout="column">
         <h1>{{article.title | titlecase}}</h1>
-        <p style="color: grey">
+        <p class="author">
           <ng-container *ngIf="article.isPublic">{{article.author.name}}, {{article.publishDate | date:"short"}}</ng-container>
           <ng-container *ngIf="!article.isPublic">{{article.lastEditor.name}}</ng-container> - ultimo
           aggiornamento il {{article.updateDate | date:'shortDate' }}
         </p>
+        <p class="summary">{{article.summary}}</p>
         <html-viewer [content]="article.content"></html-viewer>
       </div>
 
     </div>
     <div fxFlex.gt-xs="25%">
-
+      
       <div fxLayout="column">
         <share-page-widget pageName="Articolo"></share-page-widget>
         <article-category-viewer [article]="article"></article-category-viewer>
-        <article-editor-quick-actions [articleId]="article.id"></article-editor-quick-actions>
+        <article-editor-quick-actions [articleId]="article.id" *ifRole="'eArticles'"></article-editor-quick-actions>
       </div>
 
     </div>

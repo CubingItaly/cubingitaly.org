@@ -5,7 +5,7 @@ import { Router } from "express";
 import * as passport from "passport";
 import { getUser, isLoggedIn, verifyLogin } from "../../shared/login.utils";
 import { TutorialRepository } from "../../db/repository/tutorial.repository";
-import { canAdminTutorials, canEditPages, canViewPrivatePages, canCreateTutorials, canPublishTutorials } from '../../shared/tutorial.permissions.utils';
+import { canAdminTutorials, canEditPages, canCreateTutorials, canPublishTutorials } from '../../shared/tutorial.permissions.utils';
 import { validationResult, Result, param, body } from "express-validator/check";
 import { TutorialEntity } from "../../db/entity/tutorial.entity";
 import { TutorialModel } from "../../models/classes/tutorial.model";
@@ -100,7 +100,7 @@ router.get("/", async (req, res) => {
     res.status(200).json(model);
 });
 
-router.get("/admin", verifyLogin, canViewPrivatePages, async (req, res) => {
+router.get("/admin", verifyLogin, canEditPages, async (req, res) => {
     let repo: TutorialRepository = getTutorialRepository();
     let dbTutorial: TutorialEntity[] = await repo.adminGetTutorials();
     let model: TutorialModel[] = dbTutorial.map(c => c._transform());
@@ -125,14 +125,14 @@ router.delete("/:id", verifyLogin, canAdminTutorials, async (req, res) => {
 router.get("/:id", async (req, res) => {
     let id: string = req.params.id;
     let dbTutorial: TutorialEntity = await getTutorialRepository().getTutorial(id);
-    if (dbTutorial !== undefined && dbTutorial !== null && (dbTutorial.isPublic || (isLoggedIn(req) && getUser(req).canViewPrivatePages()))) {
+    if (dbTutorial !== undefined && dbTutorial !== null && (dbTutorial.isPublic || (isLoggedIn(req) && getUser(req).canEditPages()))) {
         return res.status(200).send(dbTutorial._transform());
     } else {
         sendError(res, 404, "The requested resource does not exist.");
     }
 });
 
-router.get("/:id/admin", verifyLogin, canViewPrivatePages, async (req, res) => {
+router.get("/:id/admin", verifyLogin, canEditPages, async (req, res) => {
     let id: string = req.params.id;
     let dbTutorial: TutorialEntity = await getTutorialRepository().adminGetTutorial(id);
     if (dbTutorial !== undefined && dbTutorial !== null) {

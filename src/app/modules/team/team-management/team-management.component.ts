@@ -6,7 +6,6 @@ import { TeamService } from '../services/team.service';
 import { RoleModel } from '../../../../../server/models/classes/role.model';
 import { Deserialize } from 'cerialize';
 import { FormControl } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
 import { UserService } from '../../../services/user.service';
 import { debounceTime } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material';
@@ -41,7 +40,7 @@ export class TeamManagementComponent implements OnInit {
 
 
 
-  constructor(private dialog: MatDialog, private userSVC: UserService, public authSVC: AuthService, private teamSVC: TeamService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private userSVC: UserService, private teamSVC: TeamService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('id');

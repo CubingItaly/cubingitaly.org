@@ -103,6 +103,10 @@ export class UserModel {
         return this.isMemberOf(team) && this.roles.find((r: RoleModel) => r.team === team).isLeader;
     }
 
+    private isLeader(): boolean {
+        return (this.roles.findIndex(r => r.isLeader === true) >= 0);
+    }
+
 
     /**
    * Checks whether the use belongs to the admin team
@@ -165,6 +169,7 @@ export class UserModel {
         return this.isAdmin() || this.isBoard();
     }
 
+    /* Start of teams permissions */
     public canAdminTeams(): boolean {
         return this.isAdmin() || this.isBoard();
     }
@@ -173,8 +178,13 @@ export class UserModel {
         return this.isLeaderOf(team.id) || this.canAdminTeams();
     }
 
+    public canManageTeams(): boolean {
+        return this.canAdminTeams() || this.isLeader();
+    }
+    /* End of teams permissions */
 
 
+    /* Start of articles permissions */
     public canAdminArticles(): boolean {
         return this.isAdmin() || this.isBoard() || this.isCITC() || this.isLeaderOf("citi");
     }
@@ -182,24 +192,24 @@ export class UserModel {
     public canEditArticles(): boolean {
         return this.canAdminArticles() || this.isCITQ() || this.isCITI();
     }
+    /* Emd of articles permissions */
 
+
+    /* Start of tutorial permissions */
     public canAdminTutorials(): boolean {
         return this.isAdmin() || this.isBoard() || this.isLeaderOf("citi") || this.isLeaderOf("citc");
     }
 
     public canCreateTutorials(): boolean {
-        return this.canAdminTutorials() || this.isCITI() || this.isLeaderOf("citc");
-    }
-
-    public canEditPages(): boolean {
-        return this.canCreateTutorials() || this.isCITI() || this.isCITQ() || this.isCITC();
+        return this.canAdminTutorials() || this.isCITI();
     }
 
     public canPublishTutorials(): boolean {
         return this.canAdminTutorials() || this.isCITC() || this.isLeaderOf("citq");
     }
 
-    public canViewPrivatePages(): boolean {
-        return this.canAdminTutorials() || this.isCITC() || this.isCITI() || this.isCITQ();
+    public canEditPages(): boolean {
+        return this.canCreateTutorials() || this.isCITI() || this.isCITQ() || this.isCITC();
     }
+    /* End of tutorial permissions */
 }

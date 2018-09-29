@@ -69,15 +69,15 @@
 
       <h2>Azioni</h2>
       <div>
-        <button mat-raised-button *ngIf="isNew && authSVC.authUser && authSVC.authUser.canCreateTutorials()" (click)="createTutorial()"
-          style="background-color:rgb(52, 156, 57);">Crea</button>
-        <button mat-raised-button *ngIf="!isNew && authSVC.authUser && authSVC.authUser.canEditPages()" (click)="updateTutorial()"
-          color="accent">Aggiorna</button>
-        <button mat-raised-button *ngIf="authSVC.authUser && authSVC.authUser.canAdminTutorials()" color="warn" (click)="deleteTutorial()">Elimina</button>
-        <button mat-raised-button *ngIf="!isNew && !isPublic && authSVC.authUser && authSVC.authUser.canPublishTutorials()"
-          (click)="publishTutorial()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
-        <button mat-raised-button *ngIf="isPublic && authSVC.authUser && authSVC.authUser.canPublishTutorials()"
-          (click)="unpublishTutorial()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+        <button mat-raised-button *ngIf="isNew" (click)="createTutorial()" style="background-color:rgb(52, 156, 57);">Crea</button>
+        <ng-container *ngIf="!isNew">
+          <button mat-raised-button (click)="updateTutorial()" color="accent">Aggiorna</button>
+          <button mat-raised-button *ifRole="'aTutorials'" color="warn" (click)="deleteTutorial()">Elimina</button>
+          <ng-container *ifRole="'pTutorials'">
+            <button mat-raised-button *ngIf="!isPublic" (click)="publishTutorial()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+            <button mat-raised-button *ngIf="isPublic" (click)="unpublishTutorial()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+          </ng-container>
+        </ng-container>
       </div>
 
     </div>
@@ -85,12 +85,14 @@
       <div fxLayout="column">
         <h2>Stato tutorial</h2>
         <span *ngIf="isNew">Nuovo</span>
-        <span *ngIf="!isNew && isPublic">Tutorial pubblicato</span>
-        <span *ngIf="!isNew && !isPublic">Tutorial nascosto</span>
-        <span *ngIf="!isNew">Creato da: {{ tutorial.author.name}}</span>
-        <span *ngIf="!isNew">Creazione tutorial: {{ tutorial.createDate | date:"short" }}</span>
-        <span *ngIf="!isNew">Modificato da: {{tutorial.lastEditor.name }} </span>
-        <span *ngIf="!isNew ">Ultima modifica: {{ tutorial.updateDate | date:"short" }}</span>
+        <ng-container *ngIf="!isNew">
+          <span *ngIf="isPublic">Tutorial pubblicato</span>
+          <span *ngIf="!isPublic">Tutorial nascosto</span>
+          <span>Creato da: {{ tutorial.author.name}}</span>
+          <span>Creazione tutorial: {{ tutorial.createDate | date:"short" }}</span>
+          <span>Modificato da: {{tutorial.lastEditor.name }} </span>
+          <span>Ultima modifica: {{ tutorial.updateDate | date:"short" }}</span>
+        </ng-container>
       </div>
       <div fxLayout="column">
         <tutorial-editor-quick-actions [tutorialId]="tutorialId" [editing]="true"></tutorial-editor-quick-actions>

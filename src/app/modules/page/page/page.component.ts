@@ -24,7 +24,7 @@ export class PageComponent implements OnInit, OnChanges {
     contentBackup: string;
     updated: boolean = false;
 
-    constructor(private dialog: MatDialog, private pageSVC: PageService, public authSVC: AuthService) { }
+    constructor(private dialog: MatDialog, private pageSVC: PageService) { }
 
     ngOnInit() {
         this.getPage();
@@ -71,9 +71,6 @@ export class PageComponent implements OnInit, OnChanges {
     private getPage() {
         this.pageSVC.getPage(this.pageId).subscribe(res => {
             this.page = res;
-            if (!this.page.content) {
-                this.page.content = "";
-            }
             this.contentBackup = this.page.content;
             this.titleBackup = this.page.title;
         });

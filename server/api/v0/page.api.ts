@@ -53,7 +53,7 @@ router.get("/:id", async (req, res) => {
     let exists: boolean = await repo.checkIfPageExists(id);
     if (exists) {
         let page: PageEntity = await repo.getPage(id);
-        if (page.isPublic || (isLoggedIn(req) && getUser(req).canViewPrivatePages())) {
+        if (page.isPublic || (isLoggedIn(req) && getUser(req).canEditPages())) {
             res.status(200).json(page._transform());
         } else {
             return sendError(res, 404, "The requested resource does not exist.")

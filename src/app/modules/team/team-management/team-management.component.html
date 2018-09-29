@@ -24,7 +24,7 @@
       <ng-container matColumnDef="options">
         <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
         <mat-cell *matCellDef="let user">
-          <ng-container *ngIf="authSVC.authUser.canAdminTeams()">
+          <ng-container *ifRole="'aTeams'">
             <button mat-icon-button (click)="demoteLeader(user.id)" *ngIf="user.isLeaderOf(teamId)">
               <i class="fa fa-long-arrow-down"></i>
             </button>
@@ -32,7 +32,7 @@
               <i class="fa fa-long-arrow-up"></i>
             </button>
           </ng-container>
-          <button mat-icon-button (click)="removeMember(user.id)" *ngIf="authSVC.authUser.canManageTeam(teamId)">
+          <button mat-icon-button (click)="removeMember(user.id)" *ifRole="'mTeam';ifParam:team">
             <i class="fa fa-remove"></i>
           </button>
         </mat-cell>
@@ -64,14 +64,16 @@
         <div fxLayout fxLayoutAlign="start center">
           Opzioni:
           <span fxFlex="grow"></span>
-          <button mat-icon-button (click)="demoteLeader(user.id)" *ngIf="authSVC.authUser.canAdminTeams() && user.isLeaderOf(teamId)">
-            <i class="fa fa-long-arrow-down"></i>
-          </button>
-          <button mat-icon-button (click)="promoteLeader(user.id)" *ngIf="authSVC.authUser.canAdminTeams() && !user.isLeaderOf(teamId)">
+          <ng-container *ifRole="'aTeams'">
+            <button mat-icon-button (click)="demoteLeader(user.id)" *ngIf="user.isLeaderOf(teamId)">
+              <i class="fa fa-long-arrow-down"></i>
+            </button>
+            <button mat-icon-button (click)="promoteLeader(user.id)" *ngIf="!user.isLeaderOf(teamId)">
               <i class="fa fa-long-arrow-up"></i>
-          </button>
-          <button mat-icon-button (click)="removeMember(user.id)" style="margin-right: -8px;" *ngIf="authSVC.authUser.canManageTeam(teamId)">
-              <i class="fa fa-remove"></i>
+            </button>
+          </ng-container>
+          <button mat-icon-button (click)="removeMember(user.id)" *ifRole="'mTeam';ifParam:team">
+            <i class="fa fa-remove"></i>
           </button>
         </div>
 
@@ -86,7 +88,7 @@
           [matAutocomplete]="auto">
         <mat-autocomplete #auto="matAutocomplete">
           <mat-option *ngFor="let user of foundUsers" [value]="user.name" (onSelectionChange)="newMember = user">
-            <i class="fa fa-user" style="font-size: 18px; margin-right: 5px;"> </i> 
+            <i class="fa fa-user" style="font-size: 18px; margin-right: 5px;"> </i>
             <span> {{ user.name }}</span> |
             <small>WCA ID: {{user.wca_id}}</small>
           </mat-option>

@@ -27,7 +27,7 @@ export class TutorialEditorComponent implements OnInit {
   editingPage: boolean = false;
   currentEditingPageId: number;
 
-  constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, public authSVC: AuthService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router) { }
 
   ngOnInit() {
     let intent: string = this.route.snapshot.data.intent;

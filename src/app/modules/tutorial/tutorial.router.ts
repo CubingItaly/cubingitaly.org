@@ -13,7 +13,7 @@ export const routes: Routes = [
         path: 'list', component: TutorialListComponent
     },
     {
-        path: 'admin', canActivate: [TutorialGuardService], component: TutorialAdminComponent, data: { requiredRole: "view" }
+        path: 'admin', canActivate: [TutorialGuardService], component: TutorialAdminComponent, data: { requiredRole: "edit" }
     },
     {
         path: ':id/edit', canActivate: [TutorialGuardService], component: TutorialEditorComponent, data: { intent: "edit", requiredRole: "edit" }

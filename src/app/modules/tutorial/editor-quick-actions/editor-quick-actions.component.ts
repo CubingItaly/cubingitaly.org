@@ -11,7 +11,7 @@ export class EditorQuickActionsComponent implements OnInit {
   @Input() tutorialId: string;
   @Input() editing: boolean = false;
 
-  constructor(public authSVC: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
   }

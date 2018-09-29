@@ -13,7 +13,7 @@ export class TutorialListComponent implements OnInit {
   tutorials: TutorialModel[];
   pageId: number = 2;
 
-  constructor(public authSVC: AuthService, private tutorialSVC: TutorialService) { }
+  constructor(private tutorialSVC: TutorialService) { }
 
   ngOnInit() {
     this.tutorialSVC.getTutorials().subscribe((res: TutorialModel[]) => this.tutorials = res.sort((a, b) => {

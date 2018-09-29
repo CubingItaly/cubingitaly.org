@@ -1,11 +1,10 @@
-<div fxLayout="column" *ngIf="authSVC.isLoggedIn && authSVC.authUser.canViewPrivatePages()">
+<div fxLayout="column" >
   <h2>Gestione tutorial</h2>
-  <a routerLink="/tutorial/{{tutorialId}}/edit" *ngIf="tutorialId && !editing && authSVC.authUser.canEditPages()"><i
-      class="fa fa-edit"></i>
+  <a routerLink="/tutorial/{{tutorialId}}/edit" *ngIf="tutorialId && !editing"><i class="fa fa-edit"></i>
     Modifica Tutorial</a>
   <a routerLink="/tutorial/{{tutorialId}}" *ngIf="tutorialId && editing"><i class="fa fa-eye"></i>
     Visualizza Tutorial</a>
-  <a routerLink="/tutorial/new" *ngIf="authSVC.authUser.canCreateTutorials()"><i class="fa fa-plus-square"></i> Nuovo
+  <a routerLink="/tutorial/new" *ifRole="'cTutorials'"><i class="fa fa-plus-square"></i> Nuovo
     Tutorial</a>
   <a routerLink="/tutorial/admin"><i class="fa fa-list"></i> Gestione Tutorial</a>
 </div>

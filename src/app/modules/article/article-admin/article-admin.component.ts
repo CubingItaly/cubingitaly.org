@@ -3,6 +3,7 @@ import { ArticleModel } from '../../../../../server/models/classes/article.model
 import { PageEvent } from '@angular/material';
 import { ArticleService } from '../services/article.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-article-admin',
@@ -11,7 +12,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 })
 export class ArticleAdminComponent implements OnInit {
 
-  articles: ArticleModel[];
+  articles$: Observable<ArticleModel[]>;
   articlesNumber: number = 0;
   articlesPerPage: number = 15;
 
@@ -35,13 +36,14 @@ export class ArticleAdminComponent implements OnInit {
 
 
   private getArticles() {
-    this.articleSVC.getAllArticles(this.articlesPerPage, this.page - 1).subscribe(result => this.articles = result);
+    this.articles$ = this.articleSVC.getAllArticles(this.articlesPerPage, this.page - 1);
   }
 
   pageChange(event: PageEvent) {
     this.page = event.pageIndex + 1;
     this.getArticles();
     this.router.navigate(['../' + this.page], { relativeTo: this.route });
+    window.scrollTo(0,0);
   }
 
 }

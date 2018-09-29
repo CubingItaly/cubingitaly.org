@@ -7,7 +7,7 @@ import { RouterModule } from '@angular/router';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
-import { ReactiveFormsModule } from '@angular/forms';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTableModule } from '@angular/material/table';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -18,10 +18,12 @@ import { AboutUsComponent } from './about-us/about-us.component';
 import { TeamRoleGuard } from './services/team.guard.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { PageModule } from '../page/page.module';
+import { SharedComponentsModule } from '../shared-components/shared-components.module';
 
 @NgModule({
   imports: [
     CommonModule,
+    FormsModule,
     RouterModule.forChild(routes),
     MatTableModule,
     FlexLayoutModule,
@@ -34,7 +36,8 @@ import { PageModule } from '../page/page.module';
     MatDividerModule,
     MatListModule,
     MatExpansionModule,
-    PageModule
+    PageModule,
+    SharedComponentsModule
   ],
   declarations: [TeamListComponent, TeamManagementComponent, AboutUsComponent],
   providers: [TeamService, TeamRoleGuard]

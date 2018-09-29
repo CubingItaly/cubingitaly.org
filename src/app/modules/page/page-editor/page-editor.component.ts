@@ -15,6 +15,8 @@ export class PageEditorComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    if (this.page.content === undefined)
+      this.page.content = "";
   }
 
 }

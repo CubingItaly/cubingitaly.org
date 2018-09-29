@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserModel } from '../../../server/models/classes/user.model';
 import { Deserialize } from 'cerialize';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 /**
  * Service use to manage the authentication of the user
@@ -12,10 +14,8 @@ import { Deserialize } from 'cerialize';
 @Injectable()
 export class AuthService {
 
-    public isLoggedIn: boolean = false;
-    public authUser: UserModel;
     private apiBase: string = "/api/v0";
-
+    public user: Observable<UserModel>;
     /**
      * Creates an instance of AuthService.
      * Retrieves user info and if the user is logged in, initializes the public attributes
@@ -24,14 +24,7 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.http.get<UserModel>(this.apiBase + "/users/me")
-            .subscribe((user: UserModel) => {
-                if (user.id !== undefined) {
-                    this.authUser = Deserialize(user, UserModel);
-                    this.isLoggedIn = true;
-                }
-            }
-                , (err: HttpErrorResponse) => { console.log("There was an error while retrieving the user from the server") });
+        this.user = this.http.get<UserModel>(this.apiBase + "/users/me").pipe(map(u => Deserialize(u, UserModel)));
     }
 
     /**

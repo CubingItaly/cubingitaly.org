@@ -8,7 +8,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class ArticlePanelComponent implements OnInit {
 
-  constructor(public authSVC: AuthService) { }
+  constructor() { }
 
   ngOnInit() {
   }

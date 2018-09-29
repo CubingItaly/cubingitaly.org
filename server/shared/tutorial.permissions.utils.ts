@@ -1,13 +1,6 @@
 import { getUser } from "./login.utils";
 import { sendError } from './error.utils';
 
-export function canViewPrivatePages(req, res, next) {
-    if (getUser(req).canViewPrivatePages()) {
-        next();
-    } else {
-        sendError(res, 403, "Operation not authorized, you don't have enough permissions to perform this request.");
-    }
-}
 
 export function canAdminTutorials(req, res, next) {
     if (getUser(req).canAdminTutorials()) {

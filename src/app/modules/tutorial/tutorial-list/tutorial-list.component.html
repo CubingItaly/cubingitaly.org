@@ -12,24 +12,21 @@
 
                 <ng-container matColumnDef="options">
                     <mat-cell *matCellDef="let tutorial">
-                        <a routerLink="/tutorial/{{tutorial.id}}" *ngIf="!authSVC.authUser || !authSVC.authUser.canEditPages()">
+                        <a routerLink="/tutorial/{{tutorial.id}}" *ifRole="'!ePages'">
                             <i class="fa fa-eye"></i>
                         </a>
-                        <a routerLink="/tutorial/{{tutorial.id}}/edit" *ngIf="authSVC.authUser && authSVC.authUser.canEditPages()">
+                        <a routerLink="/tutorial/{{tutorial.id}}/edit" *ifRole="'ePages'">
                             <i class="fa fa-edit"></i>
                         </a>
                     </mat-cell>
                 </ng-container>
-
-
-
 
                 <mat-row fxFlexAlign="center" *matRowDef="let row; columns: ['title','options']"></mat-row>
             </mat-table>
         </div>
         <div fxFlex.gt-xs="25%">
             <div fxLayout="column">
-                <tutorial-editor-quick-actions></tutorial-editor-quick-actions>
+                <tutorial-editor-quick-actions *ifRole="'ePages'"></tutorial-editor-quick-actions>
             </div>
         </div>
     </div>

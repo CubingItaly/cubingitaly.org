@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { UserModel } from '../../../../../server/models/classes/user.model';
 import { PageEvent } from '@angular/material';
+import { Observable } from 'rxjs';
 
 
 @Component({
@@ -18,9 +19,9 @@ export class ArticleListComponent implements OnInit {
   page: number;
 
 
-  articles: ArticleModel[];
+  articles$: Observable<ArticleModel[]>;
 
-  constructor(public authSVC: AuthService, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
+  constructor(private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.articleSVC.countPublicArticles().subscribe((result: { "number": number }) => {
@@ -41,7 +42,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   private getArticles() {
-    this.articleSVC.getPublicArticles(this.articlesPerPage, this.page - 1, null).subscribe(result => this.articles = result);
+    this.articles$ = this.articleSVC.getPublicArticles(this.articlesPerPage, this.page - 1, null);
   }
 }
 
