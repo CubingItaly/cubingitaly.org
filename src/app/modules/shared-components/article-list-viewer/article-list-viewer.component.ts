@@ -10,7 +10,7 @@ import { ArticleModel } from '../../../../../server/models/classes/article.model
 })
 export class ArticleListViewerComponent implements OnInit {
 
-  @Input() category: string;
+  @Input() category: string="news";
   @Input() page: number = 0;
   @Input() take: number = 7;
 

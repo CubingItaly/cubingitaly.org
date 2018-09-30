@@ -70,6 +70,8 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
     public async getArticlesByCategory(limit: number, page: number, category: string): Promise<ArticleEntity[]> {
         return this.repository.createQueryBuilder("article")
             .innerJoinAndSelect("article.categories", "cat")
+            .innerJoinAndSelect("article.author", "author")
+            .innerJoinAndSelect("article.lastEditor", "editor")
             .where("cat.id = :category and article.isPublic = :public", { category: category, public: true })
             .orderBy("article.publishDate", "DESC")
             .take(limit).skip(limit * page).getMany();
@@ -224,7 +226,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         }
 
         // every article must have an id and "admin","list" and "new" are forbidden article ids
-        if (id === "" || id === "admin" || id === "list" || id === "new" || id==="categories") id = "articolo";
+        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categories") id = "articolo";
         return id;
     }
 
