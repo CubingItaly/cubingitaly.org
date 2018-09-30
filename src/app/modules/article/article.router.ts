@@ -10,7 +10,7 @@ export const routes: Routes = [
         path: '', redirectTo: 'list/1', pathMatch: 'full'
     },
     {
-        path: 'list', redirectTo: 'list/1', pathMatch: 'full'
+        path: 'list', redirectTo: 'list/1', pathMatch: 'full',
     },
     {
         path: 'list/:page', component: ArticleListComponent

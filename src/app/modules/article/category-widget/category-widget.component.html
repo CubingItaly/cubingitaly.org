@@ -1,0 +1,11 @@
+<div fxLayout="column" *ngIf="categories">
+  <h2>Filtra categorie</h2>
+  <mat-radio-group [(ngModel)]="selected" (change)="radioChange($event)" fxLayout="column">
+    <mat-radio-button [value]="">
+      Tutte
+    </mat-radio-button>
+    <mat-radio-button *ngFor="let c of categories" [value]="c.id">
+      {{c.name}}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>

@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { ArticleService } from './services/article.service';
 import { ArticleGuardService } from './services/article.guard.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { MatCardModule, MatPaginator, MatPaginatorModule, MatIconModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatTableModule, MatExpansionModule, MatPaginatorIntl } from '@angular/material';
+import { MatCardModule, MatPaginator, MatPaginatorModule, MatIconModule, MatButtonModule, MatChipsModule, MatFormFieldModule, MatInputModule, MatAutocompleteModule, MatTableModule, MatExpansionModule, MatPaginatorIntl, MatRadioModule } from '@angular/material';
 import { ArticleComponent } from './article/article.component';
 import { ArticleEditorComponent } from './article-editor/article-editor.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
@@ -17,6 +17,7 @@ import { HtmlViewerModule } from '../html-viewer/html-viewer.module';
 import { SharedComponentsModule } from '../shared-components/shared-components.module';
 import { EditorQuickActionsComponent } from './editor-quick-actions/editor-quick-actions.component';
 import { CategoryViewerComponent } from './category-viewer/category-viewer.component';
+import { CategoryWidgetComponent } from './category-widget/category-widget.component';
 
 @NgModule({
     imports: [
@@ -37,9 +38,10 @@ import { CategoryViewerComponent } from './category-viewer/category-viewer.compo
         CKEditorModule,
         HtmlViewerModule,
         SharedComponentsModule,
+        MatRadioModule,
         RouterModule.forChild(routes)
     ],
-    declarations: [ArticleListComponent, ArticleComponent, ArticleEditorComponent, ArticleAdminComponent, EditorQuickActionsComponent, CategoryViewerComponent],
+    declarations: [ArticleListComponent, ArticleComponent, ArticleEditorComponent, ArticleAdminComponent, EditorQuickActionsComponent, CategoryViewerComponent, CategoryWidgetComponent],
     providers: [ArticleService, ArticleGuardService, { provide: MatPaginatorIntl, useClass: ItalianMatPaginator }],
 })
 export class ArticleModule { }

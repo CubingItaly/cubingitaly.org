@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { ArticleService } from '../../article/services/article.service';
 import { Observable } from 'rxjs';
 import { ArticleModel } from '../../../../../server/models/classes/article.model';
@@ -8,9 +8,9 @@ import { ArticleModel } from '../../../../../server/models/classes/article.model
   templateUrl: './article-list-viewer.component.html',
   styleUrls: ['./article-list-viewer.component.css']
 })
-export class ArticleListViewerComponent implements OnInit {
+export class ArticleListViewerComponent implements OnInit, OnChanges {
 
-  @Input() category: string="news";
+  @Input() category: string;
   @Input() page: number = 0;
   @Input() take: number = 7;
 
@@ -19,7 +19,15 @@ export class ArticleListViewerComponent implements OnInit {
   constructor(private articleSVC: ArticleService) { }
 
   ngOnInit() {
-    this.articles$ = this.articleSVC.getPublicArticles(this.take, this.page, this.category);
+    this.getArticles();
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    this.getArticles();
+
+  }
+
+  getArticles() {
+    this.articles$ = this.articleSVC.getPublicArticles(this.take, this.page, this.category);
+  }
 }

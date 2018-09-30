@@ -1,36 +1,15 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
-    <div fxFlex.gt-xs="70%">
-      <h1>Ultimi articoli</h1>
-      <div fxLayout="column" fxLayoutGap="20px">
-        <ng-container *ngFor="let article of articles$ | async">
-          <mat-card>
-            <mat-card-title fxLayout>
-              <div fxFlex="grow">
-                <h2 ngClass.xs="article-title-xs"><a routerLink="/articles/{{article.id}}">{{article.title}}</a></h2>
-                <mat-card-subtitle>di {{article.author.name}}</mat-card-subtitle>
-              </div>
-              <div fxLayout="column" class="date">
-                <div class="month">{{article.publishDate | date:"MMM" | uppercase}}</div>
-                <div class="day">{{article.publishDate | date:"dd"}}</div>
-              </div>
-            </mat-card-title>
-            <mat-card-content>
-              <p>{{article.summary}}</p>
-            </mat-card-content>
-          </mat-card>
-        </ng-container>
-        <mat-paginator [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlesPerPage" [pageSizeOptions]="[articlesPerPage]"
-          (page)="pageChange($event)">
-        </mat-paginator>
-      </div>
-
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px" *ngIf="page">
+    <div fxFlex.gt-xs="70%" fxLayout="column" fxLayoutGap="20px">
+      <article-list-viewer [take]="articlesPerPage" [page]="page-1" [category]="category"></article-list-viewer>
+      <mat-paginator *ngIf="pagesNumber>1" [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlesPerPage" [pageSizeOptions]="[articlesPerPage]"
+        (page)="pageChange($event)">
+      </mat-paginator>
     </div>
-    <div fxFlex.gt-xs="30%">
-      <div fxLayout="column">
-        <facebook-widget></facebook-widget>
-        <article-editor-quick-actions *ifRole="'eArticles'"></article-editor-quick-actions>
-      </div>
+    <div fxFlex.gt-xs="30%" fxLayout="column" fxLayoutGap="30px">
+      <article-category-widget [(selected)]="category" ></article-category-widget>
+      <facebook-widget></facebook-widget>
+      <article-editor-quick-actions *ifRole="'eArticles'"></article-editor-quick-actions>
     </div>
   </div>
 </div>

@@ -60,6 +60,8 @@ import { SharedComponentsModule } from './modules/shared-components/shared-compo
 import { ContactComponent } from './components/contact/contact.component';
 import { UpcomingCompetitionsComponent } from './components/upcoming-competitions/upcoming-competitions.component';
 import { ArticleModule } from './modules/article/article.module';
+import { GuestMessageComponent } from './components/guest-message/guest-message.component';
+import { MatCardModule } from '@angular/material';
 
 
 
@@ -76,7 +78,8 @@ import { ArticleModule } from './modules/article/article.module';
     ConfirmDialogComponent,
     ErrorDialogComponent,
     ContactComponent,
-    UpcomingCompetitionsComponent
+    UpcomingCompetitionsComponent,
+    GuestMessageComponent
   ],
   imports: [
     BrowserModule,
@@ -94,6 +97,7 @@ import { ArticleModule } from './modules/article/article.module';
     MatDialogModule,
     AngularFontAwesomeModule,
     SharedComponentsModule,
+    MatCardModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
     RouterModule.forRoot(routes)
   ],

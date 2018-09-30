@@ -23,13 +23,15 @@ export class RoleDirective {
     this.user$ = this.auth.user.pipe(
       tap(() => this.viewContainer.clear()))
       .subscribe((u: UserModel) => {
-        if (u.id) {
-          if (this.checkCondition(u)) {
-            this.viewContainer.createEmbeddedView(this.templateRef)
-          } else {
-            this.viewContainer.clear();
-          }
-        } else if (this.role === "guest") {
+        let reverse: boolean = false;
+        let actualRole: string = this.role;
+        if (this.role.startsWith("!")) {
+          reverse = true;
+          actualRole = actualRole.substr(1);
+        }
+        let check: boolean = this.checkCondition(u, actualRole);
+        check = reverse ? !check : check;
+        if (check) {
           this.viewContainer.createEmbeddedView(this.templateRef);
         } else {
           this.viewContainer.clear();
@@ -42,34 +44,34 @@ export class RoleDirective {
     this.user$.unsubscribe();
   }
 
-  checkCondition(u: UserModel): boolean {
-    switch (this.role) {
+  checkCondition(u: UserModel, role: string): boolean {
+    switch (role) {
       case "guest":
-        return false;
+        return (u.id === undefined)
       case "user":
-        return true;
+        return (u.id !== undefined);
       case "aUsers":
-        return u.canAdminUsers();
+        return (u.id !== undefined) && u.canAdminUsers();
       case "aTeams":
-        return u.canAdminTeams();
+        return (u.id !== undefined) && u.canAdminTeams();
       case "lTeam":
-        return u.isLeaderOf(this.extraParam);
+        return (u.id !== undefined) && u.isLeaderOf(this.extraParam);
       case "mTeam":
-        return u.canManageTeam(this.extraParam);
+        return (u.id !== undefined) && u.canManageTeam(this.extraParam);
       case "mTeams":
-        return u.canManageTeams();
+        return (u.id !== undefined) && u.canManageTeams();
       case "aArticles":
-        return u.canAdminArticles();
+        return (u.id !== undefined) && u.canAdminArticles();
       case "eArticles":
-        return u.canEditArticles();
+        return (u.id !== undefined) && u.canEditArticles();
       case "aTutorials":
-        return u.canAdminTutorials();
+        return (u.id !== undefined) && u.canAdminTutorials();
       case "cTutorials":
-        return u.canCreateTutorials();
+        return (u.id !== undefined) && u.canCreateTutorials();
       case "pTutorials":
-        return u.canPublishTutorials();
+        return (u.id !== undefined) && u.canPublishTutorials();
       case "ePages":
-        return u.canEditPages();
+        return (u.id !== undefined) && u.canEditPages();
       default:
         return false;
     }

@@ -14,16 +14,19 @@ import { Observable } from 'rxjs';
   styleUrls: ['./article-list.component.css']
 })
 export class ArticleListComponent implements OnInit {
-  articlesPerPage: number = 5;
+  articlesPerPage: number = 7;
   articlesNumber: number = 0;
   page: number;
-
+  category: string = "";
 
   articles$: Observable<ArticleModel[]>;
 
   constructor(private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    if (this.route.snapshot.data.category) {
+      this.category = this.route.snapshot.data.category;
+    }
     this.articleSVC.countPublicArticles().subscribe((result: { "number": number }) => {
       this.articlesNumber = result.number;
       this.page = Number(this.route.snapshot.paramMap.get("page")) || 1;

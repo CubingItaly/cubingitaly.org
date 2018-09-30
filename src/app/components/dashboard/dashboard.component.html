@@ -1,7 +1,8 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.xs="column" fxLayoutGap="20px">
     <div fxFlex.gt-xs="70%">
-      <article-list-viewer  [category]="'news'"></article-list-viewer>
+      <guest-message *ifRole="'guest'"></guest-message>
+      <article-list-viewer [category]="'news'"></article-list-viewer>
     </div>
     <div fxFlex.gt-xs="30%">
       <upcoming-competitions></upcoming-competitions>
