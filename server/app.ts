@@ -36,16 +36,16 @@ export function getApp() {
 
 
   app.disable("x-powered-by");
-  app.use(json({ limit: '4mb' }));
+  app.use(json({ limit: '8mb' }));
   app.use(compression());
-  app.use(urlencoded({ limit: '4mb', extended: true }));
+  app.use(urlencoded({ limit: '8mb', extended: true }));
   app.use(expressSanitizer());
 
   let repo = getConnection().getRepository(Session);
   app.use(session(
     {
       secret: keys.session.secret,
-      resave: false,
+      resave: true,
       saveUninitialized: false,
       cookie: keys.session.cookie,
       store: new TypeormStore({ repository: repo })

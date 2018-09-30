@@ -57,6 +57,9 @@ import { ErrorDialogComponent } from './components/error-dialog/error-dialog.com
 import { MenuService } from './services/menu.service';
 import '../icons';
 import { SharedComponentsModule } from './modules/shared-components/shared-components.module';
+import { ContactComponent } from './components/contact/contact.component';
+import { UpcomingCompetitionsComponent } from './components/upcoming-competitions/upcoming-competitions.component';
+import { ArticleModule } from './modules/article/article.module';
 
 
 
@@ -71,7 +74,9 @@ import { SharedComponentsModule } from './modules/shared-components/shared-compo
     NotFoundComponent,
     PermissionDeniedComponent,
     ConfirmDialogComponent,
-    ErrorDialogComponent
+    ErrorDialogComponent,
+    ContactComponent,
+    UpcomingCompetitionsComponent
   ],
   imports: [
     BrowserModule,

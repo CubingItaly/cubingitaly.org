@@ -4,14 +4,21 @@ import { ShareComponent } from './share/share.component';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { ShareButtonsModule } from '@ngx-share/buttons';
 import { RoleDirective } from './directives/role.directive';
+import { FacebookComponent } from './facebook/facebook.component';
+import { ArticleListViewerComponent } from './article-list-viewer/article-list-viewer.component';
+import { MatCardModule, MatButtonModule } from '@angular/material';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    FlexLayoutModule,
-    ShareButtonsModule
-  ],
-  declarations: [ShareComponent, RoleDirective],
-  exports: [ShareComponent, RoleDirective]
+    imports: [
+        CommonModule,
+        FlexLayoutModule,
+        ShareButtonsModule,
+        MatCardModule,
+        RouterModule,
+        MatButtonModule
+    ],
+    declarations: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent],
+    exports: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent]
 })
 export class SharedComponentsModule { }

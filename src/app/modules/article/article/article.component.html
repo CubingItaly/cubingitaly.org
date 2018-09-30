@@ -15,9 +15,10 @@
 
     </div>
     <div fxFlex.gt-xs="25%">
-      
+
       <div fxLayout="column">
         <share-page-widget pageName="Articolo"></share-page-widget>
+        <facebook-widget></facebook-widget>
         <article-category-viewer [article]="article"></article-category-viewer>
         <article-editor-quick-actions [articleId]="article.id" *ifRole="'eArticles'"></article-editor-quick-actions>
       </div>

@@ -40,6 +40,6 @@ import { CategoryViewerComponent } from './category-viewer/category-viewer.compo
         RouterModule.forChild(routes)
     ],
     declarations: [ArticleListComponent, ArticleComponent, ArticleEditorComponent, ArticleAdminComponent, EditorQuickActionsComponent, CategoryViewerComponent],
-    providers: [ArticleService, ArticleGuardService, { provide: MatPaginatorIntl, useClass: ItalianMatPaginator }]
+    providers: [ArticleService, ArticleGuardService, { provide: MatPaginatorIntl, useClass: ItalianMatPaginator }],
 })
 export class ArticleModule { }

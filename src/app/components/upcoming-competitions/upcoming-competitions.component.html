@@ -1,0 +1,20 @@
+<div fxLayout="column">
+  <h2>Prossime competizioni</h2>
+  <ng-container *ngFor="let c of comp$ | async">
+    <article class="events-item row page-row" fxLayout fxLayoutGap="20px">
+      <div class="date-label-wrapper">
+        <p class="date-label" fxLayout="column">
+          <span class="month">{{c.start_date | date:"MMM" | uppercase}}</span>
+          <span class="date-number">{{c.start_date | date:"dd"}}</span>
+        </p>
+      </div>
+      <div class="details">
+        <h3 class="title">
+          <a class="comp-type-other" href="https://worldcubeassociation.org/competitions/{{c.id}}">{{c.name}}</a> </h3>
+        <p class="time text-muted" fxLayout="column">
+          <span>Hotel Midas, via Raffaello Sardiello, 22, 00165 {{c.city}}</span>
+        </p>
+      </div>
+    </article>
+  </ng-container>
+</div>

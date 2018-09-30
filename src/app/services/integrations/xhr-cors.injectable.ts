@@ -7,14 +7,15 @@ import { Observable } from "rxjs";
 export class CustomInterceptor implements HttpInterceptor {
 
     constructor() {
-      console.log('custom interceptor has been loaded.');
+        console.log('custom interceptor has been loaded.');
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
-        request = request.clone({
-            withCredentials: true
-        });
+        if (request.url.startsWith("/api/")) {
+            request = request.clone({
+                withCredentials: true
+            });
+        }
         return next.handle(request);
     }
 }
