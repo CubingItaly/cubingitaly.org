@@ -279,7 +279,7 @@ async function updateArticle(req, res, admin: boolean) {
  * Return the total number of public articles
  */
 router.get("/count/public", async (req: Request, res: Response) => {
-    res.status(200).json({ number: await getArticlerRepository().countPublicArticles() });
+    res.status(200).json({ number: await getArticlerRepository().countPublicArticles(req.query.category) });
 });
 
 /**

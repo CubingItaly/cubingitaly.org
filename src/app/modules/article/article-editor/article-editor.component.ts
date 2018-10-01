@@ -12,6 +12,7 @@ import { Observable } from 'rxjs';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { MatDialog, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import * as Editor from '../../../../assets/ckeditor/ckeditor';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
     selector: 'app-article-editor',
@@ -37,7 +38,7 @@ export class ArticleEditorComponent implements OnInit {
     editor = Editor;
 
 
-    constructor(private dialog: MatDialog, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute) { }
+    constructor(private dialog: MatDialog, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
 
     ngOnInit() {
         this.articleSVC.getCategories().subscribe(result => { this.categories = result; this.filteredCategories = this.categories });
@@ -49,6 +50,7 @@ export class ArticleEditorComponent implements OnInit {
             this.article = new ArticleModel();
             this.article.content = "";
             this.articleLoaded = true;
+            this.titleSVC.setTitle("Nuovo articolo");
         } else {
             this.articleId = this.route.snapshot.paramMap.get("id");
             this.articleSVC.getArticle(this.articleId).subscribe(article => {
@@ -59,15 +61,14 @@ export class ArticleEditorComponent implements OnInit {
                 if (this.article.categories.length > 0) {
                     this.filteredCategories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
                 }
-            })
+            });
+            this.titleSVC.setTitle("Modifica articolo");
         }
-
     }
 
     createArticle() {
         if (this.article.title) {
             this.articleSVC.createArticle(this.article).subscribe((result: ArticleModel) => {
-                window.scrollTo(0, 0);
                 let redirecUrl = "/articles/" + result.id + "/edit";
                 this.router.navigate([redirecUrl]);
             });

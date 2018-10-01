@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitleManagerService } from '../../services/title-manager.service';
 
 @Component({
   selector: 'app-not-found',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NotFoundComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
+    this.titleSVC.setTitle("Pagina non trovata");
   }
 
 }

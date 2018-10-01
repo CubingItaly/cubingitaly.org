@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ArticleModel } from '../../../../server/models/classes/article.model';
 import { ArticleService } from '../../modules/article/services/article.service';
+import { TitleManagerService } from '../../services/title-manager.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -10,12 +11,10 @@ import { ArticleService } from '../../modules/article/services/article.service';
 })
 export class DashboardComponent implements OnInit {
 
-  articles$: Observable<ArticleModel[]>;
-
-  constructor(private articleSVC: ArticleService) { }
+  constructor(private articleSVC: ArticleService, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
-    this.articles$ = this.articleSVC.getPublicArticles(5, 0, "news");
+    this.titleSVC.setTitle("Cubing Italy");
   }
 
 }

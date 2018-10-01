@@ -1,13 +1,11 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px" *ngIf="page">
-    <div fxFlex.gt-xs="70%" fxLayout="column" fxLayoutGap="20px">
-      <article-list-viewer [take]="articlesPerPage" [page]="page-1" [category]="category"></article-list-viewer>
-      <mat-paginator *ngIf="pagesNumber>1" [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlesPerPage" [pageSizeOptions]="[articlesPerPage]"
-        (page)="pageChange($event)">
-      </mat-paginator>
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxFlex.gt-xs="70%">
+      <article-list-viewer *ngIf="category" [take]="articlesPerPage" [page]="page-1" [category]="category"></article-list-viewer>
+      <mat-paginator *ngIf="articlesNumber>articlesPerPage" [pageIndex]="page-1" [hidePageSize]="true" [pageSize]="articlesPerPage" [length]="articlesNumber" [pageSizeOptions]="[articlesPerPage]" (page)="pageChange($event)"></mat-paginator>
     </div>
-    <div fxFlex.gt-xs="30%" fxLayout="column" fxLayoutGap="30px">
-      <article-category-widget [(selected)]="category" ></article-category-widget>
+    <div fxFlex.gt-xs="30%">
+      <article-category-widget *ngIf="category" [(selected)]="category" (change)="categoryChange($event)"></article-category-widget>
       <facebook-widget></facebook-widget>
       <article-editor-quick-actions *ifRole="'eArticles'"></article-editor-quick-actions>
     </div>

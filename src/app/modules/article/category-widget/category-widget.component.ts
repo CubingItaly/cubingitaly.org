@@ -13,6 +13,7 @@ export class CategoryWidgetComponent implements OnInit {
   categories: ArticleCategoryModel[];
   @Input() selected: string = "";
   @Output() selectedChange = new EventEmitter();
+  @Output() change = new EventEmitter();
   backup: string;
   constructor(private articleSVC: ArticleService) { }
 
@@ -28,6 +29,7 @@ export class CategoryWidgetComponent implements OnInit {
 
   radioChange(event: MatRadioChange) {
     this.selectedChange.emit(event.value);
+    this.change.emit(event.value);
   }
 
 }

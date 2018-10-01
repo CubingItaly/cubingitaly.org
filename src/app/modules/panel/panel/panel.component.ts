@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-panel',
@@ -7,9 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PanelComponent implements OnInit {
 
-  constructor() { }
+  constructor(private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
+    this.titleSVC.setTitle("Pannello utente");
   }
 
 }

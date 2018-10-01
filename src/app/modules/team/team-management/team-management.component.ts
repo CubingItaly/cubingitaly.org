@@ -11,6 +11,7 @@ import { debounceTime } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-team-management',
@@ -20,7 +21,7 @@ import { Observable } from 'rxjs';
 export class TeamManagementComponent implements OnInit {
 
   teamId: string;
-  team: TeamModel;
+  team$: Observable<TeamModel>;
 
 
   /**
@@ -40,16 +41,17 @@ export class TeamManagementComponent implements OnInit {
 
 
 
-  constructor(private dialog: MatDialog, private userSVC: UserService, private teamSVC: TeamService, private route: ActivatedRoute) { }
+  constructor(private dialog: MatDialog, private userSVC: UserService, private teamSVC: TeamService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('id');
-    this.teamSVC.getTeamById(this.teamId).subscribe((team: TeamModel) => this.team = team);
+    this.team$ = this.teamSVC.getTeamById(this.teamId);
     this.getTeamMembers();
     this.formControl.valueChanges.pipe(debounceTime(400))
       .subscribe(name => {
         this.userSVC.searchUsers(name).subscribe((u: UserModel[]) => this.foundUsers = u.filter((user: UserModel) => this.users.findIndex((m: UserModel) => m.id == user.id) == -1));
       });
+    this.titleSVC.setTitle("Gestione team");
   }
 
 

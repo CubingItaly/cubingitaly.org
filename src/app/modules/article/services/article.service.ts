@@ -17,6 +17,9 @@ export class ArticleService {
   constructor(private http: HttpClient) { }
 
   public getPublicArticles(limit: number, page: number, category: string): Observable<ArticleModel[]> {
+    if (category === 'all') {
+      category = "";
+    }
     return this.http.get<ArticleModel[]>(this.apiBase + "?limit=" + limit + "&page=" + page + (category ? "&category=" + category : "")).pipe(map(res => Deserialize(res, ArticleModel)));
   }
 
@@ -24,8 +27,11 @@ export class ArticleService {
     return this.http.get<ArticleModel>(this.apiBase + "/" + id).pipe(map(res => Deserialize(res, ArticleModel)));
   }
 
-  public countPublicArticles(): Observable<any> {
-    return this.http.get<any>(this.apiBase + "/count/public");
+  public countPublicArticles(category: string): Observable<number> {
+    if (category === 'all') {
+      category = "";
+    }
+    return this.http.get<any>(this.apiBase + "/count/public?category=" + category).pipe(map(res => res.number));
   }
 
   public getAllArticles(limit: number, page: number): Observable<ArticleModel[]> {

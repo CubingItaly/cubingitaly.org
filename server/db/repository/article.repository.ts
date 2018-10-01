@@ -32,7 +32,13 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @returns {Promise<number>}
      * @memberof ArticleRepository
      */
-    public async countPublicArticles(): Promise<number> {
+    public async countPublicArticles(category: string): Promise<number> {
+        if (category) {
+            return this.repository.createQueryBuilder("article")
+                .innerJoin("article.categories","category")
+                .where("category.id = :category and article.isPublic = :isPublic", {category:category, isPublic:true})
+                .getCount();
+        }
         return this.repository.count({ where: { isPublic: true } });
     }
 

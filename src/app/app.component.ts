@@ -4,6 +4,7 @@ import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
 import { Subscription } from 'rxjs';
 import { UserModel } from '../../server/models/classes/user.model';
+import { TitleManagerService } from './services/title-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -39,7 +40,7 @@ export class AppComponent implements OnInit {
   subs$: Subscription;
 
 
-  constructor(public authSVC: AuthService, private router: Router) { }
+  constructor(public authSVC: AuthService, private router: Router, private titleSVC: TitleManagerService) { }
   ngOnInit() {
     this.subs$ = this.authSVC.user.subscribe((u: UserModel) => { this.user = u; });
     this.router.events.subscribe((event) => {
@@ -58,7 +59,6 @@ export class AppComponent implements OnInit {
 
 
   urlClicked(url) {
-    window.scrollTo(0, 0);
     this.sidenav.close();
   }
 

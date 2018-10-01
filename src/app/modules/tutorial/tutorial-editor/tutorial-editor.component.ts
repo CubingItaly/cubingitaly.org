@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs';
 import { BadRequestError } from '../../../services/errors/bad.request.error';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-tutorial-editor',
@@ -27,7 +28,8 @@ export class TutorialEditorComponent implements OnInit {
   editingPage: boolean = false;
   currentEditingPageId: number;
 
-  constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
+
 
   ngOnInit() {
     let intent: string = this.route.snapshot.data.intent;
@@ -35,9 +37,11 @@ export class TutorialEditorComponent implements OnInit {
       this.isNew = true;
       this.isPublic = false;
       this.tutorial = new TutorialModel();
+      this.titleSVC.setTitle("Nuovo tutorial");
     } else {
       this.tutorialId = this.route.snapshot.paramMap.get("id");
       this.getTutorial();
+      this.titleSVC.setTitle("Modifica tutorial");
     }
   }
 

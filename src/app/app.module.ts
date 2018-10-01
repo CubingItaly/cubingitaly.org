@@ -54,14 +54,13 @@ import { PermissionDeniedComponent } from './components/permission-denied/permis
 import { CubingItalyErrorHandler } from './services/error.handler';
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component';
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
-import { MenuService } from './services/menu.service';
 import '../icons';
 import { SharedComponentsModule } from './modules/shared-components/shared-components.module';
 import { ContactComponent } from './components/contact/contact.component';
 import { UpcomingCompetitionsComponent } from './components/upcoming-competitions/upcoming-competitions.component';
-import { ArticleModule } from './modules/article/article.module';
 import { GuestMessageComponent } from './components/guest-message/guest-message.component';
 import { MatCardModule } from '@angular/material';
+import { TitleManagerService } from './services/title-manager.service';
 
 
 
@@ -99,7 +98,7 @@ import { MatCardModule } from '@angular/material';
     SharedComponentsModule,
     MatCardModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes,{onSameUrlNavigation:'reload',scrollPositionRestoration:'enabled'})
   ],
   providers: [
     // Cors integration
@@ -113,7 +112,9 @@ import { MatCardModule } from '@angular/material';
     CookieService,
     AuthService,
     UserService,
-    MenuService,
+    CubingItalyErrorHandler,
+    UserService,
+    TitleManagerService,
     { provide: ErrorHandler, useClass: CubingItalyErrorHandler }
   ],
   bootstrap: [

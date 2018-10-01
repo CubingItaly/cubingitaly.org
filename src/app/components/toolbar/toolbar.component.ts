@@ -40,7 +40,6 @@ export class ToolbarComponent implements OnInit, OnDestroy {
   }
 
   urlClicked() {
-    window.scrollTo(0, 0);
   }
 
 }

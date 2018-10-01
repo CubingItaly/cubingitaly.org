@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { TutorialModel } from '../../../../../server/models/classes/tutorial.model';
 import { TutorialService } from '../services/tutorial.service';
 import { PageEvent } from '@angular/material';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-tutorial',
@@ -17,7 +18,7 @@ export class TutorialComponent implements OnInit {
   currentPageId: number;
 
 
-  constructor(private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.tutorialId = this.route.snapshot.paramMap.get("id");
@@ -27,9 +28,10 @@ export class TutorialComponent implements OnInit {
       if (this.pageIndex < 1 || this.pageIndex > this.tutorial.pages.length) {
         this.pageIndex = 1;
       }
-      this.router.navigate(['../'+this.pageIndex], { relativeTo: this.route });
+      this.router.navigate(['../' + this.pageIndex], { relativeTo: this.route });
       this.pageIndex--;
       this.currentPageId = this.tutorial.pages[this.pageIndex].id;
+      this.titleSVC.setTitle(this.tutorial.title);
     });
   }
 
@@ -38,7 +40,6 @@ export class TutorialComponent implements OnInit {
     this.currentPageId = this.tutorial.pages[this.pageIndex].id;
     let redirectUrl = "../" + (this.pageIndex + 1);
     this.router.navigate([redirectUrl], { relativeTo: this.route });
-    window.scrollTo(0,0);
   }
 
 }

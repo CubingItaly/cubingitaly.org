@@ -1,6 +1,6 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
-    <h1>Gestione Membri</h1>
+  <div fxFlex.gt-xs="80%" fxFlex.xs="95%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;" *ngIf="team$ | async as team">
+    <h1>Gestione {{ team.name}}</h1>
     <!-- Members table-->
     <mat-table [dataSource]="users" class="mat-elevation-z4" fxHide.xs>
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { TutorialService } from '../services/tutorial.service';
 import { TutorialModel } from '../../../../../server/models/classes/tutorial.model';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-tutorial-list',
@@ -13,7 +14,7 @@ export class TutorialListComponent implements OnInit {
   tutorials: TutorialModel[];
   pageId: number = 2;
 
-  constructor(private tutorialSVC: TutorialService) { }
+  constructor(private tutorialSVC: TutorialService, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.tutorialSVC.getTutorials().subscribe((res: TutorialModel[]) => this.tutorials = res.sort((a, b) => {
@@ -24,6 +25,7 @@ export class TutorialListComponent implements OnInit {
       return 0;
     })
     );
+    this.titleSVC.setTitle("Tutorial");
   }
 
 }

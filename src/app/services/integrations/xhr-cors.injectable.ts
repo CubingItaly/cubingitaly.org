@@ -7,7 +7,6 @@ import { Observable } from "rxjs";
 export class CustomInterceptor implements HttpInterceptor {
 
     constructor() {
-        console.log('custom interceptor has been loaded.');
     }
 
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {

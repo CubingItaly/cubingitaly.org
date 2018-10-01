@@ -4,6 +4,7 @@ import { PageEvent } from '@angular/material';
 import { ArticleService } from '../services/article.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-article-admin',
@@ -20,7 +21,7 @@ export class ArticleAdminComponent implements OnInit {
 
   displayedColumns: string[] = ["title", "editor", "update", "status", "options"];
 
-  constructor(private articleSVC: ArticleService, private router: Router, private route: ActivatedRoute) { }
+  constructor(private articleSVC: ArticleService, private router: Router, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.articleSVC.countAllArticles().subscribe((result: { number: number }) => {
@@ -32,6 +33,7 @@ export class ArticleAdminComponent implements OnInit {
       }
       this.getArticles();
     });
+    this.titleSVC.setTitle("Gestione articoli");
   }
 
 
@@ -43,7 +45,6 @@ export class ArticleAdminComponent implements OnInit {
     this.page = event.pageIndex + 1;
     this.getArticles();
     this.router.navigate(['../' + this.page], { relativeTo: this.route });
-    window.scrollTo(0,0);
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TeamService } from '../services/team.service';
 import { TeamModel } from '../../../../../server/models/classes/team.model';
 import { UserModel } from '../../../../../server/models/classes/user.model';
+import { TitleManagerService } from '../../../services/title-manager.service';
 
 @Component({
   selector: 'app-about-us',
@@ -15,7 +16,7 @@ export class AboutUsComponent implements OnInit {
   teams: TeamModel[];
   mapTeamMembers: Map<string, UserModel[]> = new Map<string, UserModel[]>();
 
-  constructor(private teamSVC: TeamService) { }
+  constructor(private teamSVC: TeamService, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.teamSVC.getTeamsList().subscribe((teams: TeamModel[]) => {
@@ -24,10 +25,10 @@ export class AboutUsComponent implements OnInit {
       this.teams.forEach(team => {
         this.teamSVC.getTeamMembers(team.id).subscribe(members => {
           this.mapTeamMembers[team.id] = members;
-        })
-      })
-    })
-
+        });
+      });
+    });
+    this.titleSVC.setTitle("Chi siamo");
   }
 
   public getUsers(id: string): string {
