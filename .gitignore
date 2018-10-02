@@ -42,3 +42,4 @@ ormconfig.json
 #Server tests results
 .nyc_output/
 server/db/tests/dump.sql
+src/assets/images/banner/

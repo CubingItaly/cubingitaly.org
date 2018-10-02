@@ -78,6 +78,7 @@
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
     "ng-animate": "^0.3.3",
+    "ng-simple-slideshow": "^1.2.5",
     "ng2-cookies": "^1.0.12",
     "ngrx-store-freeze": "^0.2.4",
     "normalize.css": "^8.0.0",

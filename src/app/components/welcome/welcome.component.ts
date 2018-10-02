@@ -7,11 +7,17 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  banner: string = "../../../assets/images/banner.jpg";
-  banner_array: string[] = ["../../../assets/images/banner.jpg"];
+  bannerArray: string[] = [
+    "../../../assets/images/banner/_MG_1110.jpg",
+    "../../../assets/images/banner/_MG_3432.jpg",
+    "../../../assets/images/banner/_MG_3444.jpg",
+    "../../../assets/images/banner/_MG_3480.jpg",
+    "../../../assets/images/banner/_MG_1082.jpg",
+  ];
   constructor() { }
 
   ngOnInit() {
+    //this.changeImage(0);
   }
 
 }

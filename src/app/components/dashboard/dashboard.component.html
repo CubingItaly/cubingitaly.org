@@ -1,10 +1,9 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.xs="column" fxLayoutGap="20px">
-    <div fxFlex.gt-xs="70%">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-md="70%">
       <welcome-widget></welcome-widget>
     </div>
-    <div fxFlex.gt-xs="30%">
-      <!--<h2 fxShow.xs><span fxFlex="grow">News</span><i class="fa fa-bullhorn"></i></h2>-->
+    <div fxFlex.gt-md="30%">
       <article-list-viewer [take]="1" [category]="'news'"></article-list-viewer>
       <upcoming-competitions></upcoming-competitions>
     </div>

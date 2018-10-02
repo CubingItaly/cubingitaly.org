@@ -1,7 +1,7 @@
 <div class="welcome" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="column" class="mat-elevation-z1">
     <div class="banner-container">
-      <img class="banner" [src]="banner" />
+      <slideshow [imageUrls]="bannerArray" [autoPlay]="true" [height]="'370px'"></slideshow>
     </div>
     <a routerLink="/about" aria-label="Scopri Cubing Italy">
       <div class="quick-links">

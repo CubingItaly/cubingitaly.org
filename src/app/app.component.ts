@@ -29,6 +29,9 @@ export class AppComponent implements OnInit {
       id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book", login: false
     },
     {
+      id: "contact", text: "contatti", url: "/contact", isSelected: false, icon: "envelope", login: false
+    },
+    {
       id: "panel", text: "pannello", url: "/panel", isSelected: false, icon: "lock", login: true
     }
   ];

@@ -62,7 +62,7 @@ import { GuestMessageComponent } from './components/guest-message/guest-message.
 import { MatCardModule } from '@angular/material';
 import { TitleManagerService } from './services/title-manager.service';
 import { WelcomeComponent } from './components/welcome/welcome.component';
-
+import { SlideshowModule } from 'ng-simple-slideshow';
 
 
 
@@ -99,8 +99,9 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
     AngularFontAwesomeModule,
     SharedComponentsModule,
     MatCardModule,
+    SlideshowModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
-    RouterModule.forRoot(routes,{onSameUrlNavigation:'reload',scrollPositionRestoration:'enabled'})
+    RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled' })
   ],
   providers: [
     // Cors integration
