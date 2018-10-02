@@ -61,6 +61,7 @@ import { UpcomingCompetitionsComponent } from './components/upcoming-competition
 import { GuestMessageComponent } from './components/guest-message/guest-message.component';
 import { MatCardModule } from '@angular/material';
 import { TitleManagerService } from './services/title-manager.service';
+import { WelcomeComponent } from './components/welcome/welcome.component';
 
 
 
@@ -78,7 +79,8 @@ import { TitleManagerService } from './services/title-manager.service';
     ErrorDialogComponent,
     ContactComponent,
     UpcomingCompetitionsComponent,
-    GuestMessageComponent
+    GuestMessageComponent,
+    WelcomeComponent
   ],
   imports: [
     BrowserModule,

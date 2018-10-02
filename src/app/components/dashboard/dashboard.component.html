@@ -1,10 +1,10 @@
 <div fxLayout fxLayoutAlign="center">
   <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.xs="column" fxLayoutGap="20px">
     <div fxFlex.gt-xs="70%">
-      <guest-message *ifRole="'guest'"></guest-message>
-      <article-list-viewer [take]="5" [category]="'news'"></article-list-viewer>
+      <welcome-widget></welcome-widget>
     </div>
     <div fxFlex.gt-xs="30%">
+      <article-list-viewer [take]="1" [category]="'news'"></article-list-viewer>
       <upcoming-competitions></upcoming-competitions>
     </div>
   </div>

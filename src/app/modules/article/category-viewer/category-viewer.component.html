@@ -1,4 +1,4 @@
 <div fxLayout="column" *ngIf="article.categories.length > 0">
   <h2>Categorie</h2>
-  <span *ngFor="let category of article.categories">#{{category.name}}</span>
+  <a *ngFor="let category of article.categories" routerLink="/articles/categories/{{category.id}}/1">#{{category.name}}</a>
 </div>
