@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
+  banner: string = "../../../assets/images/banner.jpg";
+  banner_array: string[] = ["../../../assets/images/banner.jpg"];
   constructor() { }
 
   ngOnInit() {

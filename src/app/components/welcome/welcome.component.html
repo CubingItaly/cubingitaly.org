@@ -1,6 +1,8 @@
 <div class="welcome" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="column" class="mat-elevation-z1">
-    <img class="banner" src="../../../assets/images/banner.jpg" />
+    <div class="banner-container">
+      <img class="banner" [src]="banner" />
+    </div>
     <a routerLink="/about" aria-label="Scopri Cubing Italy">
       <div class="quick-links">
         <span>Benvenuto! Clicca qui per scoprire di più su Cubing Italy!</span>
@@ -8,18 +10,21 @@
     </a>
   </div>
   <div fxLayout="row" fxLayout.xs="column" fxLayoutGap="10px">
-    <a href="https://www.facebook.com/cubingitaly/" target="_blank" class="quick-links fb mat-elevation-z1" fxFlex="33%" fxLayout="column" fxLayoutAlign="center center">
+    <a href="https://www.facebook.com/cubingitaly/" target="_blank" class="quick-links fb mat-elevation-z1" fxFlex="33%"
+      fxLayout="column" fxLayoutAlign="center center">
       <img class="fb-color" src="../../../assets/images/fb-color.svg">
       <img class="fb-white" src="../../../assets/images/fb-white.svg">
       <span>Seguici</span>
     </a>
-    <a href="http://www.mastercubo.com/" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column" fxLayoutAlign="center center">
+    <a href="http://www.mastercubo.com/" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column"
+      fxLayoutAlign="center center">
       <img src="../../../assets/images/mastercubo.png">
       <span>Impara a risolvere</span>
     </a>
-    <a href="https://www.worldcubeassociation.org/competitions?utf8=%E2%9C%93&region=Italy&search=&state=present&year=all+years&from_date=&to_date=&delegate=&display=list" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column" fxLayoutAlign="center center">
+    <a href="https://www.worldcubeassociation.org/competitions?utf8=%E2%9C%93&region=Italy&search=&state=present&year=all+years&from_date=&to_date=&delegate=&display=list"
+      target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column" fxLayoutAlign="center center">
       <img src="../../../assets/images/wca.svg">
-      <span>Competi</span>
+      <span>Partecipa</span>
     </a>
   </div>
 </div>
