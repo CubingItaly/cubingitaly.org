@@ -41,7 +41,7 @@
 
     <mat-toolbar-row fxHide.xs class="menu-bar" style="background-color: #073C65">
         <ng-container *ngFor="let url of menuUrls">
-            <a routerLink="{{url.url}}" (click)="urlClicked()" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || user?.id"><i
+            <a routerLink="{{url.url}}" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || user?.id"><i
                     class="fa fa-{{url.icon}} menu-icon"></i>{{url.text | uppercase}}</a>
         </ng-container>
 

@@ -88,6 +88,7 @@
     "reflect-metadata": "^0.1.12",
     "rxjs": "^6.2.2",
     "sanitize-html": "^1.19.0",
+    "sendmail": "^1.4.1",
     "ts-helpers": "^1.1.2",
     "ts-node": "~7.0.0",
     "tslint": "^5.11.0",

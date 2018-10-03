@@ -16,6 +16,7 @@ import { router as userRoutes } from './api/v0/user.api';
 import { router as categoryRoutes } from './api/v0/category.api';
 import { router as pageRoutes } from './api/v0/page.api';
 import { router as tutorialRoutes } from './api/v0/tutorial.api';
+import { router as contactRoutes } from './api/v0/contact.api';
 
 // Retrieve production and development url for further configuration.
 import { production_url, development_url } from "./config";
@@ -63,6 +64,7 @@ export function getApp() {
   app.use("/api/v0/categories", categoryRoutes);
   app.use("/api/v0/pages", pageRoutes);
   app.use("/api/v0/tutorial", tutorialRoutes);
+  app.use("/api/v0/contact",contactRoutes);
 
 
 

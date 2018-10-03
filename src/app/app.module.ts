@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule, ErrorHandler } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
@@ -56,10 +56,10 @@ import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dial
 import { ErrorDialogComponent } from './components/error-dialog/error-dialog.component';
 import '../icons';
 import { SharedComponentsModule } from './modules/shared-components/shared-components.module';
-import { ContactComponent } from './components/contact/contact.component';
+import { ContactComponent, EmailSentDialogComponent } from './components/contact/contact.component';
 import { UpcomingCompetitionsComponent } from './components/upcoming-competitions/upcoming-competitions.component';
 import { GuestMessageComponent } from './components/guest-message/guest-message.component';
-import { MatCardModule } from '@angular/material';
+import { MatCardModule, MatInputModule } from '@angular/material';
 import { TitleManagerService } from './services/title-manager.service';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SlideshowModule } from 'ng-simple-slideshow';
@@ -80,7 +80,8 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     ContactComponent,
     UpcomingCompetitionsComponent,
     GuestMessageComponent,
-    WelcomeComponent
+    WelcomeComponent,
+    EmailSentDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -98,6 +99,9 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     MatDialogModule,
     AngularFontAwesomeModule,
     SharedComponentsModule,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatCardModule,
     SlideshowModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
@@ -123,6 +127,6 @@ import { SlideshowModule } from 'ng-simple-slideshow';
   bootstrap: [
     AppComponent
   ],
-  entryComponents: [ConfirmDialogComponent, ErrorDialogComponent]
+  entryComponents: [ConfirmDialogComponent, ErrorDialogComponent, EmailSentDialogComponent]
 })
 export class AppModule { }

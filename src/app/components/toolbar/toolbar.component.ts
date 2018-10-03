@@ -38,8 +38,4 @@ export class ToolbarComponent implements OnInit, OnDestroy {
     this.ngModel = !this.ngModel;
     this.ngModelChange.emit(this.ngModel);
   }
-
-  urlClicked() {
-  }
-
 }

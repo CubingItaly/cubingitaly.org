@@ -8,6 +8,7 @@ import { FacebookComponent } from './facebook/facebook.component';
 import { ArticleListViewerComponent } from './article-list-viewer/article-list-viewer.component';
 import { MatCardModule, MatButtonModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
+import { TwitterComponent } from './twitter/twitter.component';
 
 @NgModule({
     imports: [
@@ -18,7 +19,7 @@ import { RouterModule } from '@angular/router';
         RouterModule,
         MatButtonModule
     ],
-    declarations: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent],
-    exports: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent]
+    declarations: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent],
+    exports: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent]
 })
 export class SharedComponentsModule { }
