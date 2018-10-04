@@ -36,6 +36,14 @@ export class ContactComponent implements OnInit {
 
   ngOnInit() {
     this.titleSVC.setTitle("Contatti");
+
+    const script: string = 'https://www.instagram.com/embed.js';
+    const node = document.createElement('script');
+    node.src = script;
+    node.type = 'text/javascript';
+    node.async = true;
+    node.charset = 'utf-8';
+    document.getElementsByTagName('head')[0].appendChild(node);
   }
 
   submit() {

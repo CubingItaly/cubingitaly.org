@@ -9,6 +9,7 @@ import { ArticleListViewerComponent } from './article-list-viewer/article-list-v
 import { MatCardModule, MatButtonModule } from '@angular/material';
 import { RouterModule } from '@angular/router';
 import { TwitterComponent } from './twitter/twitter.component';
+import { YoutubeComponent } from './youtube/youtube.component';
 
 @NgModule({
     imports: [
@@ -19,7 +20,7 @@ import { TwitterComponent } from './twitter/twitter.component';
         RouterModule,
         MatButtonModule
     ],
-    declarations: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent],
-    exports: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent]
+    declarations: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent, YoutubeComponent],
+    exports: [ShareComponent, RoleDirective, FacebookComponent, ArticleListViewerComponent, TwitterComponent, YoutubeComponent]
 })
 export class SharedComponentsModule { }

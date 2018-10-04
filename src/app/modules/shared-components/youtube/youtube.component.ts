@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-  selector: 'twitter-widget',
-  templateUrl: './twitter.component.html',
-  styleUrls: ['./twitter.component.css']
+  selector: 'youtube-widget',
+  templateUrl: './youtube.component.html',
+  styleUrls: ['./youtube.component.css']
 })
-export class TwitterComponent implements OnInit {
+export class YoutubeComponent implements OnInit {
 
   constructor() { }
 
@@ -14,12 +14,13 @@ export class TwitterComponent implements OnInit {
   }
 
   loadScript() {
-    const script: string = 'https://platform.twitter.com/widgets.js';
+    const script: string = 'https://apis.google.com/js/platform.js';
     const node = document.createElement('script');
     node.src = script;
     node.type = 'text/javascript';
-    node.async = true;
+    node.async = false;
     node.charset = 'utf-8';
     document.getElementsByTagName('head')[0].appendChild(node);
   }
+
 }
