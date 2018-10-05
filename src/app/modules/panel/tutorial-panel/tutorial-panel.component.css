@@ -1,0 +1,12 @@
+.mat-list{
+    padding-top: 0;
+}
+.mat-list a{
+    text-decoration: none;
+    width: 100%;
+    color: #000;
+}
+
+.mat-list-item:hover{
+    background-color: #e4e4e4;
+}

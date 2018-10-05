@@ -3,13 +3,16 @@
 <mat-sidenav-container>
 
     <mat-sidenav #sidenav class="example-sidenav" mode="over" [(opened)]="isSidebarOpened" fxHide.gt-xs>
+        <button mat-button style="height: 0; position: absolute;"></button>
         <mat-list>
             <mat-list-item *ngFor="let url of menuUrls">
-                <button mat-button (click)="urlClicked(url.url)" fxFlex="grow">{{url.text | uppercase}}</button>
+                <a routerLink="{{url.url}}" (click)="urlClicked()" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || user?.id"><i
+                        class="fa fa-{{url.icon}} menu-icon"></i>{{url.text | uppercase}}</a>
             </mat-list-item>
         </mat-list>
     </mat-sidenav>
-    <router-outlet></router-outlet>
-    <app-footer></app-footer>
-
+    <div class="main-container">
+        <router-outlet></router-outlet>
+        <app-footer></app-footer>
+    </div>
 </mat-sidenav-container>

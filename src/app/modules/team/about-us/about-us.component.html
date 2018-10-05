@@ -1,0 +1,13 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+    <page-component [pageId]="pageId"></page-component>
+
+    <h3>Struttura di Cubing Italy</h3>
+    <div>
+      <div fxLayout="column" *ngFor="let team of teams">
+        <h4>{{team.name}}</h4>
+        <p>{{getUsers(team.id)}}</p>
+      </div>
+    </div>
+  </div>
+</div>

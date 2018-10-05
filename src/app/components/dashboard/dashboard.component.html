@@ -1,6 +1,11 @@
-<div fxLayout fxLayout.xs="column" fxLayoutAlign="center center" fxFillLayout>
-  <div fxFlex="30%">
-      <img width="100%" src="../../../assets/images/loghi_bombati/bombato2.png">
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-md="70%">
+      <welcome-widget></welcome-widget>
+    </div>
+    <div fxFlex.gt-md="30%">
+      <article-list-viewer [take]="1" [category]="'news'"></article-list-viewer>
+      <upcoming-competitions></upcoming-competitions>
+    </div>
   </div>
-      <!--<button mat-raised-button fxFlexAlign="auto" color="accent">Accent</button>-->
 </div>

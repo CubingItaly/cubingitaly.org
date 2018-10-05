@@ -1,0 +1,42 @@
+.article-container{
+    margin-top:30px;
+}
+.month{
+    padding: 5px 10px 5px 10px;
+    font-size: 14px;
+    background-color: #0B5EA6;
+    color:white;
+}
+
+.day{
+    background-color: #f4f4f4;
+    text-align: center;
+    font-size: 14px;
+    padding: 10px 15px 10px 15px;
+}
+
+.date{
+    margin-left:5px;
+}
+
+
+h2{
+    margin:0px;
+    color: #000;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+h2>a{
+    text-decoration: none;
+    color:#000;
+}
+
+p{
+    text-align: justify;
+    font-size:16px;
+}
+
+.article-title-xs{
+    font-size:21px;
+}

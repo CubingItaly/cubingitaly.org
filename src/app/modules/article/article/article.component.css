@@ -1,0 +1,13 @@
+.summary{
+    font-style: italic;
+    text-align: justify;
+}
+
+h1{
+    margin-bottom: 5px!important;
+}
+
+.author{
+    margin-top: 0px;
+    color:grey;
+}

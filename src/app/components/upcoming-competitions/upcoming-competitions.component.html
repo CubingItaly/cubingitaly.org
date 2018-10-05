@@ -1,0 +1,15 @@
+<div fxLayout="column" *ngIf="comp$ | async as comp">
+  <h2>Prossime competizioni</h2>
+  <ng-container *ngFor="let c of comp">
+    <div fxLayout fxLayoutGap="20px" class="comp">
+      <div fxLayout="column">
+        <span class="month">{{c.start_date | date:"MMM" | uppercase}}</span>
+        <span class="day">{{c.start_date | date:"dd"}}</span>
+      </div>
+      <div fxLayout="column">
+        <h3> <a href="https://worldcubeassociation.org/competitions/{{c.id}}">{{c.name}}</a></h3>
+        <p>{{c.city}}</p>
+      </div>
+    </div>
+  </ng-container>
+</div>

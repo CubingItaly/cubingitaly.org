@@ -1,0 +1,15 @@
+.buttons button{
+    margin:5px;
+}
+
+.mat-raised-button{
+    margin-right:5px;
+}
+a{
+    text-decoration: none;
+}
+
+.mat-chip i{
+    vertical-align: bottom;
+    text-align: center;
+}

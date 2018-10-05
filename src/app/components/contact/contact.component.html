@@ -1,0 +1,65 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.lt-md="90%" fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-md="70%">
+      <div fxLayout="column" fxLayoutGap="10px">
+        <h1>Contattaci</h1>
+        <p>Per contattarci puoi usare il seguente form o inviarci direttamente <a href="mailto:cubingitaly@gmail.com">una
+            mail</a>.</p>
+        <mat-form-field>
+          <input matInput placeholder="Nome e cognome" length="50" [formControl]="nameFormControl">
+          <mat-error *ngIf="nameFormControl.hasError('minlength') && !nameFormControl.hasError('required')">
+            Il nome è troppo corto
+          </mat-error>
+          <mat-error *ngIf="nameFormControl.hasError('required')">
+            È obbligatorio inserire il nome
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Email" length="50" [formControl]="emailFormControl">
+          <mat-error *ngIf="emailFormControl.hasError('email') && !emailFormControl.hasError('required')">
+            Inserisci un indirizzo email valido
+          </mat-error>
+          <mat-error *ngIf="emailFormControl.hasError('required')">
+            È obbligatorio inserire un indirizzo email
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input matInput placeholder="Oggetto della richiesta" length="50" [formControl]="subjectFormControl ">
+          <mat-error *ngIf="subjectFormControl.hasError('minlength') && !subjectFormControl.hasError('required')">
+            L'oggetto è troppo corto
+          </mat-error>
+          <mat-error *ngIf="subjectFormControl.hasError('required')">
+            È obbligatorio inserire l'oggetto
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field>
+          <textarea matInput placeholder="Messaggio" matTextareaAutosize matAutosizeMinRows=5 matAutosizeMaxRows=10
+            [formControl]="messageFormControl"></textarea>
+          <mat-error *ngIf="messageFormControl.hasError('minlength') && !messageFormControl.hasError('required')">
+            Il messaggio è troppo corto
+          </mat-error>
+          <mat-error *ngIf="messageFormControl.hasError('required')">
+            È obbligatorio inserire il messaggio
+          </mat-error>
+        </mat-form-field>
+
+        <div>
+          <button mat-raised-button color="primary" (click)="submit()">Invia</button>
+        </div>
+      </div>
+    </div>
+    <div fxFlex.gt-md="30%">
+      <div fxLayout="column" fxLayout.lt-md="row wrap" fxLayoutAlign.lt-md="center center" fxLayoutGap="20px" class="social">
+        <a href="https://www.facebook.com/cubingitaly/"> <i class="fa fa-facebook"></i> </a>
+        <a href="https://www.youtube.com/user/CubingItaly"> <i class="fa fa-youtube"></i> </a>
+        <a href="https://t.me/cubingitaly"> <i class="fa fa-telegram"></i></a>
+        <a href="https://www.instagram.com/cubingitaly/"> <i class="fa fa-instagram"></i> </a>
+        <a href="https://twitter.com/CubingItaly"> <i class="fa fa-twitter"></i> </a>
+      </div>
+    </div>
+  </div>
+</div>

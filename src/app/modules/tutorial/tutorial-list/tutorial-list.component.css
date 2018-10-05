@@ -1,0 +1,28 @@
+.mat-table a{
+    text-decoration: none;
+    color: #000;
+    font-weight: 100;
+    font-size: 16px;
+}
+
+.mat-column-title{
+    flex: 1 0 200px;
+}
+
+.mat-column-options{
+    flex: 0 0 30px;
+    text-align: center;
+}
+
+.mat-table{
+    width: 100%;
+}
+
+.mat-table a{
+    width: 100%;
+    height: 100%;
+}
+
+.mat-row:hover{
+    background-color: #e4e4e4;
+}

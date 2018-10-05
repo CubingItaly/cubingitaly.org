@@ -1,0 +1,6 @@
+<div fxLayout="column" *ngIf="tutorial && tutorial.pages.length >1">
+  <h2>{{tutorial.title}}</h2>
+  <a *ngFor="let p of pages" routerLink="/tutorial/{{tutorial.id}}/{{p.id}}" (click)="urlClick(p.id)">{{p.id}}.
+    {{p.title}}</a>
+
+</div>

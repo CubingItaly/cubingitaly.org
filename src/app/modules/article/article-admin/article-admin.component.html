@@ -1,0 +1,107 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <h1 fxFlex="grow">Gestione Articoli</h1>
+      <a routerLink="/articles/new" fxFlex="noshrink">
+        <i class="fa fa-plus-square"></i><span fxHide.xs> Nuovo articolo</span>
+      </a>
+    </div>
+
+    <!-- Articles table -->
+    <ng-container *ngIf="articles$ | async as articles">
+
+
+      <mat-table [dataSource]="articles" fxHide.xs>
+
+        <ng-container matColumnDef="title">
+          <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
+          <mat-cell *matCellDef="let article">
+            <a routerLink="/articles/{{article.id}}">{{article.title}}</a>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="editor">
+          <mat-header-cell *matHeaderCellDef>Modificato da</mat-header-cell>
+          <mat-cell *matCellDef="let article">{{article.lastEditor.name}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="update">
+          <mat-header-cell *matHeaderCellDef>Aggiornamento</mat-header-cell>
+          <mat-cell *matCellDef="let article">{{article.updateDate | date:"short"}}</mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="status">
+          <mat-header-cell *matHeaderCellDef>Stato</mat-header-cell>
+          <mat-cell *matCellDef="let article">
+            <span *ngIf="article.isPublic" class="public-article">Pubblicato</span>
+            <span *ngIf="!article.isPublic" class="hidden-article">Nascosto</span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="options">
+          <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
+          <mat-cell *matCellDef="let article">
+            <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+              <i class="fa fa-edit"></i>
+            </a>
+            <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+              <i class="fa fa-eye"></i>
+            </a>
+          </mat-cell>
+        </ng-container>
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row fxFlexAlign="center" *matRowDef="let row; columns: displayedColumns"></mat-row>
+      </mat-table>
+
+      <!-- End of the table -->
+
+      <!-- Start of articles expansion panel list-->
+      <div class="accordion-container">
+        <mat-accordion *ngFor="let article of articles" class="mat-elevation-z4" fxHide.gt-xs>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title>
+                {{article.title}}
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFLex="noshrink">Editor:</span>
+              <span fxFlex="grow"></span>
+              <span fxFlex="noshrink">{{article.lastEditor.name}}</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFLex="noshrink">Aggiornamento:</span>
+              <span fxFlex="grow"></span>
+              <span fxFlex="noshrink">{{article.updateDate | date:"short"}}</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              <span fxFlex="noshrink">Stato:</span>
+              <span fxFlex="grow"></span>
+              <span *ngIf="article.isPublic" class="public-article" fxFlex="noshrink">Pubblicato</span>
+              <span *ngIf="!article.isPublic" class="hidden-article" fxFlex="noshrink">Nascosto</span>
+            </div>
+            <div fxLayout fxLayoutAlign="start center">
+              Opzioni:
+              <span fxFlex="grow"></span>
+              <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+                <i class="fa fa-edit"></i>
+              </a>
+              <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+                <i class="fa fa-eye"></i>
+              </a>
+            </div>
+
+          </mat-expansion-panel>
+        </mat-accordion>
+      </div>
+      <!-- End of articles expansion panel list -->
+    </ng-container>
+    <!-- paginator -->
+    <mat-paginator [pageIndex]="page-1" [length]="articlesNumber" [pageSize]="articlesPerPage" [pageSizeOptions]="[articlesPerPage]"
+      (page)="pageChange($event)">
+    </mat-paginator>
+
+  </div>
+</div>

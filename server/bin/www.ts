@@ -5,27 +5,29 @@
  */
 
 import * as http from "http";
-import { app } from "../app";
+import * as appInitializer from "../app";
 import { serverPort } from "../config";
+import { Database } from '../db/database';
 
-/**
- * Get port from environment and store in Express.
- */
-const port = normalizePort(process.env.PORT || serverPort);
-app.set("port", port);
+const db: Database = new Database();
+let app;
+let server;
+let port;
 
-/**
- * Create HTTP server.
- */
-const server = http.createServer(app);
+db.createConnection()
+  .then(() => db.initDatabase())
+  .then(() => console.log('DB successfully initialized'))
+  .then(() => setApp());
 
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
+function setApp() {
+  app = appInitializer.getApp();
+  port = normalizePort(process.env.PORT || serverPort);
+  app.set("port", port);
+  server = http.createServer(app);
+  server.listen(port);
+  server.on("error", onError);
+  server.on("listening", onListening);
+}
 
 /**
  * Normalize a port into a number, string, or false.

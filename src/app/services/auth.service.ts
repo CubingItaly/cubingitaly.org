@@ -1,14 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Serialize, Deserialize } from 'cerialize';
-import { ReducerObservable } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { JSONP_ERR_NO_CALLBACK } from '@angular/common/http/src/jsonp';
-
-import { RESPONSE_STATUS } from '../../../server/models/enums/response.statuses';
-import { CIUser } from '../../../server/models/ci.user.model';
-import { CITeam } from '../../../server/models/ci.team.model';
-import { UserResponse } from '../../../server/models/responses/user.response.model';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { UserModel } from '../../../server/models/classes/user.model';
+import { Deserialize } from 'cerialize';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 /**
  * Service use to manage the authentication of the user
@@ -19,10 +14,8 @@ import { UserResponse } from '../../../server/models/responses/user.response.mod
 @Injectable()
 export class AuthService {
 
-    public isLoggedIn: boolean = false;
-    public authUser: CIUser;
-    public userTeams: CITeam[];
-
+    private apiBase: string = "/api/v0";
+    public user: Observable<UserModel>;
     /**
      * Creates an instance of AuthService.
      * Retrieves user info and if the user is logged in, initializes the public attributes
@@ -31,12 +24,7 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.http.get<UserResponse>("/auth/me").subscribe((res: UserResponse) => {
-            if (res.status == RESPONSE_STATUS.OK) {
-                this.authUser = Deserialize(res.user, CIUser);
-                this.isLoggedIn = true;
-            }
-        });
+        this.user = this.http.get<UserModel>(this.apiBase + "/users/me").pipe(map(u => Deserialize(u, UserModel)));
     }
 
     /**
@@ -45,8 +33,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public login(): void {
-        console.log("Attempting a login");
-        window.location.href = window.location.protocol + "//" + window.location.host + "/auth/wca";
+        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/wca";
     }
 
     /**
@@ -55,8 +42,7 @@ export class AuthService {
      * @memberof AuthService
      */
     public logout(): void {
-        console.log("Logging out");
-        window.location.href = window.location.protocol + "//" + window.location.host + "/auth/logout";
+        window.location.href = window.location.protocol + "//" + window.location.host + this.apiBase + "/auth/logout";
     }
 
 }

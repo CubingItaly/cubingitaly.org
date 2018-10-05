@@ -1,13 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs/Observable';
-
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/operator/map';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { MatButton } from '@angular/material/button';
+import { Subscription } from 'rxjs';
+import { UserModel } from '../../server/models/classes/user.model';
+import { TitleManagerService } from './services/title-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -17,38 +14,54 @@ import { MatButton } from '@angular/material/button';
 })
 export class AppComponent implements OnInit {
 
-  constructor(public authSVC: AuthService, private router: Router) { }
+  menuUrls: { id: string, text: string, url: string, isSelected: boolean, icon: string, login: boolean }[] = [
 
-  @ViewChild("sidenav") sidenav: MatSidenav;
+    {
+      id: "home", text: "home", url: "/", isSelected: false, icon: "home", login: false
+    },
+    {
+      id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle", login: false
+    },
+    {
+      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o", login: false
+    },
+    {
+      id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book", login: false
+    },
+    {
+      id: "contact", text: "contatti", url: "/contact", isSelected: false, icon: "envelope", login: false
+    },
+    {
+      id: "panel", text: "pannello", url: "/panel", isSelected: false, icon: "lock", login: true
+    }
+  ];
+
   isSidebarOpened: boolean = false;
+  @ViewChild("sidenav") sidenav: MatSidenav;
 
+  user: UserModel;
+  subs$: Subscription;
+
+
+  constructor(public authSVC: AuthService, private router: Router, private titleSVC: TitleManagerService) { }
   ngOnInit() {
+    this.subs$ = this.authSVC.user.subscribe((u: UserModel) => { this.user = u; });
+    this.router.events.subscribe((event) => {
+      if (event instanceof NavigationEnd) {
+        let slashIndex = event.url.indexOf("/", 1);
+        let length = event.url.length;
+        if (slashIndex > 0) {
+          length = slashIndex;
+        }
+        let section = event.url.substr(0, length);
+        this.menuUrls.forEach((url) => url.isSelected = url.url === section);
+      }
+    })
 
   }
 
-  menuUrls = [
-    {
-      id: "home",
-      text: "home",
-      url: "/",
-      isSelected: true
-    },
-    {
-      id: "teams",
-      text: "team",
-      url: "/teams",
-      isSelected: false
-    },
-    {
-      id: "articles",
-      text: "articoli",
-      url: "/articles",
-      isSelected: false
-    }
-  ]
 
   urlClicked(url) {
-    this.router.navigate([url]);
     this.sidenav.close();
   }
 

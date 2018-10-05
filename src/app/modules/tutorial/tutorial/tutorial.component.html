@@ -1,0 +1,17 @@
+<div fxLayout fxLayoutAlign="center" *ngIf="tutorial">
+  <div fxFlex.gt-xs="80%" fxFlex.lt-md="90%" fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-md="75%">
+      <page-component *ngIf="currentPageId" [pageId]="currentPageId"></page-component>
+      <mat-paginator *ngIf="tutorial.pages.length>1" [hidePageSize]="true" [length]="tutorial.pages.length" [pageSize]="1"
+        [pageSizeOptions]="['1']" (page)="pageChange($event)">
+      </mat-paginator>
+    </div>
+    <div fxFlex.gt-md="25%">
+      <div fxLayout="column">
+        <tutorial-summary-widget [tutorial]="tutorial" (page)="pageChange($event)"></tutorial-summary-widget>
+        <share-page-widget pageName="Tutorial"></share-page-widget>
+        <tutorial-editor-quick-actions [tutorialId]="tutorialId" *ifRole="'ePages'"></tutorial-editor-quick-actions>
+      </div>
+    </div>
+  </div>
+</div>

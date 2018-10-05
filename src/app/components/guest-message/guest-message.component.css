@@ -1,0 +1,45 @@
+.mat-card{
+    margin-top: 30px;
+    padding: 0px;
+}
+
+a{
+    text-decoration: none;
+}
+
+.mat-card-title{
+    background-color: #0B5EA6;
+    padding: 24px;
+    margin: 0px;
+    font-size:24px;
+}
+
+.mat-card-title-xs{
+    font-size:21px;
+}
+
+.mat-card-title:hover{
+    background-color: #002044;
+}
+
+.mat-card-title a{
+    color: #fff;
+}
+
+.mat-card-content{
+    padding: 24px;
+    font-size: 16px;
+    margin-bottom:0px;
+}
+
+.mat-card-actions{
+    margin: 0px!important;
+    padding: 24px!important;
+    margin-bottom: 16px;
+}
+
+
+
+i{
+    font-size:30px;
+}

@@ -1,0 +1,102 @@
+<div fxLayout fxLayoutAlign="center" *ngIf="tutorial">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
+    <div fxFlex.gt-xs="75%">
+      <h1 *ngIf="isNew">Nuovo Tutorial</h1>
+      <h1 *ngIf="!isNew">Modifica Tutorial <i class="fa fa-check" *ngIf="updated" style="color:green"></i>
+      </h1>
+      <div fxLayout="column" fxLayoutGap="20px">
+        <mat-form-field>
+          <input matInput length="120" placeholder="Titolo" [(ngModel)]="tutorial.title">
+        </mat-form-field>
+      </div>
+      <div *ngIf="!isNew">
+        <h3 *ngIf="tutorial.pages.length >0">Pagine</h3>
+
+        <mat-table [dataSource]="tutorial.pages" class="mat-elevation-z4">
+
+          <ng-container matColumnDef="title">
+            <mat-cell *matCellDef="let page">
+              {{page.title}}
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="edit">
+            <mat-cell *matCellDef="let page">
+              <button mat-icon-button (click)="editPage(page.id)">
+                <i class="fa fa-edit"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="delete">
+            <mat-cell *matCellDef="let page">
+              <button mat-icon-button (click)="removePage(page.id)">
+                <i class="fa fa-times-circle"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="up">
+            <mat-cell *matCellDef="let page">
+              <button mat-icon-button (click)="movePage(page.id,-1)" *ngIf="page.indexInTutorial > 0">
+                <i class="fa fa-arrow-circle-up"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <ng-container matColumnDef="down">
+            <mat-cell *matCellDef="let page">
+              <button mat-icon-button (click)="movePage(page.id,1)" *ngIf="page.indexInTutorial < (tutorial.pages.length-1)">
+                <i class="fa fa-arrow-circle-down"></i>
+              </button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-row fxFlexAlign="center" *matRowDef="let row; columns: displayedColumns"></mat-row>
+        </mat-table>
+
+
+        <mat-form-field class="page">
+          <input matInput length="120" placeholder="Nuova pagina" [(ngModel)]="newPageTitle">
+        </mat-form-field>
+        <button mat-button (click)="addPage()">
+          <i class="fa fa-plus-circle" style="margin-right:5px"> </i><span fxHide.xs>Aggiungi</span>
+        </button>
+
+      </div>
+
+      <page-component *ngIf="editingPage" (pageUpdated)="getTutorial()" [viewing]="false" [titleEditor]="true" [pageId]="currentEditingPageId"></page-component>
+
+      <h2>Azioni</h2>
+      <div>
+        <button mat-raised-button *ngIf="isNew" (click)="createTutorial()" style="background-color:rgb(52, 156, 57);">Crea</button>
+        <ng-container *ngIf="!isNew">
+          <button mat-raised-button (click)="updateTutorial()" color="accent">Aggiorna</button>
+          <button mat-raised-button *ifRole="'aTutorials'" color="warn" (click)="deleteTutorial()">Elimina</button>
+          <ng-container *ifRole="'pTutorials'">
+            <button mat-raised-button *ngIf="!isPublic" (click)="publishTutorial()" style="background-color:rgb(52, 156, 57);">Pubblica</button>
+            <button mat-raised-button *ngIf="isPublic" (click)="unpublishTutorial()" style="background-color:rgb(223, 169, 69);">Nascondi</button>
+          </ng-container>
+        </ng-container>
+      </div>
+
+    </div>
+    <div fxFlex.gt-xs="25%">
+      <div fxLayout="column">
+        <h2>Stato tutorial</h2>
+        <span *ngIf="isNew">Nuovo</span>
+        <ng-container *ngIf="!isNew">
+          <span *ngIf="isPublic">Tutorial pubblicato</span>
+          <span *ngIf="!isPublic">Tutorial nascosto</span>
+          <span>Creato da: {{ tutorial.author.name}}</span>
+          <span>Creazione tutorial: {{ tutorial.createDate | date:"short" }}</span>
+          <span>Modificato da: {{tutorial.lastEditor.name }} </span>
+          <span>Ultima modifica: {{ tutorial.updateDate | date:"short" }}</span>
+        </ng-container>
+      </div>
+      <div fxLayout="column">
+        <tutorial-editor-quick-actions [tutorialId]="tutorialId" [editing]="true"></tutorial-editor-quick-actions>
+      </div>
+    </div>
+  </div>
+</div>

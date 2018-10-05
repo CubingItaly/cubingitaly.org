@@ -1,0 +1,24 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.lt-md="column" fxLayoutGap="20px" *ngIf="article">
+    <div fxFlex.gt-md="75%">
+      <div fxLayout="column">
+        <h1>{{article.title | titlecase}}</h1>
+        <p class="author">
+          <ng-container *ngIf="article.isPublic">{{article.author.name}}, {{article.publishDate | date:"short"}}</ng-container>
+          <ng-container *ngIf="!article.isPublic">{{article.lastEditor.name}}</ng-container> - ultimo
+          aggiornamento il {{article.updateDate | date:'shortDate' }}
+        </p>
+        <p class="summary">{{article.summary}}</p>
+        <html-viewer [content]="article.content"></html-viewer>
+      </div>
+    </div>
+    <div fxFlex.gt-md="25%">
+      <div fxLayout=column fxLayoutGap="30px">
+        <share-page-widget pageName="Articolo"></share-page-widget>
+        <facebook-widget></facebook-widget>
+        <article-category-viewer [article]="article"></article-category-viewer>
+        <article-editor-quick-actions [articleId]="article.id" *ifRole="'eArticles'"></article-editor-quick-actions>
+      </div>
+    </div>
+  </div>
+</div>

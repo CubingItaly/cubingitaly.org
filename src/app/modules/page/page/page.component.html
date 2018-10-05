@@ -1,0 +1,34 @@
+<div fxLayout="column" *ngIf="page">
+    <div fxLayout="row" fxLayoutAlign="start center" *ngIf="viewing || !titleEditor">
+        <h1 class="page-title" fxFlex="grow">
+            {{page.title |titlecase}}
+            <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
+        </h1>
+        <ng-container *ifRole="'ePages'">
+            <button mat-icon-button (click)="edit()" *ngIf="viewing">
+                <i class="fa fa-edit"></i>
+            </button>
+        </ng-container>
+    </div>
+    <div *ngIf="!viewing && titleEditor">
+        <h2 class="page-title">
+            Modifica pagina
+            <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
+        </h2>
+        <mat-form-field>
+            <input matInput placeholder="Titolo della pagina" length="120" [(ngModel)]="page.title" />
+        </mat-form-field>
+    </div>
+
+
+
+    <page-viewer *ngIf="viewing" [page]="page"></page-viewer>
+    <page-editor *ngIf="!viewing" [page]="page"></page-editor>
+    <div *ngIf="!viewing">
+        <button mat-raised-button color="accent" (click)="updatePage()">Salva</button>
+        <button mat-raised-button style="background-color:rgb(52, 156, 57);" (click)="view()">Visualizza</button>
+        <button mat-raised-button color="warn" *ngIf="page.content !== contentBackup || page.title !== titleBackup"
+            (click)="restore()">Ripristina</button>
+    </div>
+
+</div>

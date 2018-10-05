@@ -1,0 +1,23 @@
+a{
+    text-decoration: none;
+}
+
+a i{
+    color:#073C65;
+}
+
+i{
+    display:table;
+    padding:7px;
+    font-size: 30px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+a:hover i{
+    color:#002044;
+}
+
+.social{
+    margin-top: 40px;
+}
