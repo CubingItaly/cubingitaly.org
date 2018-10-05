@@ -1,50 +1,40 @@
-<mat-toolbar color="primary" class="z-depth-1" ngClass.gt-xs="toolbar-gt-xs">
-    <mat-toolbar-row id="top" fxLayout fxLayoutGap="10px">
-        <button #menuButton mat-icon-button fxHide.gt-xs (click)="sideMenuButtonClicked()">
+<mat-toolbar color="primary" class="z-depth-1">
+    <mat-toolbar-row class="first" ngClass.lt-md="first-ld-md" ngClass.gt-sm="first-gt-sm" fxLayout="row" fxLayoutAlign="start center">
+        <button class="sidenav-button" mat-icon-button fxFlex="noshrink" fxHide.gt-sm (click)="sideMenuButtonClicked()">
             <mat-icon>menu</mat-icon>
         </button>
-        <a href="http://localhost:4200" class="logo">
-            <img src="/assets/images/logo.png" />
-        </a>
+        <a href="http://localhost:4200"><img src="/assets/images/logo.png" fxFlex="noshrink" /></a>
         <span fxFlex="grow"></span>
-        <div fxFlex="noshrink" fxHide.xs>
-            <button mat-button *ifRole="'guest'" (click)="authSVC.login()">
-                <i class="fa fa-sign-in" style="margin-right:5px" aria-hidden="true"> </i> Accedi
-            </button>
-            <button mat-button *ifRole="'user'" [matMenuTriggerFor]="logoutMenu">
-                <mat-icon>person</mat-icon>
-                {{user?.name}}
-            </button>
-            <mat-menu #logoutMenu="matMenu">
-                <button mat-menu-item (click)="authSVC.logout()">
-                    <span>Esci</span>
-                </button>
-            </mat-menu>
-        </div>
-        <div fxHide.gt-xs>
-            <button mat-icon-button *ifRole="'guest'" (click)="authSVC.login()">
-                <i class="fa fa-sign-in" aria-hidden="true"> </i>
-            </button>
-            <button mat-icon-button *ifRole="'user'" [matMenuTriggerFor]="logoutMenuXS">
-                <mat-icon>person</mat-icon>
-            </button>
-            <mat-menu #logoutMenuXS="matMenu">
-                <button mat-menu-item>
-                    <span>{{user?.name}}</span>
-                </button>
-                <button mat-menu-item (click)="authSVC.logout()">
-                    <span>Esci</span>
-                </button>
-            </mat-menu>
-        </div>
-    </mat-toolbar-row>
 
-    <mat-toolbar-row fxHide.xs class="menu-bar" style="background-color: #073C65">
+        <button fxHide.gt-sm class="login-button" mat-icon-button fxFlex="noshrink" *ifRole="'guest'" (click)="authSVC.login()">
+            <i class="fa fa-sign-in"></i>
+        </button>
+        <button fxHide.gt-sm class="login-button" mat-icon-button fxFlex="noshrink" *ifRole="'user'"
+            [matMenuTriggerFor]="logoutMenu">
+            <mat-icon>person</mat-icon>
+        </button>
+
+        <button fxHide.lt-md class="login-button" mat-button fxFlex="noshrink" *ifRole="'guest'" (click)="authSVC.login()">
+            <i class="fa fa-sign-in"></i> <span>Accedi</span>
+        </button>
+        <button fxHide.lt-md class="login-button" mat-button fxFlex="noshrink" *ifRole="'user'" [matMenuTriggerFor]="logoutMenu">
+            <mat-icon>person</mat-icon> <span>{{user?.name}}</span>
+        </button>
+
+        <mat-menu #logoutMenu="matMenu" xPosition="before" [overlapTrigger]="false">
+            <a routerLink="/panel" mat-menu-item fxHide.gt-sm>
+                <span>{{user?.name}}</span>
+            </a>
+            <button mat-menu-item (click)="authSVC.logout()">
+                <span>Esci</span>
+            </button>
+        </mat-menu>
+
+    </mat-toolbar-row>
+    <mat-toolbar-row class="second" fxHide.lt-md>
         <ng-container *ngFor="let url of menuUrls">
             <a routerLink="{{url.url}}" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || user?.id"><i
                     class="fa fa-{{url.icon}} menu-icon"></i>{{url.text | uppercase}}</a>
         </ng-container>
-
     </mat-toolbar-row>
-
 </mat-toolbar>

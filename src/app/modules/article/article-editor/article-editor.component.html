@@ -1,6 +1,6 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.xs="column" fxLayoutGap="20px">
-    <div fxFlex.gt-xs="75%">
+  <div fxFlex.gt-sm="80%" fxFlex.lt-md="90%" fxLayout fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-sm="75%">
       <h1 *ngIf="isNew">Nuovo Articolo</h1>
       <h1 *ngIf="!isNew">Modifica Articolo <i class="fa fa-check" style="color:green" *ngIf="updated"></i>
       </h1>
@@ -48,7 +48,7 @@
       </div>
 
     </div>
-    <div fxFlex.gt-xs="25%">
+    <div fxFlex.gt-sm="25%">
       <div fxLayout="column">
         <h2>Stato articolo</h2>
         <span *ngIf="isNew">Nuovo</span>

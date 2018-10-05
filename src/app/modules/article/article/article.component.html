@@ -1,6 +1,6 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout fxLayout.lt-md="column" fxLayoutGap="20px" *ngIf="article">
-    <div fxFlex.gt-md="75%">
+  <div fxFlex.gt-sm="80%" fxFlex.lt-md="90%" fxLayout fxLayout.lt-md="column" fxLayoutGap="20px" *ngIf="article">
+    <div fxFlex.gt-sm="75%">
       <div fxLayout="column">
         <h1>{{article.title | titlecase}}</h1>
         <p class="author">
@@ -12,7 +12,7 @@
         <html-viewer [content]="article.content"></html-viewer>
       </div>
     </div>
-    <div fxFlex.gt-md="25%">
+    <div fxFlex.gt-sm="25%">
       <div fxLayout=column fxLayoutGap="30px">
         <share-page-widget pageName="Articolo"></share-page-widget>
         <facebook-widget></facebook-widget>

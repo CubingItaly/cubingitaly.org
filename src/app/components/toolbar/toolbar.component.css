@@ -1,51 +1,53 @@
-mat-toolbar-row{
-    padding-left: 0px;
-    padding-right: 0px;
+.first i{
+    font-size: 24px;
 }
 
-#top img{
-    height: 36px;
+
+.first-ld-md{
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
-.toolbar-gt-xs mat-toolbar-row{
+.first-ld-md img{
+    height:36px;
+}
+
+.first-ld-md .sidenav-button{
+    margin-left: -8px;
+}
+
+.first-ld-md .login-button{
+    margin-right: -8px;
+}
+
+
+.first-gt-sm, .second{
+    padding-right: 10%;
     padding-left: 10%;
-    padding-right:10%;
-}   
-.toolbar-gt-xs #top{
+}
+
+.first-gt-sm{
     height: 110px;
 }
 
-.toolbar-gt-xs #top img{
-    margin-left: 0px;
-    height: 54px;
+.first-gt-sm img{
+    height: 56px;
 }
 
-router-outlet{
-    margin-top: 60px;
+.first-gt-sm .mat-icon, .first-gt-sm .fa{
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
-mat-sidenav{
-    width: 200px;
+
+
+
+
+.second{
+    background-color: #073C65;
 }
 
-.fa{
-    font-size: 24px;
-  }
-
-.menu-url{
-    height: 100%;
-}
-
-.z-depth-1 {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 1px 5px 0 rgba(0, 0, 0, 0.12), 0 3px 1px -2px rgba(0, 0, 0, 0.2);
-  }
-
-.menu-icon{
-    font-size: 18px;
-    margin-right:5px;
-}
-
-.menu-bar a{
+.second a{
     color: #fff;
     text-decoration: none;
     font-size: 14px;
@@ -56,7 +58,7 @@ mat-sidenav{
     align-items: center;
 }
 
-.menu-bar a:hover{
+.second a:hover{
     background-color: #002044;
 }
 
@@ -64,7 +66,7 @@ mat-sidenav{
     background-color: #002044;
 }
 
-.logo{
-    display: flex;
-    justify-content: center;
+.menu-icon{
+    font-size: 18px;
+    margin-right:5px;
 }

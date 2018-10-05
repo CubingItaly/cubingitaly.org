@@ -1,10 +1,10 @@
 <div fxLayout fxLayoutAlign="center">
-  <div fxFlex.gt-xs="80%" fxFlex.xs="90%" fxLayout="column" fxLayoutGap="30px" fxLayoutGap.xs="10px;">
+  <div fxFlex.gt-sm="80%" fxFlex.lt-md="90%" fxLayout="column" fxLayoutGap="30px">
 
     <div fxLayout="row" fxLayoutAlign="start center">
       <h1 fxFlex="grow">Gestione Articoli</h1>
       <a routerLink="/articles/new" fxFlex="noshrink">
-        <i class="fa fa-plus-square"></i><span fxHide.xs> Nuovo articolo</span>
+        <i class="fa fa-plus-square"></i><span fxHide.lt-md> Nuovo articolo</span>
       </a>
     </div>
 
@@ -12,7 +12,7 @@
     <ng-container *ngIf="articles$ | async as articles">
 
 
-      <mat-table [dataSource]="articles" fxHide.xs>
+      <mat-table [dataSource]="articles" fxHide.lt-md>
 
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
@@ -59,7 +59,7 @@
 
       <!-- Start of articles expansion panel list-->
       <div class="accordion-container">
-        <mat-accordion *ngFor="let article of articles" class="mat-elevation-z4" fxHide.gt-xs>
+        <mat-accordion *ngFor="let article of articles" class="mat-elevation-z1" fxHide.gt-sm>
           <mat-expansion-panel>
             <mat-expansion-panel-header>
               <mat-panel-title>

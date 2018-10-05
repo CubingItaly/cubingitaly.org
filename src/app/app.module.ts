@@ -58,7 +58,6 @@ import '../icons';
 import { SharedComponentsModule } from './modules/shared-components/shared-components.module';
 import { ContactComponent, EmailSentDialogComponent } from './components/contact/contact.component';
 import { UpcomingCompetitionsComponent } from './components/upcoming-competitions/upcoming-competitions.component';
-import { GuestMessageComponent } from './components/guest-message/guest-message.component';
 import { MatCardModule, MatInputModule } from '@angular/material';
 import { TitleManagerService } from './services/title-manager.service';
 import { WelcomeComponent } from './components/welcome/welcome.component';
@@ -79,7 +78,6 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     ErrorDialogComponent,
     ContactComponent,
     UpcomingCompetitionsComponent,
-    GuestMessageComponent,
     WelcomeComponent,
     EmailSentDialogComponent
   ],
