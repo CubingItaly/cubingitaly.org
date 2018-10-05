@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { TitleManagerService } from '../../services/title-manager.service';
-import { Validators, FormControl, FormGroupDirective, NgForm } from '@angular/forms';
+import { Validators, FormControl } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { MatDialogRef, MatDialog } from '@angular/material';
 

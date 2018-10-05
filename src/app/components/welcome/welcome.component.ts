@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { images } from '../../../assets/images/banner/image-array';
+import { Deserialize } from 'cerialize';
+import { HttpClient } from '@angular/common/http';
+import { Http } from '@angular/http';
 
 @Component({
   selector: 'welcome-widget',
@@ -9,10 +11,12 @@ import { images } from '../../../assets/images/banner/image-array';
 export class WelcomeComponent implements OnInit {
 
   bannerArray: string[];
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    this.bannerArray = images;
+    this.http.get('/assets/images/banner/image-array.json').subscribe((data: { images: string[] }) => {
+      this.bannerArray = data.images.map(path => Deserialize(path, String));
+    });
   }
 
 }
