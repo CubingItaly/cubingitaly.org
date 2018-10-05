@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { images } from '../../../assets/images/banner/image-array';
 
 @Component({
   selector: 'welcome-widget',
@@ -7,17 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class WelcomeComponent implements OnInit {
 
-  bannerArray: string[] = [
-    "../../../assets/images/banner/_MG_1110.jpg",
-    "../../../assets/images/banner/_MG_3432.jpg",
-    "../../../assets/images/banner/_MG_3444.jpg",
-    "../../../assets/images/banner/_MG_3480.jpg",
-    "../../../assets/images/banner/_MG_1082.jpg",
-  ];
+  bannerArray: string[];
   constructor() { }
 
   ngOnInit() {
-    //this.changeImage(0);
+    this.bannerArray = images;
   }
 
 }
