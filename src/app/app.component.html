@@ -1,5 +1,5 @@
 <mat-sidenav-container fullscreen>
-    <mat-sidenav #sidenav mode="push" [(opened)]="isSidebarOpened" [fixedInViewport]="true" fxLayout="column" fxLayoutGap="10px">
+    <mat-sidenav #sidenav mode="push" [(opened)]="isSidebarOpened" [fixedInViewport]="true" fxLayout="column" fxLayoutGap="10px" fxHide.gt-sm>
         <a mat-button style="height: 0px"></a>
         <ng-container *ngFor="let url of menuUrls">
             <a mat-button routerLink="{{url.url}}" (click)="sidenav.close()" [ngClass]="{'a-selected': url.isSelected}"
