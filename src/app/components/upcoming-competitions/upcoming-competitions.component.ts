@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class UpcomingCompetitionsComponent implements OnInit {
 
+  ongoing$: Observable<CompWidgetModel[]>;
   comp$: Observable<CompWidgetModel[]>;
 
   constructor(private wcaSVC: WCAService) { }
@@ -47,7 +48,8 @@ export class UpcomingCompetitionsComponent implements OnInit {
 
 
   ngOnInit() {
-    this.comp$ = this.wcaSVC.fetchComp();
+    this.ongoing$ = this.wcaSVC.fetchOngoingCompetitions();
+    this.comp$ = this.wcaSVC.fetchUpcomingCompetitions();
   }
 
 }
