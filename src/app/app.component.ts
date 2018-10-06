@@ -59,10 +59,4 @@ export class AppComponent implements OnInit {
     })
 
   }
-
-
-  urlClicked(url) {
-    this.sidenav.close();
-  }
-
 }
