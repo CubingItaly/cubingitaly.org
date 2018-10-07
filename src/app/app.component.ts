@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
-import { Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { UserModel } from '../../server/models/classes/user.model';
 import { TitleManagerService } from './services/title-manager.service';
 
@@ -39,13 +39,11 @@ export class AppComponent implements OnInit {
   isSidebarOpened: boolean = false;
   @ViewChild("sidenav") sidenav: MatSidenav;
 
-  user: UserModel;
-  subs$: Subscription;
-
+  user$: Observable<UserModel>;
 
   constructor(public authSVC: AuthService, private router: Router, private titleSVC: TitleManagerService) { }
   ngOnInit() {
-    this.subs$ = this.authSVC.user.subscribe((u: UserModel) => { this.user = u; });
+    this.user$ = this.authSVC.user();
     this.router.events.subscribe((event) => {
       if (event instanceof NavigationEnd) {
         let slashIndex = event.url.indexOf("/", 1);

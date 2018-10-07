@@ -12,7 +12,7 @@ export class ArticleGuardService implements CanActivate {
   constructor(private router: Router, private authSVC: AuthService, private articleSVC: ArticleService) { }
 
   async canActivate(route: ActivatedRouteSnapshot) {
-    let user: UserModel = await this.authSVC.user.toPromise();
+    let user: UserModel = await this.authSVC.user().toPromise();
     let role: string = route.data.requiredRole;
     if (user.id) {
 

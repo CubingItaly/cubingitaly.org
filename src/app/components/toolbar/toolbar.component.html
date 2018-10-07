@@ -18,12 +18,12 @@
             <i class="fa fa-sign-in"></i> <span>Accedi</span>
         </button>
         <button fxHide.lt-md class="login-button" mat-button fxFlex="noshrink" *ifRole="'user'" [matMenuTriggerFor]="logoutMenu">
-            <mat-icon>person</mat-icon> <span>{{user?.name}}</span>
+            <mat-icon>person</mat-icon> <span>{{(user$ | async)?.name}}</span>
         </button>
 
         <mat-menu #logoutMenu="matMenu" xPosition="before" [overlapTrigger]="false">
             <a routerLink="/panel" mat-menu-item fxHide.gt-sm>
-                <span>{{user?.name}}</span>
+                <span>{{(user$ | async)?.name}}</span>
             </a>
             <button mat-menu-item (click)="authSVC.logout()">
                 <span>Esci</span>
@@ -33,7 +33,7 @@
     </mat-toolbar-row>
     <mat-toolbar-row class="second" fxHide.lt-md>
         <ng-container *ngFor="let url of menuUrls">
-            <a routerLink="{{url.url}}" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || user?.id"><i
+            <a routerLink="{{url.url}}" [ngClass]="{'a-selected': url.isSelected}" *ngIf="!url.login || (user$ | async)?.id"><i
                     class="fa fa-{{url.icon}} menu-icon"></i>{{url.text | uppercase}}</a>
         </ng-container>
     </mat-toolbar-row>

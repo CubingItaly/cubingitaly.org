@@ -20,7 +20,7 @@ export class RoleDirective {
   }
 
   ngOnInit() {
-    this.user$ = this.auth.user.pipe(
+    this.user$ = this.auth.user().pipe(
       tap(() => this.viewContainer.clear()))
       .subscribe((u: UserModel) => {
         let reverse: boolean = false;

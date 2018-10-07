@@ -12,7 +12,7 @@ export class TutorialGuardService implements CanActivate {
 
   async canActivate(route: ActivatedRouteSnapshot) {
 
-    let user: UserModel = await this.authSVC.user.toPromise();
+    let user: UserModel = await this.authSVC.user().toPromise();
     let requiredRole: string = route.data.requiredRole;
     switch (requiredRole) {
       case "edit":

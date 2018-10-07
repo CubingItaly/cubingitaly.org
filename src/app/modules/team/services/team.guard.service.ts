@@ -10,7 +10,7 @@ export class TeamRoleGuard implements CanActivate {
 
     async canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
 
-        let user: UserModel = await this.authSVC.user.toPromise();
+        let user: UserModel = await this.authSVC.user().toPromise();
         if (user.id) {
             const requiredRole: string = route.data.requiredRole;
             if (requiredRole == 'admin') {

@@ -3,7 +3,9 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { UserModel } from '../../../server/models/classes/user.model';
 import { Deserialize } from 'cerialize';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, share } from 'rxjs/operators';
+import { of } from 'rxjs';
+
 
 /**
  * Service use to manage the authentication of the user
@@ -15,7 +17,11 @@ import { map } from 'rxjs/operators';
 export class AuthService {
 
     private apiBase: string = "/api/v0";
-    public user: Observable<UserModel>;
+    private cache: UserModel;
+    private observable: Observable<UserModel>;
+    private cacheTime: number;
+
+
     /**
      * Creates an instance of AuthService.
      * Retrieves user info and if the user is logged in, initializes the public attributes
@@ -24,7 +30,27 @@ export class AuthService {
      * @memberof AuthService
      */
     constructor(private http: HttpClient) {
-        this.user = this.http.get<UserModel>(this.apiBase + "/users/me").pipe(map(u => Deserialize(u, UserModel)));
+    }
+
+    public user(): Observable<UserModel> {
+        let now = new Date();
+
+        if (this.cache && ((now.getTime() - this.cacheTime) < 20000)) {
+            return of(this.cache);
+        } else if (this.observable) {
+            return this.observable;
+        } else {
+            console.log("calling");
+            this.observable = this.http.get<UserModel>(this.apiBase + "/users/me")
+                .pipe(share(), map(u => {
+                    this.observable = null;
+                    let tmp: UserModel = Deserialize(u, UserModel);
+                    this.cache = tmp;
+                    return this.cache;
+                }));
+            this.cacheTime = (new Date()).getTime();
+            return this.observable;
+        }
     }
 
     /**
