@@ -8,14 +8,25 @@ export const keys = {
     },
     session: {
         secret: 'secret',
-        cookie:{
+        cookie: {
             secure: false,
-            maxAge: 1000*3600*24 //1 day
+            maxAge: 1000 * 3600 * 24 * 7 //7 days
         }
     },
-    admin:{
+    admin: {
         shortname: "admin",
         name: "Admin",
         id: 1234567890
+    },
+    db: {
+        host: 'localhost',
+        user: 'user',
+        password: "",
+        database: "dbname"
+    },
+    contact: {
+        from: "",
+        to: "",
+        subject: "Cubingitaly.org - Form di contatto"
     }
 }
