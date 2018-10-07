@@ -25,16 +25,13 @@ router.post("/", [body('email').isEmail(), body('subject').isLength({ min: 5 }),
                 html: composeHTML(req),
                 replyTo: email
             }, function (err, reply) {
-                console.log(err && err.stack);
-                console.dir(reply);
+                sendError(res, 500, "There was an error while trying to process the request");
             });
             res.status(200).send({});
         } catch (e) {
-            console.log(e);
             sendError(res, 500, "There was an error while trying to process the request");
         }
     } else {
-        console.log(errors.array());
         sendError(res, 400, "Error. Some parameter is missing or not valid");
     }
 });

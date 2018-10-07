@@ -40,7 +40,6 @@ export class AuthService {
         } else if (this.observable) {
             return this.observable;
         } else {
-            console.log("calling");
             this.observable = this.http.get<UserModel>(this.apiBase + "/users/me")
                 .pipe(share(), map(u => {
                     this.observable = null;

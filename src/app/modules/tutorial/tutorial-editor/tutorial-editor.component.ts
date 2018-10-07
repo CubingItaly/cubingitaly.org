@@ -165,7 +165,8 @@ export class TutorialEditorComponent implements OnInit {
   }
 
   private actionAfterUpdate() {
-    window.scrollTo(0, 0);
+    const pageTitle = document.querySelector('h1') as HTMLElement;
+    pageTitle.scrollIntoView();
     this.updated = true;
     setTimeout(() => {
       this.updated = false;

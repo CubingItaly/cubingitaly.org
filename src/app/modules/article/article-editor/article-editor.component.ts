@@ -58,7 +58,7 @@ export class ArticleEditorComponent implements OnInit {
                 this.isNew = false;
                 this.isPublic = article.isPublic;
                 this.articleLoaded = true;
-                if (this.article.categories.length > 0) {
+                if (this.article.categories && this.article.categories.length > 0) {
                     this.filteredCategories = this.categories.filter(cat => this.article.categories.findIndex(c => c.id == cat.id) == -1);
                 }
             });
@@ -146,7 +146,8 @@ export class ArticleEditorComponent implements OnInit {
     }
 
     private actionAfterUpdate() {
-        window.scrollTo(0, 0);
+        const pageTitle = document.querySelector('h1') as HTMLElement;
+        pageTitle.scrollIntoView();
         this.updated = true;
         setTimeout(() => {
             this.updated = false;
