@@ -119,28 +119,11 @@ export class UserEntity extends BaseEntity implements ITransformable<UserModel>{
         user.name = this.name;
         user.wca_id = this.wcaId;
         user.delegate_status = this.delegateStatus;
-        if (!this.checkIfRoleIsStupid() && this.roles !== undefined && this.roles !== null) {
+        if (this.roles !== undefined && this.roles !== null) {
             user.roles = this.roles.map((role: RoleEntity) => role._transform());
         }
         return user;
     }
 
-    /**
-     * This is a workaround because in case a user has no role, typeorm adds a completely null role in the roles array.
-     * If we don't check this, it'll make the conversion from Entity to Model crash.
-     *
-     * @private
-     * @returns {boolean}
-     * @memberof UserEntity
-     */
-    private checkIfRoleIsStupid(): boolean {
-        if (this.roles && this.roles.length == 1) {
-            let role: RoleEntity = this.roles[0];
-            if (role.isLeader === null && role.team === null && role.user === null) {
-                return true;
-            }
-        }
-        return false;
-    }
 
 }

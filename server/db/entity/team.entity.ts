@@ -61,7 +61,7 @@ export class TeamEntity extends BaseEntity implements ITransformable<TeamModel> 
     _assimilate(origin: TeamModel): void {
         this.id = origin.id;
         this.name = origin.name;
-        this.isPublic = origin.isPublic || true;
+        this.isPublic = origin.isPublic !== undefined ? origin.isPublic : true;
     }
 
     /**

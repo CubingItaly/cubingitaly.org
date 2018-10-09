@@ -26,14 +26,4 @@ export class ArticleCategoryModel {
      */
     @autoserialize name: string;
 
-
-    /**
-     * Hex color identifying the category, at the moment this is useless
-     *
-     * @type {string}
-     * @memberof ArticleCategoryModel
-     */
-    @autoserialize color: string;
-
-
 }

@@ -4,7 +4,7 @@ import { BaseCommonRepository } from "../BaseCommonRepository";
 import { TeamEntity } from "../entity/team.entity";
 import { TeamRepository } from "./team.repository";
 import { RoleRepository } from "./role.repository";
-import { keys } from "../../secrets/keys.model";
+import { keys } from "../../secrets/keys";
 
 
 
@@ -42,7 +42,12 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param id  
      */
     public async getUserById(id: number): Promise<UserEntity> {
-        return this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
+        let user: UserEntity = await this.repository.findOne(id, { relations: ["roles", "roles.team", "roles.user"] });
+        if (user && user.roles.length === 1 && user.roles[0].isLeader === null
+            && user.roles[0].team === null && user.roles[0].user === null) {
+            user.roles = [];
+        }
+        return user;
     }
 
     /**
@@ -62,7 +67,7 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      */
     public async updateUser(user: UserEntity): Promise<UserEntity> {
         await this.repository.save(user);
-        let adminId = keys.admin.id;
+        let adminId = Number(keys.admin.id);
         if (adminId && user.id === adminId) {
             user = await this.getUserById(user.id);
             let team: TeamEntity = await getCustomRepository(TeamRepository).getTeamById(keys.admin.shortname);

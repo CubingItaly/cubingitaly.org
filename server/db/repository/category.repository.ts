@@ -6,21 +6,18 @@ import { ArticleCategoryEntity } from "../entity/category.entity";
 @EntityRepository(ArticleCategoryEntity)
 export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCategoryEntity> {
 
-    private categories: { id: string, name: string, color: string }[] = [
+    private categories: { id: string, name: string }[] = [
         {
             id: "news",
-            name: "News",
-            color: "#ffffff"
+            name: "News"
         },
         {
             id: "tutorial",
-            name: "Tutorial",
-            color: "#ffffff"
+            name: "Tutorial"
         },
         {
             id: "interviste",
-            name: "Interviste",
-            color: "#ffffff"
+            name: "Interviste"
         }
     ];
 
@@ -49,7 +46,6 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
             if (!exist) {
                 category.id = c.id;
                 category.name = c.name;
-                category.color = c.color;
                 await this.repository.save(category);
             }
         }
@@ -69,7 +65,7 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
      * @memberof ArticleCategoryRepository
      */
     public async getCategories(): Promise<ArticleCategoryEntity[]> {
-        return this.repository.find();
+        return this.repository.find({order: {id: "ASC"}});
     }
 
     /**

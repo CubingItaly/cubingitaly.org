@@ -33,15 +33,6 @@ export class ArticleCategoryEntity extends BaseEntity implements ITransformable<
     public name: string;
 
     /**
-     * Hex representation of the color of the category
-     *
-     * @type {string}
-     * @memberof ArticleCategoryEntity
-     */
-    @Column({ nullable: false })
-    public color: string;
-
-    /**
      * The set of articles that belong to the category
      *
      * @type {ArticleEntity[]}
@@ -59,7 +50,6 @@ export class ArticleCategoryEntity extends BaseEntity implements ITransformable<
     _assimilate(origin: ArticleCategoryModel): void {
         this.id = origin.id;
         this.name = origin.name;
-        this.color = origin.color;
     }
 
     /**
@@ -72,7 +62,6 @@ export class ArticleCategoryEntity extends BaseEntity implements ITransformable<
         let category: ArticleCategoryModel = new ArticleCategoryModel();
         category.id = this.id;
         category.name = this.name;
-        category.color = this.color;
         return category;
     }
 }

@@ -1,9 +1,9 @@
 import 'mocha';
 import { assert } from 'chai';
-import { UserEntity } from '../entity/user.entity';
-import { TeamEntity } from '../entity/team.entity';
-import { RoleEntity } from '../entity/role.entity';
-import { RoleModel } from '../../models/classes/role.model';
+import { UserEntity } from '../../../server/db/entity/user.entity';
+import { TeamEntity } from '../../../server/db/entity/team.entity';
+import { RoleEntity } from '../../../server/db/entity/role.entity';
+import { RoleModel } from '../../../server/models/classes/role.model';
 
 
 describe('It test the transform function of the role', () => {
