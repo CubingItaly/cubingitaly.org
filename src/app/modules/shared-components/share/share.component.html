@@ -1,6 +1,11 @@
 <div fxLayout="column">
   <h2>Condividi {{pageName}}</h2>
-  <div fxLayout="row wrap">
+
+  <div fxLayout="column" fxHide.lt-lg>
+    <share-buttons [include]="['facebook','twitter','copy']"></share-buttons>
+    <share-buttons [include]="['telegram','whatsapp','email']"></share-buttons>
+  </div>
+  <div fxLayout="row wrap" fxHide.gt-md>
     <share-buttons [include]="['facebook','twitter','copy','telegram','whatsapp','email']"></share-buttons>
   </div>
 </div>
