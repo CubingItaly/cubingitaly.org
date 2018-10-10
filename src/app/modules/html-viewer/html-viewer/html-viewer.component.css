@@ -48,3 +48,13 @@ margin-right:0;
     text-decoration: none;
 }
 
+.media{
+    width: 80%;
+    margin: 0;
+}
+
+@media (max-width: 959px){
+    .media{
+        width:100%;
+    }
+}

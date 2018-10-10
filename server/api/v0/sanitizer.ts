@@ -4,12 +4,15 @@ export function sanitize(source: string) {
     return sanitizeHtml(source, {
         allowedTags: ['h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'pre', 'a', 'ul', 'ol', 'nl', 'li', 'b', 'strong',
             'i', 'em', 'code', 'span', 'hr', 'br', 'table', 'thead', 'tbody', 'th', 'tr', 'td', 'div', 'frame', 'img',
-            'blockquote', 'mark', 'figure', 'figcaption'],
+            'blockquote', 'mark', 'figure', 'figcaption', 'oembed', 'iframe'],
         allowedAttributes: {
             '*': ['style', "class"],
             a: ['href', 'name', 'target'],
             img: ['src'],
-            table: ['class']
+            iframe: ['src','style','frameboard','allow','allowfullscreen'],
+            table: ['class'],
+            figure: ['class'],
+            div: ['data-oembed-url']
         },
         allowedStyle: {
             '*': {
@@ -20,7 +23,7 @@ export function sanitize(source: string) {
                 'font-size': [/^\d+(?:px|em|%)$/]
             }
         },
-        allowedSchemes: ['http', 'https','mailto'],
+        allowedSchemes: ['http', 'https', 'mailto'],
         allowedSchemesByTag: {
             img: ['data', 'http', 'https']
         },
