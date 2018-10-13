@@ -3,10 +3,11 @@
         <button class="sidenav-button" mat-icon-button fxFlex="noshrink" fxHide.gt-sm (click)="sideMenuButtonClicked()">
             <mat-icon>menu</mat-icon>
         </button>
-        <a href="http://localhost:4200"><img src="/assets/images/logo.png" fxFlex="noshrink" /></a>
+        <a href="https://cubingitaly.org"><img src="/assets/images/logo.png" fxFlex="noshrink" /></a>
         <span fxFlex="grow"></span>
 
-        <button fxHide.gt-sm class="login-button" mat-icon-button fxFlex="noshrink" *ifRole="'guest'" (click)="authSVC.login()">
+   <!--
+    <button fxHide.gt-sm class="login-button" mat-icon-button fxFlex="noshrink" *ifRole="'guest'" (click)="authSVC.login()">
             <i class="fa fa-sign-in"></i>
         </button>
         <button fxHide.gt-sm class="login-button" mat-icon-button fxFlex="noshrink" *ifRole="'user'"
@@ -29,7 +30,7 @@
                 <span>Esci</span>
             </button>
         </mat-menu>
-
+    -->
     </mat-toolbar-row>
     <mat-toolbar-row class="second" fxHide.lt-md>
         <ng-container *ngFor="let url of menuUrls">

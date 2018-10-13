@@ -62,6 +62,8 @@ import { MatCardModule, MatInputModule } from '@angular/material';
 import { TitleManagerService } from './services/title-manager.service';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { SlideshowModule } from 'ng-simple-slideshow';
+import { LoginComponent } from './components/login/login.component';
+import { PageModule } from './modules/page/page.module';
 
 
 
@@ -79,7 +81,8 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     ContactComponent,
     UpcomingCompetitionsComponent,
     WelcomeComponent,
-    EmailSentDialogComponent
+    EmailSentDialogComponent,
+    LoginComponent
   ],
   imports: [
     BrowserModule,
@@ -102,6 +105,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
     ReactiveFormsModule,
     MatCardModule,
     SlideshowModule,
+    PageModule,
     ShareButtonsModule.forRoot({ options: sharingOptions }),
     RouterModule.forRoot(routes, { onSameUrlNavigation: 'reload', scrollPositionRestoration: 'enabled' })
   ],

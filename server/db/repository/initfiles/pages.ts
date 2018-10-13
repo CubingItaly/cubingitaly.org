@@ -18,7 +18,7 @@ export const pages: {
     isPublic: true,
     indexInTutorial: -1
 },
-{ id: 3, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
+{ id: 3, title: "Effettua l'accesso", content: "<p style=\"text-align:justify;\">Effettua il login utilizzando il tuo account WCA.</p><p style=\"text-align:justify;\"><strong>PRIVACY POLICY -</strong> Facendo login tramite l'account WCA, acconsentite alla archiviazione di informazioni personali (nome, WCAID) nel nostro Database, esclusivamente allo scopo di erogazione del servizio (pubblicazione e gestione degli articoli, tutorial ecc.). - Cubing Italy utilizza dei cookie tecnici che sono necessari alla normale erogazione del servizio. Tali cookie, che sono piccoli file di testo che vengono scaricati nei file temporanei del tuo browser, sono usati per memorizzare la propria sessione.</p>", isPublic: true, indexInTutorial: -1 },
 { id: 4, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
 { id: 5, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },
 { id: 6, title: "Reserved", content: "Reserved", isPublic: false, indexInTutorial: -1 },

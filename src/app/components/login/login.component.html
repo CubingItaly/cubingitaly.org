@@ -1,0 +1,17 @@
+<div fxLayout fxLayoutAlign="center">
+  <div fxFlex.gt-sm="80%" fxFlex.lt-md="90%" fxLayout.lt-md="column" fxLayoutGap="20px">
+    <div fxFlex.gt-sm="70%">
+      <page-component [pageId]="'3'"></page-component>
+      <div>
+        <a *ifRole="'guest'" mat-button class="wcalogin" (click)="login()">
+          Accedi con il tuo account WCA
+        </a>
+        <a *ifRole="'user'" mat-button class="wcalogin" (click)="logout()">
+            Esci
+          </a>
+      </div>
+    </div>
+    <div fxFlex.gt-sm="30%">
+    </div>
+  </div>
+</div>

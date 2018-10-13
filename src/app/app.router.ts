@@ -6,12 +6,14 @@ import { PermissionDeniedComponent } from './components/permission-denied/permis
 import { PanelComponent } from './modules/panel/panel/panel.component';
 import { PanelGuardService } from './modules/panel/services/panel.guard';
 import { ContactComponent } from './components/contact/contact.component';
+import { LoginComponent } from './components/login/login.component';
 
 export const routes: Route[] = [
     { path: '', component: DashboardComponent },
     { loadChildren: 'app/modules/team/team.module#TeamModule', path: 'teams' },
     { loadChildren: 'app/modules/article/article.module#ArticleModule', path: 'articles' },
     { loadChildren: 'app/modules/tutorial/tutorial.module#TutorialModule', path: 'tutorial' },
+    { path: 'login', component: LoginComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'panel', canActivate: [PanelGuardService], component: PanelComponent },
     { path: 'about', component: AboutUsComponent },

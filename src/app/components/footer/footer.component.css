@@ -14,3 +14,9 @@ a{
 a{
     text-decoration: none;
 }
+
+.copy{
+    font-size: 20px;
+    text-decoration: none;
+    font-style: normal;
+}
