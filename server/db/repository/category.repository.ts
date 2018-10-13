@@ -54,8 +54,8 @@ export class ArticleCategoryRepository extends BaseCommonRepository<ArticleCateg
 
 
     private async checkIfCategoryExist(id: string) {
-        let category: ArticleCategoryEntity[] = await this.repository.find({ where: { id: id } });
-        return (category.length > 0);
+        let count: number= await this.repository.count({where: {id:id}});
+        return count > 0;
     }
 
     /**

@@ -83,8 +83,8 @@ export class TeamRepository extends BaseCommonRepository<TeamEntity> {
      * @memberof TeamRepository
      */
     public async checkIfTeamExistsById(id: string): Promise<boolean> {
-        let result: TeamEntity = await this.repository.findOne(id);
-        return (result !== undefined && result !== null);
+        let count: number= await this.repository.count({where: {id:id}});
+        return count > 0;
     }
 
     /**

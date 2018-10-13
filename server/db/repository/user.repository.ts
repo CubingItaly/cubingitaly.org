@@ -31,8 +31,8 @@ export class UserRepository extends BaseCommonRepository<UserEntity>{
      * @param id 
      */
     public async checkIfUserExists(id: number): Promise<boolean> {
-        let result: UserEntity = await this.repository.findOne(id);
-        return (result !== undefined && result !== null);
+        let count: number= await this.repository.count({where: {id:id}});
+        return count > 0;
     }
 
     /**

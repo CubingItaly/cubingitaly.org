@@ -40,13 +40,13 @@ export class PageRepository extends BaseCommonRepository<PageEntity>{
     }
 
     public async checkIfPageExists(id): Promise<boolean> {
-        let tmp: PageEntity = await this.getPage(id);
-        return (tmp !== undefined && tmp !== null);
+        let count = await this.repository.count({ where: { id: id } });
+        return count > 0;
     }
 
     public async updatePage(page: PageEntity, editor: UserEntity): Promise<PageEntity> {
-        let oldPage: PageEntity = await this.getPage(page.id);
-        if (oldPage !== undefined && oldPage !== null) {
+        let oldPage: PageEntity = await this.adminGetPage(page.id);
+        if (oldPage) {
             oldPage.title = page.title;
             oldPage.content = page.content;
             oldPage.lastEditor = editor;
@@ -66,6 +66,7 @@ export class PageRepository extends BaseCommonRepository<PageEntity>{
     public async adminUpdatePage(page: PageEntity, editor: UserEntity): Promise<PageEntity> {
         let exists: boolean = await this.checkIfPageExists(page.id);
         if (!exists) {
+            console.log("in here");
             page.author = editor;
             page.id = null;
         }

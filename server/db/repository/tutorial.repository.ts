@@ -23,8 +23,8 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
     }
 
     public async checkIfTutorialExists(id: string): Promise<boolean> {
-        let tutorial: TutorialEntity = await this.repository.findOne(id);
-        return (tutorial !== undefined && tutorial !== null);
+        let count: number= await this.repository.count({where: {id:id}});
+        return count > 0;
     }
 
     public async getTutorial(id: string): Promise<TutorialEntity> {

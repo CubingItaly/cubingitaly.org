@@ -16,7 +16,7 @@ let userRepo: UserRepository;
 let user: UserEntity;
 
 
-describe('Test the team repo', () => {
+describe('Test the article repo', () => {
     before(async () => {
         database = new TestDatabase();
         await database.createConnection();

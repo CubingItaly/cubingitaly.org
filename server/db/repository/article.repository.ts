@@ -92,8 +92,8 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
      * @memberof ArticleRepository
      */
     public async checkIfArticleExists(id: string): Promise<boolean> {
-        let article: ArticleEntity = await this.repository.findOne(id);
-        return (article !== undefined && article !== null);
+        let count: number= await this.repository.count({where: {id:id}});
+        return count > 0;
     }
 
     /**
