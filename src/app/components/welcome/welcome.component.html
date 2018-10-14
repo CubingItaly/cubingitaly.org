@@ -1,9 +1,7 @@
 <div class="welcome" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="column" class="mat-elevation-z1">
     <div class="banner-container">
-      <slideshow *ngIf="bannerArray" fxHide.lt-sm [imageUrls]="bannerArray" [backgroundSize]="'cover'" [autoPlay]="true" [height]="'370px'"></slideshow>
-      <slideshow *ngIf="bannerArray" fxHide.gt-xs [imageUrls]="bannerArray" [backgroundSize]="'contain'" [autoPlay]="true" [height]="'200px'" ></slideshow>
-
+      <slideshow *ngIf="bannerArray" [imageUrls]="bannerArray" [backgroundSize]="'cover'" [autoPlay]="true" [height]="'370px'"></slideshow>
     </div>
     <a routerLink="/chi-siamo" aria-label="Scopri Cubing Italy">
       <div class="quick-links">
