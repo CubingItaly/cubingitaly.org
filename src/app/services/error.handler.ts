@@ -15,9 +15,9 @@ export class CubingItalyErrorHandler extends ErrorHandler {
             const router = this.injector.get(Router);
             const zone = this.injector.get(NgZone);
             if (error.status === 404) {
-                zone.run(() => router.navigate(['not-found']));
+                zone.run(() => router.navigate(['non-trovato']));
             } else if (error.status === 403) {
-                zone.run(() => router.navigate(['permission-denied']));
+                zone.run(() => router.navigate(['permesso-negato']));
             } else if (error.status === 400) {
                 const dialog = this.injector.get(MatDialog);
                 dialog.open(ErrorDialogComponent, {

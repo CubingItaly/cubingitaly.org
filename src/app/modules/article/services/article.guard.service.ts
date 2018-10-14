@@ -20,17 +20,17 @@ export class ArticleGuardService implements CanActivate {
         if (user.canAdminArticles()) {
           return true;
         } else {
-          this.router.navigate(['permission-denied']);
+          this.router.navigate(['permesso-negato']);
         }
       } else if (role === "editor") {
         if (user.canEditArticles()) {
           return true;
         } else {
-          this.router.navigate(['permission-denied']);
+          this.router.navigate(['permesso-negato']);
         }
       }
     }
 
-    this.router.navigate(['permission-denied']);
+    this.router.navigate(['permesso-negato']);
   }
 }

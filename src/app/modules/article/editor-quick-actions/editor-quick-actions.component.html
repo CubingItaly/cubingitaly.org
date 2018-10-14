@@ -1,13 +1,13 @@
 <div fxLayout="column">
   <h2>Gestione Articoli</h2>
-  <a routerLink="/articles/{{articleId}}/edit" *ngIf="articleId && !editing"><i class="fa fa-edit"></i>
+  <a routerLink="/articoli/{{articleId}}/edit" *ngIf="articleId && !editing"><i class="fa fa-edit"></i>
     Modifica Articolo</a>
-  <a routerLink="/articles/{{articleId}}" *ngIf="articleId && editing"><i class="fa fa-eye"></i>
+  <a routerLink="/articoli/{{articleId}}" *ngIf="articleId && editing"><i class="fa fa-eye"></i>
     Visualizza Articolo</a>
   <ng-container *ifRole="'aArticles'">
-    <a routerLink="/articles/new"><i class="fa fa-plus-square"></i> Nuovo
+    <a routerLink="/articoli/new"><i class="fa fa-plus-square"></i> Nuovo
       Articolo</a>
-    <a routerLink="/articles/admin"><i class=" fa fa-list"></i> Gestione
+    <a routerLink="/articoli/admin"><i class=" fa fa-list"></i> Gestione
       Articoli</a>
   </ng-container>
 </div>

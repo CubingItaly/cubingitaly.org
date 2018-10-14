@@ -20,7 +20,7 @@ export class PageEntity extends BaseEntity implements ITransformable<PageModel> 
     @Column({ length: 120, nullable: true })
     public title: string;
 
-    @Column({ type: "mediumtext", nullable: true })
+    @Column({ type: "text", nullable: true })
     public content: string;
 
     @CreateDateColumn()

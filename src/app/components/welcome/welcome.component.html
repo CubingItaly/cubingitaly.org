@@ -1,9 +1,11 @@
 <div class="welcome" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="column" class="mat-elevation-z1">
     <div class="banner-container">
-      <slideshow *ngIf="bannerArray" [imageUrls]="bannerArray" [autoPlay]="true" [height]="'370px'"></slideshow>
+      <slideshow *ngIf="bannerArray" fxHide.lt-sm [imageUrls]="bannerArray" [backgroundSize]="'cover'" [autoPlay]="true" [height]="'370px'"></slideshow>
+      <slideshow *ngIf="bannerArray" fxHide.gt-xs [imageUrls]="bannerArray" [backgroundSize]="'contain'" [autoPlay]="true" [height]="'200px'" ></slideshow>
+
     </div>
-    <a routerLink="/about" aria-label="Scopri Cubing Italy">
+    <a routerLink="/chi-siamo" aria-label="Scopri Cubing Italy">
       <div class="quick-links">
         <span>Benvenuto! Clicca qui per scoprire di più su Cubing Italy!</span>
       </div>
@@ -16,7 +18,7 @@
       <img class="fb-white" src="/assets/images/fb-white.svg">
       <span>Seguici su Facebook</span>
     </a>
-    <a href="http://www.mastercubo.com/" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column"
+    <a routerLink="/tutorial/imparare-a-risolvere-il-cubo" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column"
       fxLayoutAlign="center center">
       <img src="/assets/images/mastercubo.png">
       <span>Impara a risolvere</span>

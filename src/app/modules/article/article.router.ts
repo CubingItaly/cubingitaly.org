@@ -7,13 +7,13 @@ import { ArticleGuardService } from './services/article.guard.service';
 
 export const routes: Routes = [
     {
-        path: '', redirectTo: 'categories/all/1', pathMatch: 'full'
+        path: '', redirectTo: 'categorie/all/1', pathMatch: 'full'
     },
     {
-        path: 'categories/:category', redirectTo: 'categories/all/1', pathMatch: 'full'
+        path: 'categorie/:category', redirectTo: 'categorie/all/1', pathMatch: 'full'
     },
     {
-        path: 'categories/:category/:page', component: ArticleListComponent
+        path: 'categorie/:category/:page', component: ArticleListComponent
     },
     {
         path: 'admin', canActivate: [ArticleGuardService], redirectTo: 'admin/1', pathMatch: 'full', data: { requiredRole: "admin" }

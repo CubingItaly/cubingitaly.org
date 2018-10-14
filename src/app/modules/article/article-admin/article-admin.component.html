@@ -3,7 +3,7 @@
 
     <div fxLayout="row" fxLayoutAlign="start center">
       <h1 fxFlex="grow">Gestione Articoli</h1>
-      <a routerLink="/articles/new" fxFlex="noshrink">
+      <a routerLink="/articoli/new" fxFlex="noshrink">
         <i class="fa fa-plus-square"></i><span fxHide.lt-md> Nuovo articolo</span>
       </a>
     </div>
@@ -17,7 +17,7 @@
         <ng-container matColumnDef="title">
           <mat-header-cell *matHeaderCellDef>Titolo</mat-header-cell>
           <mat-cell *matCellDef="let article">
-            <a routerLink="/articles/{{article.id}}">{{article.title}}</a>
+            <a routerLink="/articoli/{{article.id}}">{{article.title}}</a>
           </mat-cell>
         </ng-container>
 
@@ -42,10 +42,10 @@
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
           <mat-cell *matCellDef="let article">
-            <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+            <a routerLink="/articoli/{{article.id}}/edit" aria-label="Modifica articolo">
               <i class="fa fa-edit"></i>
             </a>
-            <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+            <a routerLink="/articoli/{{article.id}}" aria-label="Visualizza articolo">
               <i class="fa fa-eye"></i>
             </a>
           </mat-cell>
@@ -85,10 +85,10 @@
             <div fxLayout fxLayoutAlign="start center">
               Opzioni:
               <span fxFlex="grow"></span>
-              <a routerLink="/articles/{{article.id}}/edit" aria-label="Modifica articolo">
+              <a routerLink="/articoli/{{article.id}}/edit" aria-label="Modifica articolo">
                 <i class="fa fa-edit"></i>
               </a>
-              <a routerLink="/articles/{{article.id}}" aria-label="Visualizza articolo">
+              <a routerLink="/articoli/{{article.id}}" aria-label="Visualizza articolo">
                 <i class="fa fa-eye"></i>
               </a>
             </div>

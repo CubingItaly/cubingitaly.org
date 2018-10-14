@@ -18,12 +18,12 @@ export class TutorialGuardService implements CanActivate {
       case "edit":
         if (user.id && user.canEditPages())
           return true;
-        this.router.navigate(['permission-denied']);
+        this.router.navigate(['permesso-negato']);
         break;
       case "create":
         if (user.id && user.canCreateTutorials())
           return true;
-        this.router.navigate(['permission-denied']);
+        this.router.navigate(['permesso-negato']);
         break;
     }
     return true;

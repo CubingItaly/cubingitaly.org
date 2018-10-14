@@ -69,7 +69,7 @@ export class ArticleEditorComponent implements OnInit {
     createArticle() {
         if (this.article.title) {
             this.articleSVC.createArticle(this.article).subscribe((result: ArticleModel) => {
-                let redirecUrl = "/articles/" + result.id + "/edit";
+                let redirecUrl = "/articoli/" + result.id + "/edit";
                 this.router.navigate([redirecUrl]);
             });
         } else {
@@ -104,12 +104,12 @@ export class ArticleEditorComponent implements OnInit {
             obs.subscribe((result: boolean) => {
                 if (result) {
                     this.articleSVC.deleteArticle(this.article).subscribe(() => {
-                        this.router.navigate(['/articles/admin']);
+                        this.router.navigate(['/articoli/admin']);
                     });
                 }
             });
         } else {
-            this.router.navigate(['/articles/admin']);
+            this.router.navigate(['/articoli/admin']);
         }
 
     }

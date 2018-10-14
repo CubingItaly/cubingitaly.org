@@ -2,11 +2,11 @@
   <h2>Team</h2>
   <mat-list class="mat-elevation-z1">
     <mat-list-item *ifRole="'aTeams'">
-      <a routerLink="/teams/admin">Gestisci tutti i team</a>
+      <a routerLink="/team/admin">Gestisci tutti i team</a>
     </mat-list-item>
     <ng-container *ngFor="let team of teams$ | async">
       <mat-list-item *ifRole="'lTeam';ifParam:team.id">
-        <a routerLink="/teams/{{team.id}}/admin">
+        <a routerLink="/team/{{team.id}}/admin">
           {{team.name}}
         </a>
       </mat-list-item>

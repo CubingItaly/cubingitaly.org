@@ -6,7 +6,7 @@
 
                 <ng-container matColumnDef="title">
                     <mat-cell *matCellDef="let tutorial">
-                        <a routerLink="/tutorial/{{tutorial.id}}">{{tutorial.title | titlecase}}</a>
+                        <a routerLink="/tutorial/{{tutorial.id}}">{{tutorial.title[0] | uppercase}}{{tutorial.title.substr(1)}}</a>
                     </mat-cell>
                 </ng-container>
 

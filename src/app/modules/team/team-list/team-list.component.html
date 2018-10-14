@@ -7,7 +7,7 @@
             <ng-container matColumnDef="name">
                 <mat-header-cell *matHeaderCellDef>Nome</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/teams/{{element.id}}/admin">
+                    <a routerLink="/team/{{element.id}}/admin">
                         {{element.name}}
                     </a>
                 </mat-cell>
@@ -18,7 +18,7 @@
             <ng-container matColumnDef="options">
                 <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
                 <mat-cell *matCellDef="let element">
-                    <a routerLink="/teams/{{element.id}}/admin">
+                    <a routerLink="/team/{{element.id}}/admin">
                         <i class="fa fa-users"></i>
                     </a>
                 </mat-cell>

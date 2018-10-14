@@ -225,7 +225,7 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
         }
 
         // every tutorial must have an id and "admin","list" and "new" are forbidden tutorial ids
-        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categories") id = "tutorial";
+        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categorie") id = "tutorial";
         return id;
     }
 

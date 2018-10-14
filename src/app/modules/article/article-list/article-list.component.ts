@@ -51,7 +51,7 @@ export class ArticleListComponent implements OnInit {
   }
 
   categoryChange(category) {
-    this.router.navigateByUrl('/articles/categories/' + category + '/1');
+    this.router.navigateByUrl('/articoli/categorie/' + category + '/1');
     this.updateArticlesCount();
   }
 

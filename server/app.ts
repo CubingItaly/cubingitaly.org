@@ -7,6 +7,7 @@ import * as expressSanitizer from 'express-sanitizer';
 import { keys } from './secrets/keys';
 import * as passport from 'passport';
 import './passport/strategy.passport.wca';
+import * as sslRedirect from 'heroku-ssl-redirect';
 
 //Router files
 import { router as authRoutes } from './api/v0/auth.api';
@@ -69,6 +70,7 @@ export function getApp() {
 
 
   if (app.get("env") === "production") {
+    app.use(sslRedirect());
     // in production mode run application from dist folder
     app.use(express.static(path.join(__dirname, "/../client")));
     app.use("/*", function (req, res) {

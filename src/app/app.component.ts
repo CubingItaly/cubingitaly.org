@@ -20,19 +20,19 @@ export class AppComponent implements OnInit {
       id: "home", text: "home", url: "/", isSelected: false, icon: "home", login: false
     },
     {
-      id: "about", text: "chi siamo", url: "/about", isSelected: false, icon: "info-circle", login: false
+      id: "about", text: "chi siamo", url: "/chi-siamo", isSelected: false, icon: "info-circle", login: false
     },
     {
-      id: "articles", text: "articoli", url: "/articles", isSelected: false, icon: "newspaper-o", login: false
+      id: "articles", text: "articoli", url: "/articoli", isSelected: false, icon: "newspaper-o", login: false
     },
     {
       id: "tutorial", text: "tutorial", url: "/tutorial", isSelected: false, icon: "book", login: false
     },
     {
-      id: "contact", text: "contatti", url: "/contact", isSelected: false, icon: "envelope", login: false
+      id: "contact", text: "contatti", url: "/contatti", isSelected: false, icon: "envelope", login: false
     },
     {
-      id: "panel", text: "pannello", url: "/panel", isSelected: false, icon: "lock", login: true
+      id: "panel", text: "pannello", url: "/pannello", isSelected: false, icon: "lock", login: true
     }
   ];
 

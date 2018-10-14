@@ -24,6 +24,6 @@ export class TeamRoleGuard implements CanActivate {
                     return true;
             }
         }
-        this.router.navigate(['permission-denied']);
+        this.router.navigate(['permesso-negato']);
     }
 }

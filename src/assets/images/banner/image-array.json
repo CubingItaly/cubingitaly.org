@@ -1,10 +1,8 @@
 {
     "images": [
-        "/assets/images/banner/group.jpg",
-        "/assets/images/banner/_MG_1110.jpg",
-        "/assets/images/banner/_MG_3432.jpg",
-        "/assets/images/banner/_MG_3444.jpg",
-        "/assets/images/banner/_MG_3480.jpg",
-        "/assets/images/banner/_MG_1082.jpg"
+        "https://farm2.staticflickr.com/1912/31435523128_9d9095fa0a_o.png",
+        "https://farm2.staticflickr.com/1961/31435523348_2dbcfe8213_o.png",
+        "https://farm2.staticflickr.com/1916/44397439435_f9717934f5_o.png",
+        "https://farm2.staticflickr.com/1943/45261047482_4efdcd6d37_o.png"
     ]
 }

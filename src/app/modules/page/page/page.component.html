@@ -1,7 +1,7 @@
 <div fxLayout="column" *ngIf="page">
     <div fxLayout="row" fxLayoutAlign="start center" *ngIf="viewing || !titleEditor">
         <h1 class="page-title" fxFlex="grow">
-            {{page.title |titlecase}}
+            {{page.title[0] |uppercase}}{{page.title.substr(1)}}
             <i class="fa fa-check" *ngIf="updated" style="color:green"> </i>
         </h1>
         <ng-container *ifRole="'ePages'">

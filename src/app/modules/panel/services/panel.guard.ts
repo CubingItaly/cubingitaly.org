@@ -14,6 +14,6 @@ export class PanelGuardService implements CanActivate {
         let user: UserModel = await this.authSVC.user().toPromise();
         if (user.id)
             return true;
-        this.router.navigate(['permission-denied']);
+        this.router.navigate(['permesso-negato']);
     }
 }
