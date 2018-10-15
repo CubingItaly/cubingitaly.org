@@ -65,6 +65,7 @@ import { SlideshowModule } from 'ng-simple-slideshow';
 import { LoginComponent } from './components/login/login.component';
 import { PageModule } from './modules/page/page.module';
 import { ProposedCompetitionsComponent } from './components/proposed-competitions/proposed-competitions.component';
+import { MetaManagerService } from './services/meta-manager.service';
 
 
 
@@ -126,6 +127,7 @@ import { ProposedCompetitionsComponent } from './components/proposed-competition
     CubingItalyErrorHandler,
     UserService,
     TitleManagerService,
+    MetaManagerService,
     { provide: ErrorHandler, useClass: CubingItalyErrorHandler }
   ],
   bootstrap: [

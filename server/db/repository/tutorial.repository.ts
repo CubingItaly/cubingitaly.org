@@ -23,7 +23,7 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
     }
 
     public async checkIfTutorialExists(id: string): Promise<boolean> {
-        let count: number= await this.repository.count({where: {id:id}});
+        let count: number = await this.repository.count({ where: { id: id } });
         return count > 0;
     }
 
@@ -225,7 +225,7 @@ export class TutorialRepository extends BaseCommonRepository<TutorialEntity>{
         }
 
         // every tutorial must have an id and "admin","list" and "new" are forbidden tutorial ids
-        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categorie") id = "tutorial";
+        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categorie" || id === "edit") id = "tutorial";
         return id;
     }
 

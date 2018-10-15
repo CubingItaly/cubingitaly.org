@@ -5,6 +5,7 @@ import { MatSidenav } from '@angular/material/sidenav';
 import { Observable } from 'rxjs';
 import { UserModel } from '../../server/models/classes/user.model';
 import { TitleManagerService } from './services/title-manager.service';
+import { MetaManagerService } from './services/meta-manager.service';
 
 @Component({
   selector: 'app-root',
@@ -41,7 +42,7 @@ export class AppComponent implements OnInit {
 
   user$: Observable<UserModel>;
 
-  constructor(public authSVC: AuthService, private router: Router, private titleSVC: TitleManagerService) { }
+  constructor(public authSVC: AuthService, private router: Router, private titleSVC: TitleManagerService, private metaSVC: MetaManagerService) { }
   ngOnInit() {
     this.user$ = this.authSVC.user();
     this.router.events.subscribe((event) => {

@@ -40,7 +40,7 @@
         <ng-container matColumnDef="options">
           <mat-header-cell *matHeaderCellDef>Opzioni</mat-header-cell>
           <mat-cell *matCellDef="let tutorial">
-            <a routerLink="/tutorial/{{tutorial.id}}/edit">
+            <a routerLink="/tutorial/edit/{{tutorial.id}}">
               <i class="fa fa-edit"> </i>
             </a>
             <a routerLink="/tutorial/{{tutorial.id}}">
@@ -83,7 +83,7 @@
             <div fxLayout fxLayoutAlign="start center">
               Opzioni:
               <span fxFlex="grow"></span>
-              <a routerLink="/tutorial/{{tutorial.id}}/edit">
+              <a routerLink="/tutorial/edit/{{tutorial.id}}">
                 <i class=" fa fa-edit"> </i>
               </a>
               <a routerLink="/tutorial/{{tutorial.id}}">

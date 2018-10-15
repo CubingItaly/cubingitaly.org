@@ -16,7 +16,7 @@ export const routes: Routes = [
         path: 'admin', canActivate: [TutorialGuardService], component: TutorialAdminComponent, data: { requiredRole: "edit" }
     },
     {
-        path: ':id/edit', canActivate: [TutorialGuardService], component: TutorialEditorComponent, data: { intent: "edit", requiredRole: "edit" }
+        path: 'edit/:id', canActivate: [TutorialGuardService], component: TutorialEditorComponent, data: { intent: "edit", requiredRole: "edit" }
     },
     {
         path: 'new', canActivate: [TutorialGuardService], component: TutorialEditorComponent, data: { intent: "new", requiredRole: "create" }

@@ -232,7 +232,7 @@ export class ArticleRepository extends BaseCommonRepository<ArticleEntity> {
         }
 
         // every article must have an id and "admin","list" and "new" are forbidden article ids
-        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categorie") id = "articolo";
+        if (id === "" || id === "admin" || id === "list" || id === "new" || id === "categorie" || id === "edit") id = "articolo";
         return id;
     }
 

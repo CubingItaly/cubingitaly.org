@@ -1,6 +1,6 @@
 <div fxLayout="column">
   <h2>Gestione Articoli</h2>
-  <a routerLink="/articoli/{{articleId}}/edit" *ngIf="articleId && !editing"><i class="fa fa-edit"></i>
+  <a routerLink="/articoli/edit/{{articleId}}" *ngIf="articleId && !editing"><i class="fa fa-edit"></i>
     Modifica Articolo</a>
   <a routerLink="/articoli/{{articleId}}" *ngIf="articleId && editing"><i class="fa fa-eye"></i>
     Visualizza Articolo</a>

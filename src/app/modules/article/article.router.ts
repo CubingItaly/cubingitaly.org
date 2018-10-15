@@ -25,7 +25,7 @@ export const routes: Routes = [
         path: 'new', canActivate: [ArticleGuardService], component: ArticleEditorComponent, data: { intent: "new", requiredRole: "admin" }
     },
     {
-        path: ':id/edit', canActivate: [ArticleGuardService], component: ArticleEditorComponent, data: { intent: "edit", requiredRole: "editor" }
+        path: 'edit/:id', canActivate: [ArticleGuardService], component: ArticleEditorComponent, data: { intent: "edit", requiredRole: "editor" }
     },
     {
         path: ':id', component: ArticleComponent

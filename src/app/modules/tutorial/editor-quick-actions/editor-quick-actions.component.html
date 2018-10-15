@@ -1,6 +1,6 @@
 <div fxLayout="column" >
   <h2>Gestione tutorial</h2>
-  <a routerLink="/tutorial/{{tutorialId}}/edit" *ngIf="tutorialId && !editing"><i class="fa fa-edit"></i>
+  <a routerLink="/tutorial/edit/{{tutorialId}}" *ngIf="tutorialId && !editing"><i class="fa fa-edit"></i>
     Modifica Tutorial</a>
   <a routerLink="/tutorial/{{tutorialId}}" *ngIf="tutorialId && editing"><i class="fa fa-eye"></i>
     Visualizza Tutorial</a>

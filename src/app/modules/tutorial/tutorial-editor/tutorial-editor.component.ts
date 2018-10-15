@@ -48,7 +48,7 @@ export class TutorialEditorComponent implements OnInit {
   createTutorial() {
     if (this.tutorial.title && this.tutorial.title !== "") {
       this.tutorialSVC.createTutorial(this.tutorial.title).subscribe(res => {
-        let redirectUrl: string = "/tutorial/" + res.id + "/edit";
+        let redirectUrl: string = "/tutorial/edit/" + res.id;
         this.router.navigate([redirectUrl]);
       });
     } else {

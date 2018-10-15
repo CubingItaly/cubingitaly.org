@@ -1,0 +1,10 @@
+user-agent: *
+disallow: /team
+disallow: /pannello
+disallow: /articoli/new
+disallow: /articoli/admin
+disallow: /articoli/edit
+disallow: /tutorial/new
+disallow: /tutorial/admin
+disallow: /tutorial/edit
+disallow: /login

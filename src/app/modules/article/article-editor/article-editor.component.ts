@@ -69,7 +69,7 @@ export class ArticleEditorComponent implements OnInit {
     createArticle() {
         if (this.article.title) {
             this.articleSVC.createArticle(this.article).subscribe((result: ArticleModel) => {
-                let redirecUrl = "/articoli/" + result.id + "/edit";
+                let redirecUrl = "/articoli/edit/" + result.id;
                 this.router.navigate([redirecUrl]);
             });
         } else {
