@@ -49,12 +49,6 @@ margin-right:0;
 }
 
 .media{
-    width: 80%;
+    width: 100%;
     margin: 0;
-}
-
-@media (max-width: 959px){
-    .media{
-        width:100%;
-    }
 }
