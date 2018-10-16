@@ -66,6 +66,7 @@ import { LoginComponent } from './components/login/login.component';
 import { PageModule } from './modules/page/page.module';
 import { ProposedCompetitionsComponent } from './components/proposed-competitions/proposed-competitions.component';
 import { MetaManagerService } from './services/meta-manager.service';
+import { BackToTopComponent } from './components/back-to-top/back-to-top.component';
 
 
 
@@ -85,7 +86,8 @@ import { MetaManagerService } from './services/meta-manager.service';
     WelcomeComponent,
     EmailSentDialogComponent,
     LoginComponent,
-    ProposedCompetitionsComponent
+    ProposedCompetitionsComponent,
+    BackToTopComponent
   ],
   imports: [
     BrowserModule,

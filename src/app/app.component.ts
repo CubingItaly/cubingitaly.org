@@ -56,6 +56,6 @@ export class AppComponent implements OnInit {
         this.menuUrls.forEach((url) => url.isSelected = url.url === section);
       }
     })
-
   }
+
 }

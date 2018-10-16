@@ -14,3 +14,7 @@ mat-sidenav a{
     font-size: 18px;
     margin-right:5px;
 }
+
+mat-sidenav-container{
+    height: 100vh;
+}
