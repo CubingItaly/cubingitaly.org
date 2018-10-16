@@ -8,7 +8,7 @@
     </mat-sidenav>
 
     <mat-sidenav-content fxLayout="column">
-        <app-toolbar [menuUrls]="menuUrls" [(ngModel)]="isSidebarOpened" ngDefaultControl></app-toolbar>
+        <app-toolbar [menuUrls]="menuUrls" [(ngModel)]="isSidebarOpened" id="top" ngDefaultControl></app-toolbar>
         <router-outlet></router-outlet>
         <span fxFlex="grow"></span>
         <footer></footer>

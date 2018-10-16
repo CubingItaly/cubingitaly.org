@@ -40,6 +40,12 @@ export class TutorialComponent implements OnInit {
     this.currentPageId = this.tutorial.pages[this.pageIndex].id;
     let redirectUrl = "../" + (this.pageIndex + 1);
     this.router.navigate([redirectUrl], { relativeTo: this.route });
+    this.scrollToTop();
+  }
+
+  scrollToTop() {
+    let top = document.querySelector('#top') as HTMLElement;
+    top.scrollIntoView();
   }
 
 }
