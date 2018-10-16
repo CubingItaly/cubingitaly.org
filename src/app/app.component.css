@@ -1,8 +1,8 @@
-mat-sidenav{
+.mat-sidenav{
     width: 200px;
 }
 
-mat-sidenav a{
+.mat-sidenav a{
     text-align: left;
 }
 
@@ -15,6 +15,6 @@ mat-sidenav a{
     margin-right:5px;
 }
 
-mat-sidenav-container{
-    height: 100vh;
+.mat-sidenav-container{
+    height: 100%;
 }

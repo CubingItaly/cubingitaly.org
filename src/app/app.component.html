@@ -1,14 +1,16 @@
 <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="push" [(opened)]="isSidebarOpened" [fixedInViewport]="true" fxLayout="column" fxLayoutGap="10px" fxHide.gt-sm>
+    <mat-sidenav #sidenav mode="push" [(opened)]="isSidebarOpened" fixedInViewport="true" fxLayout="column"
+        fxLayoutGap="10px" fxHide.gt-sm>
         <a mat-button style="height: 0px"></a>
         <ng-container *ngFor="let url of menuUrls">
             <a mat-button routerLink="{{url.url}}" (click)="sidenav.close()" [ngClass]="{'a-selected': url.isSelected}"
-                *ngIf="!url.login || (user$ | async)?.id"><i class="fa fa-{{url.icon}} menu-icon"></i>{{url.text | uppercase}}</a>
+                *ngIf="!url.login || (user$ | async)?.id"><i class="fa fa-{{url.icon}} menu-icon"></i>{{url.text |
+                uppercase}}</a>
         </ng-container>
     </mat-sidenav>
 
     <mat-sidenav-content fxLayout="column">
-        <app-toolbar [menuUrls]="menuUrls" [(ngModel)]="isSidebarOpened" id="top" ngDefaultControl></app-toolbar>
+        <app-toolbar [menuUrls]="menuUrls" [(ngModel)]="isSidebarOpened" ngDefaultControl></app-toolbar>
         <router-outlet></router-outlet>
         <span fxFlex="grow"></span>
         <footer></footer>
