@@ -1,18 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArticleService } from '../services/article.service';
 import { TitleManagerService } from '../../../services/title-manager.service';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { PageEvent } from '@angular/material';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-article-list',
   templateUrl: './article-list.component.html',
   styleUrls: ['./article-list.component.css']
 })
-export class ArticleListComponent implements OnInit {
+export class ArticleListComponent implements OnInit, OnDestroy {
 
   constructor(private articleSVC: ArticleService, private router: Router
-    , private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
+    , private route: ActivatedRoute, private titleSVC: TitleManagerService, private metaSVC: MetaManagerService) { }
 
   page: number;
   category: string;
@@ -21,6 +22,7 @@ export class ArticleListComponent implements OnInit {
 
   ngOnInit() {
     this.titleSVC.setTitle("Articoli");
+    this.metaSVC.updateMeta("title", "Articoli");
     this.page = Number(this.route.snapshot.paramMap.get("page"));
     if (isNaN(this.page) || this.page < 1) {
       this.page = 1;
@@ -43,6 +45,10 @@ export class ArticleListComponent implements OnInit {
         }
       }
     }));
+  }
+
+  ngOnDestroy(){
+    this.metaSVC.resetMeta();
   }
 
   pageChange(event: PageEvent) {

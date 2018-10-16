@@ -1,16 +1,17 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { TutorialModel } from '../../../../../server/models/classes/tutorial.model';
 import { TutorialService } from '../services/tutorial.service';
 import { PageEvent } from '@angular/material';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-tutorial',
   templateUrl: './tutorial.component.html',
   styleUrls: ['./tutorial.component.css']
 })
-export class TutorialComponent implements OnInit {
+export class TutorialComponent implements OnInit, OnDestroy {
 
   tutorialId: string;
   tutorial: TutorialModel;
@@ -18,7 +19,7 @@ export class TutorialComponent implements OnInit {
   currentPageId: number;
 
 
-  constructor(private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
+  constructor(private tutorialSVC: TutorialService, private metaSVC: MetaManagerService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.tutorialId = this.route.snapshot.paramMap.get("id");
@@ -32,7 +33,12 @@ export class TutorialComponent implements OnInit {
       this.pageIndex--;
       this.currentPageId = this.tutorial.pages[this.pageIndex].id;
       this.titleSVC.setTitle(this.tutorial.title);
+      this.metaSVC.updateMeta("title", this.tutorial.title);
     });
+  }
+
+  ngOnDestroy() {
+    this.metaSVC.resetMeta();
   }
 
   pageChange(event: PageEvent) {

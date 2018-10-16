@@ -3,13 +3,15 @@ import { TitleManagerService } from '../../services/title-manager.service';
 import { Validators, FormControl } from '@angular/forms';
 import { ContactService } from '../../services/contact.service';
 import { MatDialogRef, MatDialog } from '@angular/material';
+import { OnDestroy } from '@angular/core';
+import { MetaManagerService } from '../../services/meta-manager.service';
 
 @Component({
   selector: 'app-contact',
   templateUrl: './contact.component.html',
   styleUrls: ['./contact.component.css']
 })
-export class ContactComponent implements OnInit {
+export class ContactComponent implements OnInit, OnDestroy {
 
   emailFormControl = new FormControl('', [
     Validators.required,
@@ -32,10 +34,16 @@ export class ContactComponent implements OnInit {
   ]);
 
 
-  constructor(private dialog: MatDialog, private titleSVC: TitleManagerService, private contactSVC: ContactService) { }
+  constructor(private dialog: MatDialog, private titleSVC: TitleManagerService, private contactSVC: ContactService, private metaSVC: MetaManagerService) { }
 
   ngOnInit() {
     this.titleSVC.setTitle("Contatti");
+    this.metaSVC.updateMeta("title", "Contatti");
+    this.metaSVC.updateMeta("description", "Contatta il form sottostante e sarai ricontattato al più presto via email.");
+  }
+
+  ngOnDestroy() {
+    this.metaSVC.resetMeta();
   }
 
   submit() {

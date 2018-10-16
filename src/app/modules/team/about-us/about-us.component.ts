@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { TeamService } from '../services/team.service';
 import { TeamModel } from '../../../../../server/models/classes/team.model';
 import { UserModel } from '../../../../../server/models/classes/user.model';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-about-us',
   templateUrl: './about-us.component.html',
   styleUrls: ['./about-us.component.css']
 })
-export class AboutUsComponent implements OnInit {
+export class AboutUsComponent implements OnInit, OnDestroy {
 
   pageId: number = 1;
 
   teams: TeamModel[];
   mapTeamMembers: Map<string, UserModel[]> = new Map<string, UserModel[]>();
 
-  constructor(private teamSVC: TeamService, private titleSVC: TitleManagerService) { }
+  constructor(private teamSVC: TeamService, private titleSVC: TitleManagerService, private metaSVC: MetaManagerService) { }
 
   ngOnInit() {
     this.teamSVC.getTeamsList().subscribe((teams: TeamModel[]) => {
@@ -29,6 +30,11 @@ export class AboutUsComponent implements OnInit {
       });
     });
     this.titleSVC.setTitle("Chi siamo");
+    this.metaSVC.updateMeta("title", "Chi siamo");
+  }
+
+  ngOnDestroy() {
+    this.metaSVC.resetMeta();
   }
 
   public getUsers(id: string): string {

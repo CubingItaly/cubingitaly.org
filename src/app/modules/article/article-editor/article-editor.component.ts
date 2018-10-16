@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
 import { ArticleModel } from '../../../../../server/models/classes/article.model';
 import { UserModel } from '../../../../../server/models/classes/user.model';
 import { AuthService } from '../../../services/auth.service';
@@ -13,13 +13,14 @@ import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confi
 import { MatDialog, MatAutocompleteSelectedEvent, MatChipInputEvent } from '@angular/material';
 import * as Editor from '../../../../assets/ckeditor/ckeditor';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
     selector: 'app-article-editor',
     templateUrl: './article-editor.component.html',
     styleUrls: ['./article-editor.component.css']
 })
-export class ArticleEditorComponent implements OnInit {
+export class ArticleEditorComponent implements OnInit, OnDestroy {
     article: ArticleModel = new ArticleModel();
     articleId: string;
     isNew: boolean;
@@ -38,7 +39,7 @@ export class ArticleEditorComponent implements OnInit {
     editor = Editor;
 
 
-    constructor(private dialog: MatDialog, private router: Router, private articleSVC: ArticleService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
+    constructor(private dialog: MatDialog, private router: Router, private articleSVC: ArticleService, private metaSVC: MetaManagerService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
 
     ngOnInit() {
         this.articleSVC.getCategories().subscribe(result => { this.categories = result; this.filteredCategories = this.categories });
@@ -64,6 +65,12 @@ export class ArticleEditorComponent implements OnInit {
             });
             this.titleSVC.setTitle("Modifica articolo");
         }
+
+        this.metaSVC.addMeta("robots", "noindex,nofollow");
+    }
+
+    ngOnDestroy() {
+        this.metaSVC.removeMeta("robots");
     }
 
     createArticle() {

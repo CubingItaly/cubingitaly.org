@@ -1,17 +1,18 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ArticleModel } from '../../../../../server/models/classes/article.model';
 import { PageEvent } from '@angular/material';
 import { ArticleService } from '../services/article.service';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-article-admin',
   templateUrl: './article-admin.component.html',
   styleUrls: ['./article-admin.component.css']
 })
-export class ArticleAdminComponent implements OnInit {
+export class ArticleAdminComponent implements OnInit, OnDestroy {
 
   articles$: Observable<ArticleModel[]>;
   articlesNumber: number = 0;
@@ -21,7 +22,7 @@ export class ArticleAdminComponent implements OnInit {
 
   displayedColumns: string[] = ["title", "editor", "update", "status", "options"];
 
-  constructor(private articleSVC: ArticleService, private router: Router, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
+  constructor(private articleSVC: ArticleService, private router: Router, private route: ActivatedRoute, private metaSVC: MetaManagerService, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.articleSVC.countAllArticles().subscribe((result: { number: number }) => {
@@ -34,8 +35,12 @@ export class ArticleAdminComponent implements OnInit {
       this.getArticles();
     });
     this.titleSVC.setTitle("Gestione articoli");
+    this.metaSVC.addMeta("robots", "noindex,nofollow");
   }
 
+  ngOnDestroy() {
+    this.metaSVC.removeMeta("robots");
+  }
 
   private getArticles() {
     this.articles$ = this.articleSVC.getAllArticles(this.articlesPerPage, this.page - 1);

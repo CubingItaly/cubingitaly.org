@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { TeamModel } from '../../../../../server/models/classes/team.model';
 import { UserModel } from '../../../../../server/models/classes/user.model';
@@ -12,13 +12,14 @@ import { MatDialog, MatDialogRef } from '@angular/material';
 import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confirm-dialog.component';
 import { Observable } from 'rxjs';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-team-management',
   templateUrl: './team-management.component.html',
   styleUrls: ['./team-management.component.css']
 })
-export class TeamManagementComponent implements OnInit {
+export class TeamManagementComponent implements OnInit, OnDestroy {
 
   teamId: string;
   team$: Observable<TeamModel>;
@@ -41,7 +42,7 @@ export class TeamManagementComponent implements OnInit {
 
 
 
-  constructor(private dialog: MatDialog, private userSVC: UserService, private teamSVC: TeamService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
+  constructor(private dialog: MatDialog, private metaSVC: MetaManagerService, private userSVC: UserService, private teamSVC: TeamService, private route: ActivatedRoute, private titleSVC: TitleManagerService) { }
 
   ngOnInit() {
     this.teamId = this.route.snapshot.paramMap.get('id');
@@ -52,6 +53,11 @@ export class TeamManagementComponent implements OnInit {
         this.userSVC.searchUsers(name).subscribe((u: UserModel[]) => this.foundUsers = u.filter((user: UserModel) => this.users.findIndex((m: UserModel) => m.id == user.id) == -1));
       });
     this.titleSVC.setTitle("Gestione team");
+    this.metaSVC.addMeta("robots", "noindex,nofollow");
+  }
+
+  ngOnDestroy() {
+    this.metaSVC.removeMeta("robots");
   }
 
 

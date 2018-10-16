@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { TutorialModel } from '../../../../../server/models/classes/tutorial.model';
@@ -9,13 +9,14 @@ import { ConfirmDialogComponent } from '../../../components/confirm-dialog/confi
 import { Observable } from 'rxjs';
 import { BadRequestError } from '../../../services/errors/bad.request.error';
 import { TitleManagerService } from '../../../services/title-manager.service';
+import { MetaManagerService } from '../../../services/meta-manager.service';
 
 @Component({
   selector: 'app-tutorial-editor',
   templateUrl: './tutorial-editor.component.html',
   styleUrls: ['./tutorial-editor.component.css']
 })
-export class TutorialEditorComponent implements OnInit {
+export class TutorialEditorComponent implements OnInit, OnDestroy {
 
   isNew: boolean;
   isPublic: boolean;
@@ -28,7 +29,7 @@ export class TutorialEditorComponent implements OnInit {
   editingPage: boolean = false;
   currentEditingPageId: number;
 
-  constructor(private dialog: MatDialog, private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
+  constructor(private dialog: MatDialog, private metaSVC: MetaManagerService, private tutorialSVC: TutorialService, private route: ActivatedRoute, private router: Router, private titleSVC: TitleManagerService) { }
 
 
   ngOnInit() {
@@ -43,6 +44,11 @@ export class TutorialEditorComponent implements OnInit {
       this.getTutorial();
       this.titleSVC.setTitle("Modifica tutorial");
     }
+    this.metaSVC.addMeta("robots", "noindex,nofollow");
+  }
+
+  ngOnDestroy() {
+    this.metaSVC.removeMeta("robots");
   }
 
   createTutorial() {
