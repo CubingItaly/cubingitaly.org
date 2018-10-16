@@ -1,0 +1,15 @@
+a{
+    cursor: pointer;
+    position: fixed;
+    bottom: 1em;
+    right: 1.5em;
+    color: white;
+    background-color: #0b5ea6;
+    font-size: 18px;
+    z-index: 999999;
+}
+
+
+.mat-button{
+    min-width: 1%;
+}
