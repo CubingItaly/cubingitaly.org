@@ -4,30 +4,26 @@ import { Router } from "express";
 //# we need this because otherwise passport doesn't work
 import * as passport from "passport";
 import { validationResult, Result, body } from "express-validator/check";
-const sendmail = require('sendmail')();
 import { isLoggedIn, getUser } from "../../shared/login.utils";
-import { keys } from "../../secrets/keys";
-
+import { EmailService } from './mail.service';
 const router: Router = Router();
 
 
 
-
-router.post("/", [body('email').isEmail(), body('subject').isLength({ min: 5 }), body('message').isLength({ min: 3 }), body('sender').isLength({ min: 3 })], (req, res) => {
+router.post("/", [body('email').isEmail(), body('subject').isLength({ min: 5 }), body('message').isLength({ min: 3 }), body('sender').isLength({ min: 3 })], async (req, res) => {
     const errors = validationResult(req);
     if (errors.isEmpty()) {
         try {
             const email: string = req.body.email;
-            sendmail({
-                from: keys.contact.from,
-                to: keys.contact.to,
-                subject: keys.contact.subject,
-                html: composeHTML(req),
-                replyTo: email
-            }, function (err, reply) {
-                sendError(res, 500, "There was an error while trying to process the request");
-            });
-            res.status(200).send({});
+            let mailservice = new EmailService();
+            mailservice.sendText(email, composeHTML(req))
+                .then(() => {
+                    res.status(200).send({});
+                })
+                .catch(() => {
+                    sendError(res, 500, "There was an error while trying to process the request");
+                })
+
         } catch (e) {
             sendError(res, 500, "There was an error while trying to process the request");
         }
