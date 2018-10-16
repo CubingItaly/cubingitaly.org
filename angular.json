@@ -18,7 +18,8 @@
             "polyfills": "src/polyfills.ts",
             "assets": [
               "src/assets",
-              "src/favicon.ico"
+              "src/favicon.ico",
+              "src/robots.txt"
             ],
             "styles": [
               "node_modules/normalize.css/normalize.css",
@@ -27,7 +28,6 @@
               "node_modules/font-awesome/css/font-awesome.css"
             ],
             "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
             ]
           },
           "configurations": {
@@ -74,9 +74,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/jquery/dist/jquery.min.js"
-            ],
+            "scripts": [],
             "styles": [
               "node_modules/normalize.css/normalize.css",
               "src/styles.css",

@@ -18,8 +18,8 @@
   },
   "authors": "Cubing Italy Team Informatico",
   "engines": {
-    "node": "8.9.1",
-    "npm": "5.2.0"
+    "node": "8.12.0",
+    "npm": "6.4.1"
   },
   "repository": {
     "url": "https://github.com/CubingItaly/cubingitaly.org.git"
@@ -76,7 +76,6 @@
     "font-awesome": "^4.7.0",
     "forever": "^0.15.3",
     "heroku-ssl-redirect": "0.0.4",
-    "jquery": "^3.3.1",
     "jsonwebtoken": "^8.3.0",
     "mysql": "^2.16.0",
     "ng-animate": "^0.3.3",
@@ -107,7 +106,6 @@
     "@angular-devkit/build-angular": "~0.7.0",
     "@types/chai": "^4.1.6",
     "@types/chai-http": "^3.0.5",
-    "@types/jquery": "^3.3.17",
     "@types/mocha": "^5.2.5",
     "@types/mysql": "^2.15.5",
     "@types/sinon": "^5.0.5",
