@@ -39,7 +39,7 @@ export class ContactComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.titleSVC.setTitle("Contatti");
     this.metaSVC.updateMeta("title", "Contatti");
-    this.metaSVC.updateMeta("description", "Contatta il form sottostante e sarai ricontattato al più presto via email.");
+    this.metaSVC.updateMeta("description", "Compila il form sottostante e sarai ricontattato al più presto via email.");
   }
 
   ngOnDestroy() {
