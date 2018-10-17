@@ -67,6 +67,8 @@ import { PageModule } from './modules/page/page.module';
 import { ProposedCompetitionsComponent } from './components/proposed-competitions/proposed-competitions.component';
 import { MetaManagerService } from './services/meta-manager.service';
 import { BackToTopComponent } from './components/back-to-top/back-to-top.component';
+import { SliderService } from './services/slider.service';
+import { WCAService } from './services/wca.service';
 
 
 
@@ -130,6 +132,8 @@ import { BackToTopComponent } from './components/back-to-top/back-to-top.compone
     UserService,
     TitleManagerService,
     MetaManagerService,
+    SliderService,
+    WCAService,
     { provide: ErrorHandler, useClass: CubingItalyErrorHandler }
   ],
   bootstrap: [

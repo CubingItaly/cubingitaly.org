@@ -8,3 +8,5 @@ disallow: /tutorial/new
 disallow: /tutorial/admin
 disallow: /tutorial/edit
 disallow: /login
+disallow: /non-trovato
+disallow: /permesso-negato

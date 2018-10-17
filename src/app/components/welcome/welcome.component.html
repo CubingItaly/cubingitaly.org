@@ -1,7 +1,7 @@
 <div class="welcome" fxLayout="column" fxLayoutGap="20px">
   <div fxLayout="column" class="mat-elevation-z1">
     <div class="banner-container">
-      <slideshow *ngIf="bannerArray" [imageUrls]="bannerArray" [backgroundSize]="'cover'" [autoPlay]="true" [height]="'370px'"></slideshow>
+      <slideshow *ngIf="banners" [imageUrls]="banners" [backgroundSize]="'cover'" [autoPlay]="true" [height]="'370px'"></slideshow>
     </div>
     <a routerLink="/chi-siamo" aria-label="Scopri Cubing Italy">
       <div class="quick-links">
@@ -16,8 +16,8 @@
       <img class="fb-white" src="/assets/images/fb-white.svg">
       <span>Seguici su Facebook</span>
     </a>
-    <a routerLink="/tutorial/imparare-a-risolvere-il-cubo" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%" fxLayout="column"
-      fxLayoutAlign="center center">
+    <a routerLink="/tutorial/imparare-a-risolvere-il-cubo" target="_blank" class="quick-links  mat-elevation-z1" fxFlex="33%"
+      fxLayout="column" fxLayoutAlign="center center">
       <img src="/assets/images/mastercubo.png">
       <span>Impara a risolvere</span>
     </a>
