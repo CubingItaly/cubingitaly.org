@@ -35,7 +35,7 @@ export class AuthService {
     public user(): Observable<UserModel> {
         let now = new Date();
 
-        if (this.cache && ((now.getTime() - this.cacheTime) < 20000)) {
+        if (this.cache && ((now.getTime() - this.cacheTime) < 30000)) {
             return of(this.cache);
         } else if (this.observable) {
             return this.observable;
