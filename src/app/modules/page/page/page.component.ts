@@ -27,7 +27,6 @@ export class PageComponent implements OnInit, OnChanges {
     constructor(private dialog: MatDialog, private pageSVC: PageService) { }
 
     ngOnInit() {
-        this.getPage();
     }
 
     restore() {
