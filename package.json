@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Cubing Italy website",
   "main": "server/app.js",
-  "license": "MIT",
   "scripts": {
     "start": "concurrently --kill-others \"npm run server:run\" \"ng serve --host 0.0.0.0 --aot --progress=false --proxy-config proxy.conf.json\"",
     "lint:client": "ng lint",
