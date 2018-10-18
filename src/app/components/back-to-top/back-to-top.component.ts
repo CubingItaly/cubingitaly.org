@@ -23,7 +23,7 @@ export class BackToTopComponent implements OnInit {
   @HostListener('window:scroll', [])
   @debounce()
   onWindowScroll() {
-    if (window.scrollY > 150) {
+    if (window.scrollY > 200) {
       this.visible = true
     } else{
       this.visible = false;
