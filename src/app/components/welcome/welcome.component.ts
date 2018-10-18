@@ -12,8 +12,6 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 })
 export class WelcomeComponent implements OnDestroy {
   banners: string[];
-  height: number = 370;
-  size: string;
   watcher: Subscription;
   bp = {
     "(max-width: 599px)": "xs",
@@ -31,8 +29,7 @@ export class WelcomeComponent implements OnDestroy {
       Breakpoints.Large,
       Breakpoints.XLarge
     ]).subscribe(async (res) => {
-      this.size = this.getSize(res.breakpoints)
-      this.banners = await sliderSVC.images(this.getSize(this.size)).toPromise();
+      this.banners = await sliderSVC.images(this.getSize(res.breakpoints)).toPromise();
     });
   }
 
