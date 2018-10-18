@@ -34,6 +34,7 @@ export class TutorialComponent implements OnInit, OnDestroy {
       this.currentPageId = this.tutorial.pages[this.pageIndex].id;
       this.titleSVC.setTitle(this.tutorial.title);
       this.metaSVC.updateMeta("title", this.tutorial.title);
+      this.metaSVC.updateMeta("og:title", this.tutorial.title);
     });
   }
 

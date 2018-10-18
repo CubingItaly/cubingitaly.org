@@ -29,6 +29,8 @@ export class TutorialListComponent implements OnInit, OnDestroy {
     this.titleSVC.setTitle("Tutorial");
     this.metaSVC.updateMeta("title", "Tutorial");
     this.metaSVC.updateMeta("description", "In questa pagina trovi un elenco di tutorial redatti dal Team Qualità di Cubing Italy");
+    this.metaSVC.updateMeta("og:title", "Tutorial");
+    this.metaSVC.updateMeta("og:description", "In questa pagina trovi un elenco di tutorial redatti dal Team Qualità di Cubing Italy");
   }
 
   ngOnDestroy() {

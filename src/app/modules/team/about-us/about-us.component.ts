@@ -31,6 +31,7 @@ export class AboutUsComponent implements OnInit, OnDestroy {
     });
     this.titleSVC.setTitle("Chi siamo");
     this.metaSVC.updateMeta("title", "Chi siamo");
+    this.metaSVC.updateMeta("og:title", "Chi siamo");
   }
 
   ngOnDestroy() {

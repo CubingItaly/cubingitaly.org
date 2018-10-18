@@ -26,6 +26,8 @@ export class ArticleComponent implements OnInit, OnDestroy {
       this.titleSVC.setTitle(this.article.title);
       this.metaSVC.updateMeta("title", this.article.title);
       this.metaSVC.updateMeta("description", this.article.summary);
+      this.metaSVC.updateMeta("og:title", this.article.title);
+      this.metaSVC.updateMeta("og:description", this.article.summary);
     });
   }
 

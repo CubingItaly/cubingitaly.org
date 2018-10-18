@@ -23,6 +23,7 @@ export class ArticleListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.titleSVC.setTitle("Articoli");
     this.metaSVC.updateMeta("title", "Articoli");
+    this.metaSVC.updateMeta("og:title", "Articoli");
     this.page = Number(this.route.snapshot.paramMap.get("page"));
     if (isNaN(this.page) || this.page < 1) {
       this.page = 1;

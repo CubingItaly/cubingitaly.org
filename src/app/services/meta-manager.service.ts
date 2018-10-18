@@ -14,7 +14,7 @@ export class MetaManagerService {
   }
 
   public updateMeta(name: string, content: string) {
-    if (name === "title") {
+    if (name === "title" || name === "og:title") {
       content += " | Cubing Italy";
     }
     this.meta.updateTag({ name: name, content: content });
@@ -27,5 +27,8 @@ export class MetaManagerService {
   public resetMeta() {
     this.meta.updateTag({ name: "title", content: "Cubing Italy" });
     this.meta.updateTag({ name: "description", content: "Cubing Italy si propone come punto di riferimento dello speedcubing italiano per l'organizzazione di competizioni ufficiali WCA." });
+    this.meta.updateTag({ name: "og:title", content: "Cubing Italy" });
+    this.meta.updateTag({ name: "og:description", content: "Cubing Italy si propone come punto di riferimento dello speedcubing italiano per l'organizzazione di competizioni ufficiali WCA." });
+    
   }
 }
