@@ -45,5 +45,6 @@ server/db/tests/dump.sql
 src/assets/images/banner/**/*.png
 src/assets/images/banner/**/*.jpg
 src/assets/images/banner/**/*.jpeg
+src/assets/images/banner/image-array.json
 src/assets/mastercubo/
 
