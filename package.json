@@ -5,7 +5,7 @@
   "main": "server/app.js",
   "license": "MIT",
   "scripts": {
-    "start": "concurrently --kill-others \"npm run server:run\" \"ng serve --aot --progress=false --proxy-config proxy.conf.json\"",
+    "start": "concurrently --kill-others \"npm run server:run\" \"ng serve --host 0.0.0.0 --aot --progress=false --proxy-config proxy.conf.json\"",
     "lint:client": "ng lint",
     "lint:server": "tslint './server/**/*.ts' -c ./server/tslint.json --fix",
     "test:server": "mocha -t 5000 -r ts-node/register ./test/server/**/*.spec.ts",
