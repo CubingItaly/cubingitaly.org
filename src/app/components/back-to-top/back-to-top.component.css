@@ -1,14 +1,17 @@
-a{
-    cursor: pointer;
-    position: fixed;
-    bottom: 1em;
-    right: 1.5em;
-    color: white;
-    background-color: #0b5ea6;
-    font-size: 18px;
+.btt-container{
+    position:fixed;
+    bottom:70px;
+    width: 100%;
     z-index: 999999;
 }
 
+
+a{
+    cursor: pointer;
+    color: white;
+    background-color: #073C65;
+    font-size: 18px;
+}
 
 .mat-button{
     min-width: 1%;

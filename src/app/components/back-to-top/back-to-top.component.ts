@@ -1,4 +1,4 @@
-import { Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 
 @Component({
   selector: 'back-to-top',
@@ -16,7 +16,32 @@ export class BackToTopComponent implements OnInit {
 
   scrollToTop() {
     const top = document.querySelector('#top') as HTMLElement;
-    top.scrollIntoView();
+    top.scrollIntoView({ behavior: 'smooth' });
   }
 
+
+  @HostListener('window:scroll', [])
+  @debounce()
+  onWindowScroll() {
+    if (window.scrollY > 150) {
+      this.visible = true
+    } else{
+      this.visible = false;
+    }
+  }
+}
+
+export function debounce(): MethodDecorator {
+  return function (target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+    let timeout = null
+
+    const original = descriptor.value;
+
+    descriptor.value = function (...args) {
+      clearTimeout(timeout);
+      timeout = setTimeout(() => original.apply(this, args), 300);
+    };
+
+    return descriptor;
+  };
 }

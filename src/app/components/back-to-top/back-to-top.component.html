@@ -1,1 +1,5 @@
-<a mat-button *ngIf="visible" (click)="scrollToTop()"><i class="fa fa-arrow-up"></i></a>
+<div  *ngIf="visible" class="btt-container" fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="80%" fxFlex.lt-md="90%" fxLayout="row" fxLayoutAlign="end center">
+        <a mat-button (click)="scrollToTop()"><i class="fa fa-arrow-up"></i></a>
+    </div>
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, HostListener } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { MatSidenav } from '@angular/material/sidenav';
@@ -57,5 +57,4 @@ export class AppComponent implements OnInit {
       }
     })
   }
-
 }
